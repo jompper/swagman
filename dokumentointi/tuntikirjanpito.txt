@@ -1,1 +1,3 @@
-2013-12-16 13:30 - 14:30	Valmistelu
+Päivämäärä	Tunnit	Kuvaus
+2013-12-16	1		Valmistelu
+2013-12-16	2		Koodaus

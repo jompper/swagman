@@ -31,6 +31,19 @@ public abstract class MovingTile extends Tile implements Moveable {
         this.direction = direction;
     }
 
+    public Point getNextPoint() {
+        if (this.direction == DIRECTION_LEFT) {
+            return new Point(x - 1, y);
+        } else if (this.direction == DIRECTION_RIGHT) {
+            return new Point(x + 1, y);
+        } else if (this.direction == DIRECTION_UP) {
+            return new Point(x, y - 1);
+        } else if (this.direction == DIRECTION_DOWN) {
+            return new Point(x, y + 1);
+        }
+        return null;
+    }
+
     @Override
     public void move() {
         if (this.direction == DIRECTION_LEFT) {

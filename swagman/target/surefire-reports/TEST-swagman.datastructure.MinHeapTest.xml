@@ -61,12 +61,12 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase time="0" classname="swagman.datastructure.MinHeapTest" name="testHeapLeftParent"/>
-  <testcase time="0" classname="swagman.datastructure.MinHeapTest" name="testHeapAddTwoHeapSize"/>
-  <testcase time="0" classname="swagman.datastructure.MinHeapTest" name="testHeapRightParent"/>
-  <testcase time="0" classname="swagman.datastructure.MinHeapTest" name="testHeapAddTwoValues"/>
-  <testcase time="0" classname="swagman.datastructure.MinHeapTest" name="testHeapAddOneHeapSize"/>
-  <testcase time="0" classname="swagman.datastructure.MinHeapTest" name="testHeapAddOneValue"/>
-  <testcase time="0" classname="swagman.datastructure.MinHeapTest" name="testHeapRight"/>
   <testcase time="0" classname="swagman.datastructure.MinHeapTest" name="testHeapLeft"/>
+  <testcase time="0" classname="swagman.datastructure.MinHeapTest" name="testHeapRight"/>
+  <testcase time="0" classname="swagman.datastructure.MinHeapTest" name="testHeapAddOneHeapSize"/>
+  <testcase time="0" classname="swagman.datastructure.MinHeapTest" name="testHeapAddTwoHeapSize"/>
+  <testcase time="0" classname="swagman.datastructure.MinHeapTest" name="testHeapAddOneValue"/>
+  <testcase time="0" classname="swagman.datastructure.MinHeapTest" name="testHeapAddTwoValues"/>
+  <testcase time="0" classname="swagman.datastructure.MinHeapTest" name="testHeapLeftParent"/>
+  <testcase time="0.001" classname="swagman.datastructure.MinHeapTest" name="testHeapRightParent"/>
 </testsuite>
