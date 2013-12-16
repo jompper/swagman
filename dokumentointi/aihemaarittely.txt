@@ -1,0 +1,7 @@
+Aihe:		Pacman
+	
+		Toteutetaan pelattava Pacman peli, sekä tekoäly monstereille osana Tietorakenteiden harjoitustyökurssia.
+
+Käyttäjät:	Pelaaja
+Toiminnot:	Aloita peli
+		Liikuta hahmoa
