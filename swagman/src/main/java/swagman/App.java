@@ -1,24 +1,26 @@
 package swagman;
 
-import swagman.map.Level1;
+import javax.swing.SwingUtilities;
+import swagman.game.Swagman;
+import swagman.gui.GUI;
 
 /**
  * Hello world!
  *
  */
-public class App 
-{
-    public static void main( String[] args )
-    {
-        Level1 l = new Level1();
-        char[][] map = l.getMap();
-        int height = map.length;
-        int width = map[0].length;
-        for(int r = 0; r < height; r++){
-            for(int s = 0; s < width; s++){
-                System.out.print("" + map[r][s]);
+public class App {
+
+    public static void main(String[] args) {
+        Swagman swagger = new Swagman();
+        GUI gui = new GUI(swagger, 27, 32, 16);
+        SwingUtilities.invokeLater(gui);
+        while (gui.getBoard() == null) {
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException ex) {
             }
-            System.out.println();
         }
+        swagger.setBoard(gui.getBoard());
+        swagger.start();
     }
 }

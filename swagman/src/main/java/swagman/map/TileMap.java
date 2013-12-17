@@ -6,14 +6,28 @@
 
 package swagman.map;
 
-import swagman.domain.Tileable;
 
 /**
  *
  * @author Joni
  */
-public interface TileMap {
-    public char[][] getMap();
-    public char getTile(int x, int y);
-    public boolean canMove(int x, int y);
+public class TileMap {
+    
+    private final char[][] tileMap;
+    
+    public TileMap(char[][] tileMap){
+        this.tileMap = tileMap;
+    }
+    
+    public char[][] getMap() {
+        return this.tileMap;
+    }
+
+    public char getTile(int x, int y) {
+        return this.tileMap[y][x];
+    }
+
+    public boolean canMove(int x, int y) {
+        return getTile(x, y) == '.';
+    }
 }

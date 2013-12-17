@@ -3,53 +3,42 @@
  * 16.12.2013
  * Copyright (c) 2013 Joni Salmi. All rights reserved.
  */
-
 package swagman.map;
 
+import swagman.level.Level1;
 import org.junit.Before;
 import org.junit.Test;
-import static swagman.domain.MovingTile.DIRECTION_UP;
 import static org.junit.Assert.*;
-import static swagman.domain.MovingTile.DIRECTION_RIGHT;
 import swagman.domain.Pacman;
-import swagman.domain.Point;
+import swagman.game.Direction;
 
 /**
  *
  * @author Joni
  */
 public class Level1Test {
-    
+
     private Pacman p;
     private Level1 l;
-    
+
     public Level1Test() {
-        l = new Level1();
+        l = new Level1(16);
     }
-    
+
     @Before
     public void setUp() {
-        p = new Pacman(14, 23, DIRECTION_UP);
+        p = new Pacman(14, 23);
     }
-    
+
     @Test
-    public void testMapCantMoveBlocked(){
-        Point pp = p.getNextPoint();
-        if(l.canMove(pp.getX(), pp.getY())){
-            p.move();
-        }
-        assertEquals(14, p.getX());
-        assertEquals(23, p.getY());
+    public void testMapCantMoveBlocked() {
+        p.setDirection(Direction.UP);
+        assertFalse(l.getTileMap().canMove(p.getNextX(), p.getNextY()));
     }
-    
+
     @Test
-    public void testCanMoveFree(){
-        p.setDirection(DIRECTION_RIGHT);
-        Point pp = p.getNextPoint();
-        if(l.canMove(pp.getX(), pp.getY())){
-            p.move();
-        }
-        assertEquals(15, p.getX());
-        assertEquals(23, p.getY());
+    public void testCanMoveFree() {
+        p.setDirection(Direction.RIGHT);
+        assertTrue(l.getTileMap().canMove(p.getNextX(), p.getNextY()));
     }
 }
