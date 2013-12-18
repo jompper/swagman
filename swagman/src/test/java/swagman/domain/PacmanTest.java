@@ -25,6 +25,7 @@ public class PacmanTest {
     @Before
     public void setUp() {
         p = new Pacman(10, 10);
+        p.setSpeed(100);
     }
 
     @Test

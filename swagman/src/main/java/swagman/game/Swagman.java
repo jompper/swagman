@@ -23,13 +23,13 @@ public class Swagman extends Timer implements ActionListener{
         super(1000, null);
         this.addActionListener(this);
         setInitialDelay(2000);
+        setDelay(17);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         board.move();
         board.repaint();
-        this.setDelay(100);
     }
     
     public void setBoard(Board b){

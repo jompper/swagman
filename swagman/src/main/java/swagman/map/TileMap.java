@@ -14,9 +14,14 @@ package swagman.map;
 public class TileMap {
     
     private final char[][] tileMap;
+    private int width;
+    private int height;
+    
     
     public TileMap(char[][] tileMap){
         this.tileMap = tileMap;
+        this.height = tileMap.length;
+        this.width = tileMap[0].length;
     }
     
     public char[][] getMap() {
@@ -24,10 +29,16 @@ public class TileMap {
     }
 
     public char getTile(int x, int y) {
+         if(x < 0 || y < 0 || y >= height || x >= width){
+            return '#';
+        }
         return this.tileMap[y][x];
     }
 
     public boolean canMove(int x, int y) {
+         if(x < 0 || y < 0 || y >= height || x >= width){
+            return false;
+        }
         return getTile(x, y) == '.';
     }
 }

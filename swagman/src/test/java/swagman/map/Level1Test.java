@@ -29,6 +29,8 @@ public class Level1Test {
 
         l = new Level1(16);
         p = new Pacman(14, 23);
+        p.setSpeed(100);
+        l.getPacman().setSpeed(100);
     }
 
     @Test
