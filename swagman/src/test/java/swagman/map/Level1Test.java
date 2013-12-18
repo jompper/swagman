@@ -22,12 +22,46 @@ public class Level1Test {
     private Level1 l;
 
     public Level1Test() {
-        l = new Level1(16);
     }
 
     @Before
     public void setUp() {
+
+        l = new Level1(16);
         p = new Pacman(14, 23);
+    }
+
+    @Test
+    public void testSetUpHasPacman() {
+        assertFalse(l.getPacman() == null);
+    }
+
+    @Test
+    public void testSetUpHasOneMoveablePacman() {
+        assertEquals(1, l.getMoveables().size());
+    }
+
+    @Test
+    public void testSetUpHasOneDrawablePacman() {
+        assertTrue(l.getDrawables().contains(l.getPacman()));
+    }
+    
+    @Test
+    public void testSetUpHasWalls(){
+        // Has one pacman + 478 walls
+        assertEquals(479, l.getDrawables().size());
+    }
+
+    @Test
+    public void testRemoveMoveablePacman() {
+        l.removeMoveable(l.getPacman());
+        assertFalse(l.getMoveables().contains(l.getPacman()));
+    }
+
+    @Test
+    public void testRemoveDrawablePacman() {
+        l.removeDrawable(l.getPacman());
+        assertFalse(l.getDrawables().contains(l.getPacman()));
     }
 
     @Test
@@ -40,5 +74,32 @@ public class Level1Test {
     public void testCanMoveFree() {
         p.setDirection(Direction.RIGHT);
         assertTrue(l.getTileMap().canMove(p.getNextX(), p.getNextY()));
+    }
+
+    @Test
+    public void testSetGetPacman() {
+        l.setPacman(p);
+        assertTrue(p == l.getPacman());
+    }
+
+    @Test
+    public void testAddOneMoveable() {
+        l.addMoveable(p);
+        assertEquals(2, l.getMoveables().size());
+    }
+
+    @Test
+    public void testBoardMoveOne() {
+        l.addMoveable(p);
+        p.setDirection(Direction.RIGHT);
+        l.move();
+        assertEquals(15, p.getX());
+    }
+
+    @Test
+    public void testBoardMovePacmanNewDirection() {
+        l.getPacman().setNewDirection(Direction.LEFT);
+        l.move();
+        assertEquals(13, l.getPacman().getX());
     }
 }

@@ -1,3 +1,5 @@
 Päivämäärä	Tunnit	Kuvaus
 2013-12-16	1		Valmistelu
 2013-12-16	2		Koodaus
+2013-12-17	3		Koodaus
+2013-12-18	2		Testien kirjoittelu / Testaus / Luokkakaavio

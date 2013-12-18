@@ -24,10 +24,6 @@ public class SwagboardListener implements KeyListener {
         this.gameBoard = b;
     }
 
-    private boolean isNewDirectionAllowed(int xx, int yy) {
-        return gameBoard.getTileMap().canMove(pacman.getX() + xx, pacman.getY() + yy);
-    }
-
     @Override
     public void keyTyped(KeyEvent e) {
     }

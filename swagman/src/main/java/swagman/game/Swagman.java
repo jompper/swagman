@@ -36,6 +36,8 @@ public class Swagman extends Timer implements ActionListener{
         this.board = b;
     }
     
-    
+    public Board getBoard(){
+        return this.board;
+    }
     
 }

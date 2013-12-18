@@ -45,17 +45,25 @@ public abstract class Board extends JPanel {
         char[][] tm = tileMap.getMap();
         this.height = tm.length;
         this.width = tm[0].length;
-        for(int y = 0; y < height; y++){
-            for(int x = 0; x < width; x++){
-                if(tm[y][x] == '#'){
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                if (tm[y][x] == '#') {
                     this.addDrawable(new Wall(x, y));
                 }
             }
         }
     }
 
+    public ArrayList<Drawable> getDrawables() {
+        return this.drawables;
+    }
+
     public void addDrawable(Drawable d) {
         this.drawables.add(d);
+    }
+
+    public ArrayList<Moveable> getMoveables() {
+        return this.moveables;
     }
 
     public void addMoveable(Moveable m) {
@@ -72,10 +80,10 @@ public abstract class Board extends JPanel {
 
     public void move() {
         for (Moveable m : this.moveables) {
-            if (this.tileMap.canMove(m.getNextX(1, m.getNewDirection()), m.getNextY(1, m.getNewDirection()))){
+            if (m.getNewDirection() != null && this.tileMap.canMove(m.getNextX(1, m.getNewDirection()), m.getNextY(1, m.getNewDirection()))) {
                 m.setDirection(m.getNewDirection());
                 m.move();
-            }else if (this.tileMap.canMove(m.getNextX(), m.getNextY())) {
+            } else if (this.tileMap.canMove(m.getNextX(), m.getNextY())) {
                 m.move();
             }
         }

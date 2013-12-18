@@ -66,4 +66,44 @@ public class PacmanTest {
         assertEquals(11, p.getY());
     }
 
+    @Test
+    public void testGetOneXDirectionLeft() {
+        assertEquals(9, p.getNextX(1, Direction.LEFT));
+    }
+    
+    @Test
+    public void testGetOneXDirectionRight(){
+        assertEquals(11, p.getNextX(1, Direction.RIGHT));
+    }
+    
+    @Test
+    public void testGetOneYDirectionRight(){
+        assertEquals(10, p.getNextY(1, Direction.RIGHT));
+    }
+    
+    @Test
+    public void testGetOneYDirectionLeft(){
+        assertEquals(10, p.getNextY(1, Direction.LEFT));
+    }
+    
+    @Test
+    public void testGetOneYDirectionUp(){
+        assertEquals(9, p.getNextY(1, Direction.UP));
+    }
+    
+    @Test
+    public void testGetOneYDirectionDown(){
+        assertEquals(11, p.getNextY(1, Direction.DOWN));
+    }
+    
+    @Test
+    public void testGetOneXDirectionUp(){
+        assertEquals(10, p.getNextX(1, Direction.UP));
+    }
+    
+    @Test
+    public void testGetOneXDirectionDown(){
+        assertEquals(10, p.getNextX(1, Direction.DOWN));
+    }
+
 }
