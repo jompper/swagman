@@ -59,7 +59,7 @@ public class Board extends JPanel {
 
     public void move() {
         for (Moving m : this.movings) {
-            if(!this.level.isBlocked(m.getNextX(1, m.getChangeDirection()), m.getNextY(1, m.getChangeDirection()))){
+            if(m.getDirection() != m.getChangeDirection() && !this.level.isBlocked(m.getNextX(1, m.getChangeDirection()), m.getNextY(1, m.getChangeDirection()))){
                 m.setDirection(m.getChangeDirection());
                 m.move();
             } else if(!this.level.isBlocked(m.getNextX(1, m.getDirection()), m.getNextY(1, m.getDirection()))){
