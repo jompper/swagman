@@ -3,3 +3,6 @@ Päivämäärä	Tunnit	Kuvaus
 2013-12-16	2		Koodaus
 2013-12-17	3		Koodaus
 2013-12-18	2		Testien kirjoittelu / Testaus / Luokkakaavio
+2013-12-21	1		Koodin uudelleenkirjoitus / Pacman
+2013-12-22	5		Koodin uudelleenkirjoitus / Pacman
+

@@ -20,7 +20,7 @@ public abstract class MovingTile extends Tile implements Moveable {
     private int distance;
 
     public MovingTile(int x, int y) {
-        this(x, y, Direction.RIGHT, 29);
+        this(x, y, Direction.RIGHT, 21);
     }
 
     public MovingTile(int x, int y, Direction d, int speed) {
@@ -112,8 +112,8 @@ public abstract class MovingTile extends Tile implements Moveable {
     @Override
     public void move() {
         this.distance += speed;
-        if (this.distance >= 100) {
-            this.distance = 0;
+        if (this.distance >= 80) {
+            this.distance = 0 - this.distance + 80 + speed;
             if (this.direction == Direction.LEFT) {
                 this.x--;
             } else if (this.direction == Direction.RIGHT) {

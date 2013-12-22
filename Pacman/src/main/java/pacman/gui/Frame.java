@@ -1,36 +1,35 @@
 /*
- * Swagman - Swagman
- * 17.12.2013
+ * Pacman - Frame
+ * 22.12.2013
  * Copyright (c) 2013 Joni Salmi. All rights reserved.
  */
 
-package swagman.game;
+package pacman.gui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.Timer;
-import swagman.domain.Board;
+import pacman.domain.Board;
 
 /**
  *
  * @author Joni
  */
-public class Swagman extends Timer implements ActionListener{
+public class Frame  extends Timer implements ActionListener{
 
     private Board board;
     
-    public Swagman() {
+    public Frame() {
         super(1000, null);
         this.addActionListener(this);
         setInitialDelay(2000);
-        setDelay(100);
+        setDelay(50);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         board.move();
         board.repaint();
-        System.out.println("X: " + board.getPacman().getX() + ", Y: " + board.getPacman().getY() + ", D: " + board.getPacman().getDistance());
     }
     
     public void setBoard(Board b){

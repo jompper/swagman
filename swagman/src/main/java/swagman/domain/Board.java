@@ -40,6 +40,32 @@ public abstract class Board extends JPanel {
         this.moveables.add(pacman);
     }
 
+    private WallType getWallTypeForLocation(int x, int y) {
+        char[][] tm = this.tileMap.getMap();
+        if (x > 0 && x < this.width - 1 && y > 0 && y < height - 1) {
+            if(tm[y][x-1] != '#' && tm[y][x+1] != '#'){
+                return WallType.UP_DOWN;
+            }else if(tm[y-1][x] != '#' && tm[y+1][x] != '#'){
+                return WallType.LEFT_RIGHT;
+            }
+        }else if(x == 0){
+            if(tm[y][x+1]!='#'){
+                return WallType.UP_DOWN;
+            }else if(tm[y-1][x] != '#'){
+                
+            }else{
+                
+            }
+        }else if(y == 0){
+            
+        }else if(x == this.width - 1){
+            
+        }else if(y == this.height - 1){
+            
+        }
+        return WallType.LEFT_RIGHT;
+    }
+
     public void setTileMap(TileMap tileMap) {
         this.tileMap = tileMap;
         char[][] tm = tileMap.getMap();
@@ -48,7 +74,7 @@ public abstract class Board extends JPanel {
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 if (tm[y][x] == '#') {
-                    this.addDrawable(new Wall(x, y));
+                    this.addDrawable(new Wall(x, y, getWallTypeForLocation(x, y)));
                 }
             }
         }
