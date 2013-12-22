@@ -11,7 +11,10 @@ import pacman.tile.AbstractTile;
 import pacman.tile.Drawing;
 
 /**
- *
+ * Bigger eatable object in the game
+ * When eaten, PowerPellet should change game mode for ? seconds
+ * TODO: -||-
+ * 
  * @author Joni
  */
 public class PowerPellet extends AbstractTile implements Drawing, Eatable {
@@ -30,11 +33,19 @@ public class PowerPellet extends AbstractTile implements Drawing, Eatable {
         g.fillRect(x * 16 + 3, y * 16 + 3, 10, 10);
     }
 
+    /**
+     * Return True if PowerPellet is eaten, otherwise False
+     * 
+     * @return eaten status
+     */
     @Override
     public boolean isEaten() {
         return this.eaten;
     }
 
+    /**
+     * On eat, sets PowerPellet as eaten if not already eaten
+     */
     @Override
     public void eat() {
         if(isEaten())return;

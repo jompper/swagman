@@ -6,7 +6,9 @@
 package pacman.tile;
 
 /**
- *
+ * Abstract Tile to be extended. Getters for X, Y
+ * and constructor
+ * 
  * @author Joni
  */
 public abstract class AbstractTile implements Tile{

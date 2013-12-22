@@ -41,22 +41,54 @@ public class Board extends JPanel {
         this.eatables = lb.getEatables();
     }
 
+    /**
+     * Add new drawing object d to game
+     * @param d
+     */
     public void addDrawing(Drawing d) {
         this.drawings.add(d);
     }
 
+    /**
+     * Add new moving object m to game
+     * @param m
+     */
     public void addMoving(Moving m) {
         this.movings.add(m);
     }
 
+    /**
+     * @return pacman
+     */
     public Pacman getPacman() {
         return this.pacman;
     }
     
+    /**
+     * @return level map
+     */
     public Level getLevel(){
         return this.level;
     }
 
+    /**
+     * Move all moving objects on the game
+     * After objects have been moven, checks
+     * if Pacman is in a tile that contains
+     * eatable object.
+     * 
+     * TODO: 
+     * Add true boundary checks. 
+     * 
+     * Make interface Eating, make
+     * Pacman implement that interface. Then
+     * loop all Eating object and check if
+     * their current position has something
+     * to be eaten. Now Pacman should implement
+     * Eating and Eatable interfaces and Ghosts
+     * should implement Eating interface with
+     * condition Pacman.
+     */
     public void move() {
         for (Moving m : this.movings) {
             if(m.getDirection() != m.getChangeDirection() && !this.level.isBlocked(m.getNextX(1, m.getChangeDirection()), m.getNextY(1, m.getChangeDirection()))){

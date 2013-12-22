@@ -7,7 +7,7 @@
 package pacman.domain;
 
 /**
- *
+ * Interface for object that Pacman can eat
  * @author Joni
  */
 public interface Eatable {

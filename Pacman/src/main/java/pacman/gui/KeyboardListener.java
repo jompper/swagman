@@ -12,7 +12,12 @@ import pacman.domain.Direction;
 import pacman.domain.Pacman;
 
 /**
- *
+ * Listens to keyboard
+ * 
+ * TODO:
+ * WASD
+ * Pause game
+ * 
  * @author Joni
  */
 public class KeyboardListener implements KeyListener {
@@ -28,6 +33,11 @@ public class KeyboardListener implements KeyListener {
     public void keyTyped(KeyEvent e) {
     }
 
+    
+    /**
+     * Sets Pacmans change direction accoring to key press
+     * @param e 
+     */
     @Override
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_UP) {

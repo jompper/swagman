@@ -1,7 +1,7 @@
 package pacman;
 
 import javax.swing.SwingUtilities;
-import pacman.gui.Frame;
+import pacman.gui.Game;
 import pacman.gui.GUI;
 
 /**
@@ -12,7 +12,7 @@ public class App
 {
     public static void main( String[] args )
     {
-        Frame frame = new Frame();
+        Game frame = new Game();
         GUI gui = new GUI(465,600);
         SwingUtilities.invokeLater(gui);
         while (gui.getBoard() == null) {

@@ -28,10 +28,18 @@ public class LevelBuilder {
 
     private Pacman pacman;
 
+    /**
+     * Tiles: 1 = Wall Left_Right 2 = Wall Up_Down 3 = Wall Right_Down 4 = Wall
+     * Right_Up 5 = Wall Left_Down 6 = Wall Left_Up 7 = Gate 8 = PacDot 9 =
+     * PowerPellet 10 = Cherry 11 = Pacman 40-49 = Teleports
+     * 
+     * TODO: Teleports, Cherry, Ghosts
+     *
+     * @param level
+     */
     public LevelBuilder(Level level) {
         this.tiles = new ArrayList<>();
         this.eatables = new Eatable[level.getHeight()][level.getWidth()];
-        // 1 = LEFT_RIGHT, 2 = UP_DOWN, 3 = RIGHT_DOWN, 4 = RIGHT_UP, 5 = LEFT_DOWN, 6 = LEFT_UP
         int[][] map = level.getLevel();
         for (int r = 0; r < level.getHeight(); r++) {
             for (int s = 0; s < level.getWidth(); s++) {
@@ -82,10 +90,10 @@ public class LevelBuilder {
         return this.tiles;
     }
 
-    public Eatable[][] getEatables(){
+    public Eatable[][] getEatables() {
         return this.eatables;
     }
-    
+
     public Pacman getPacman() {
         return this.pacman;
     }
