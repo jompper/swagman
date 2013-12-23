@@ -25,7 +25,6 @@ public class KeyboardListener implements KeyListener {
         this.board = b;
     }
 
-    
     @Override
     public void keyTyped(KeyEvent e) {
     }
@@ -45,21 +44,31 @@ public class KeyboardListener implements KeyListener {
                 break;
             case GAME:
                 Pacman p = this.board.getPacman();
-                if (e.getKeyCode() == KeyEvent.VK_UP) {
-                    p.setChangeDirection(Direction.UP);
-                } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-                    p.setChangeDirection(Direction.DOWN);
-                } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-                    p.setChangeDirection(Direction.LEFT);
-                } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-                    p.setChangeDirection(Direction.RIGHT);
-                } else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-                    this.board.setGameState(GameState.START);
+                switch (e.getKeyCode()) {
+                    case KeyEvent.VK_UP:
+                    case KeyEvent.VK_W:
+                        p.setChangeDirection(Direction.UP);
+                        break;
+                    case KeyEvent.VK_DOWN:
+                    case KeyEvent.VK_S:
+                        p.setChangeDirection(Direction.DOWN);
+                        break;
+                    case KeyEvent.VK_LEFT:
+                    case KeyEvent.VK_A:
+                        p.setChangeDirection(Direction.LEFT);
+                        break;
+                    case KeyEvent.VK_RIGHT:
+                    case KeyEvent.VK_D:
+                        p.setChangeDirection(Direction.RIGHT);
+                        break;
+                    case KeyEvent.VK_ESCAPE:
+                        this.board.setGameState(GameState.START);
+                        break;
                 }
                 break;
         }
     }
-    
+
     @Override
     public void keyReleased(KeyEvent e) {
     }
