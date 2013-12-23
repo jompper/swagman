@@ -12,8 +12,8 @@ public class App
 {
     public static void main( String[] args )
     {
-        Game frame = new Game();
-        GUI gui = new GUI(465,600);
+        Game game = new Game();
+        GUI gui = new GUI(game, 465,600);
         SwingUtilities.invokeLater(gui);
         while (gui.getBoard() == null) {
             try {
@@ -21,7 +21,7 @@ public class App
             } catch (InterruptedException ex) {
             }
         }
-        frame.setBoard(gui.getBoard());
-        frame.start();
+        game.setBoard(gui.getBoard());
+        game.start();
     }
 }

@@ -14,6 +14,11 @@ import pacman.domain.Direction;
  */
 public interface Moving {
     public void move();
+    public void moveLocation();
+    public void setX(int x);
+    public void setY(int y);
+    public int getX();
+    public int getY();
     public Direction getDirection();
     public Direction getChangeDirection();
     public void setDirection(Direction d);

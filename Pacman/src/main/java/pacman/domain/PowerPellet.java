@@ -47,9 +47,10 @@ public class PowerPellet extends AbstractTile implements Drawing, Eatable {
      * On eat, sets PowerPellet as eaten if not already eaten
      */
     @Override
-    public void eat() {
-        if(isEaten())return;
+    public int eat() {
+        if(isEaten())return 0;
         this.eaten = true;
+        return 50;
     }
 
 }

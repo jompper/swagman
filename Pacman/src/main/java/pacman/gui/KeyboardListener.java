@@ -7,50 +7,59 @@ package pacman.gui;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import pacman.domain.Board;
 import pacman.domain.Direction;
 import pacman.domain.Pacman;
 
 /**
  * Listens to keyboard
- * 
- * TODO:
- * WASD
- * Pause game
- * 
+ *
+ * TODO: WASD Pause game
+ *
  * @author Joni
  */
 public class KeyboardListener implements KeyListener {
-    private Pacman pacman;
-    private Board gameBoard;
+
+    private Board board;
 
     public KeyboardListener(Board b) {
-        this.pacman = b.getPacman();
-        this.gameBoard = b;
+        this.board = b;
     }
 
+    
     @Override
     public void keyTyped(KeyEvent e) {
     }
 
-    
     /**
      * Sets Pacmans change direction accoring to key press
-     * @param e 
+     *
+     * @param e
      */
     @Override
     public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_UP) {
-            this.pacman.setChangeDirection(Direction.UP);
-        } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-            this.pacman.setChangeDirection(Direction.DOWN);
-        } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            this.pacman.setChangeDirection(Direction.LEFT);
-        } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            this.pacman.setChangeDirection(Direction.RIGHT);
+        switch (this.board.getGameState()) {
+            case START:
+                if (e.getKeyCode() == KeyEvent.VK_ENTER || e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                    this.board.setGameState(GameState.GAME);
+                }
+                break;
+            case GAME:
+                Pacman p = this.board.getPacman();
+                if (e.getKeyCode() == KeyEvent.VK_UP) {
+                    p.setChangeDirection(Direction.UP);
+                } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+                    p.setChangeDirection(Direction.DOWN);
+                } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+                    p.setChangeDirection(Direction.LEFT);
+                } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+                    p.setChangeDirection(Direction.RIGHT);
+                } else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                    this.board.setGameState(GameState.START);
+                }
+                break;
         }
     }
-
+    
     @Override
     public void keyReleased(KeyEvent e) {
     }

@@ -9,7 +9,6 @@ import java.awt.Container;
 import java.awt.Dimension;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
-import pacman.domain.Board;
 import pacman.level.LevelOne;
 /**
  *
@@ -17,15 +16,18 @@ import pacman.level.LevelOne;
  */
 public class GUI implements Runnable {
 
+    private Game game;
     private JFrame frame;
-    
     private Board board;
+    
+    private KeyboardListener keyListener;
     
     private int width;
     private int height;
     
 
-    public GUI(int width, int height) {
+    public GUI(Game game, int width, int height) {
+        this.game = game;
         this.width = width;
         this.height = height;
     }
@@ -47,8 +49,10 @@ public class GUI implements Runnable {
     public void createComponents(Container container) {
         this.board = new Board(new LevelOne());
         container.add(this.board);
-        KeyboardListener keyListener = new KeyboardListener(this.board);
-        this.frame.addKeyListener(keyListener);
+        this.keyListener = new KeyboardListener(this.board);
+        MiceListener miceListener = new MiceListener(this.board);
+        this.frame.addKeyListener(this.keyListener);
+        this.frame.addMouseListener(miceListener);
     }
 
     public JFrame getFrame() {

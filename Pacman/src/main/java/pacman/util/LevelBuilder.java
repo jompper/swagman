@@ -29,11 +29,11 @@ public class LevelBuilder {
     private Pacman pacman;
 
     /**
-     * Tiles: 1 = Wall Left_Right 2 = Wall Up_Down 3 = Wall Right_Down 4 = Wall
-     * Right_Up 5 = Wall Left_Down 6 = Wall Left_Up 7 = Gate 8 = PacDot 9 =
-     * PowerPellet 10 = Cherry 11 = Pacman 40-49 = Teleports
-     * 
-     * TODO: Teleports, Cherry, Ghosts
+     * 0 = Empty, 1 = PacDot, 2 = PowerPellet, 3 = Cherry, 4 = Pacman 10 = Wall
+     * Left-Right, 11 = Wall Top-Down, 12 = Wall Right-Down, 13 = Wall Right-up,
+     * 14 = Wall Left-Down, 15 = Wall Left-Up, 16 = Gate Left, 17 = Gate Right
+     *
+     * TODO: Cherry, Ghosts
      *
      * @param level
      */
@@ -44,39 +44,43 @@ public class LevelBuilder {
         for (int r = 0; r < level.getHeight(); r++) {
             for (int s = 0; s < level.getWidth(); s++) {
                 switch (map[r][s]) {
-                    case 1:
+                    case 10:
                         tiles.add(new Wall(s, r, WallType.LEFT_RIGHT));
                         break;
-                    case 2:
+                    case 11:
                         tiles.add(new Wall(s, r, WallType.UP_DOWN));
                         break;
-                    case 3:
+                    case 12:
                         tiles.add(new Wall(s, r, WallType.RIGHT_DOWN));
                         break;
-                    case 4:
+                    case 13:
                         tiles.add(new Wall(s, r, WallType.RIGHT_UP));
                         break;
-                    case 5:
+                    case 14:
                         tiles.add(new Wall(s, r, WallType.LEFT_DOWN));
                         break;
-                    case 6:
+                    case 15:
                         tiles.add(new Wall(s, r, WallType.LEFT_UP));
                         break;
-                    case 7:
+                    case 16:
+                        tiles.add(new Wall(s, r, WallType.GATE_LEFT));
                         break;
-                    case 8:
+                    case 17:
+                        tiles.add(new Wall(s, r, WallType.GATE_RIGHT));
+                        break;
+                    case 1:
                         PacDot pd = new PacDot(s, r);
                         tiles.add(pd);
                         eatables[r][s] = pd;
                         break;
-                    case 9:
+                    case 2:
                         PowerPellet pp = new PowerPellet(s, r);
                         tiles.add(pp);
                         eatables[r][s] = pp;
                         break;
-                    case 10:
+                    case 3:
                         break;
-                    case 11:
+                    case 4:
                         this.pacman = new Pacman(s, r, Direction.RIGHT);
                         tiles.add(this.pacman);
                         map[r][s] = 0;

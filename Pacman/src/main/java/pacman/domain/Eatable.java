@@ -12,5 +12,5 @@ package pacman.domain;
  */
 public interface Eatable {
     public boolean isEaten();
-    public void eat();
+    public int eat();
 }

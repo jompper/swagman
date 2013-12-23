@@ -52,11 +52,12 @@ public class PacDot extends AbstractTile implements Drawing, Eatable {
      * TODO: Increase player score
      */
     @Override
-    public void eat() {
+    public int eat() {
         if (isEaten()) {
-            return;
+            return 0;
         }
         this.eaten = true;
+        return 10;
     }
 
 }

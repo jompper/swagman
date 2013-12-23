@@ -57,6 +57,18 @@ public class Wall extends AbstractTile implements Drawing {
                 g.drawLine(x * 16 + 4, y * 16, x * 16 + 4, y * 16 + 16);
                 g.drawLine(x * 16 + 12, y * 16, x * 16 + 12, y * 16 + 16);
                 break;
+            case GATE_LEFT:
+                g.drawLine(x * 16, y * 16 + 4, x * 16, y * 16 + 12);
+                g.setColor(Color.RED);
+                g.drawLine(x * 16 + 1, y * 16 + 6, x * 16 + 16, y * 16 + 6);
+                g.drawLine(x * 16 + 1, y * 16 + 10, x * 16 + 16, y * 16 + 10);
+                break;
+            case GATE_RIGHT:
+                g.drawLine(x * 16 + 16, y * 16 + 4, x * 16 + 16, y * 16 + 12);
+                g.setColor(Color.RED);
+                g.drawLine(x * 16, y * 16 + 6, x * 16 + 15, y * 16 + 6);
+                g.drawLine(x * 16, y * 16 + 10, x * 16 + 15, y * 16 + 10);
+                break;
         }
     }
 
