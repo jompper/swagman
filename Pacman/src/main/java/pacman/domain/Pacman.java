@@ -22,6 +22,7 @@ public class Pacman extends AbstractTile implements Moving, Drawing {
     private Direction changeDirection;
     private int locationX;
     private int locationY;
+    private int speed;
     private int mouthPosition;
 
     public Pacman(int x, int y, Direction d) {
@@ -31,6 +32,7 @@ public class Pacman extends AbstractTile implements Moving, Drawing {
         this.locationX = 0;
         this.locationY = 0;
         this.mouthPosition = 0;
+        this.speed = 2;
     }
 
     /**
@@ -87,7 +89,7 @@ public class Pacman extends AbstractTile implements Moving, Drawing {
     public void move() {
         switch (this.direction) {
             case UP:
-                this.locationY -= 3;
+                this.locationY -= this.speed;
                 this.locationX = 0;
                 if (this.locationY <= -9) {
                     this.locationY += 16;
@@ -95,7 +97,7 @@ public class Pacman extends AbstractTile implements Moving, Drawing {
                 }
                 break;
             case DOWN:
-                this.locationY += 3;
+                this.locationY += this.speed;
                 this.locationX = 0;
                 if (this.locationY >= 9) {
                     this.locationY -= 16;
@@ -103,7 +105,7 @@ public class Pacman extends AbstractTile implements Moving, Drawing {
                 }
                 break;
             case LEFT:
-                this.locationX -= 3;
+                this.locationX -= this.speed;
                 this.locationY = 0;
                 if (this.locationX <= -9) {
                     this.locationX += 16;
@@ -111,7 +113,7 @@ public class Pacman extends AbstractTile implements Moving, Drawing {
                 }
                 break;
             case RIGHT:
-                this.locationX += 3;
+                this.locationX += this.speed;
                 this.locationY = 0;
                 if (this.locationX >= 9) {
                     this.locationX -= 16;
@@ -123,17 +125,17 @@ public class Pacman extends AbstractTile implements Moving, Drawing {
 
     @Override
     public void moveLocation() {
-        if (this.locationX <= -3) {
-            this.locationX += 3;
-        } else if (this.locationX >= 3) {
-            this.locationX -= 3;
+        if (this.locationX <= -this.speed) {
+            this.locationX += this.speed;
+        } else if (this.locationX >= this.speed) {
+            this.locationX -= this.speed;
         } else {
             this.locationX = 0;
         }
-        if (this.locationY <= -3) {
-            this.locationY += 3;
-        } else if (this.locationY >= 3) {
-            this.locationY -= 3;
+        if (this.locationY <= -this.speed) {
+            this.locationY += this.speed;
+        } else if (this.locationY >= this.speed) {
+            this.locationY -= this.speed;
         } else {
             this.locationY = 0;
         }

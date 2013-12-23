@@ -165,7 +165,7 @@ public class Board extends JPanel {
                 g.setFont(new Font("Arial", Font.BOLD, 16));
                 g.drawString("HIGH SCORE", 160, 16);
                 g.drawString("" + this.highScore, 160, 32);
-                g.drawString("1 UP", 48, 16);
+                g.drawString("1UP", 48, 16);
                 g.drawString("" + this.score, 48, 32);
                 for (Drawing d : this.drawings) {
                     d.draw(g);

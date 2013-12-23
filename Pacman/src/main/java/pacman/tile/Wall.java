@@ -50,7 +50,7 @@ public class Wall extends AbstractTile implements Drawing {
             case RIGHT_DOWN:
                 g.drawLine(x * 16 + 16, y * 16 + 4, x * 16 + 5, y * 16 + 4);
                 g.drawLine(x * 16 + 4, y * 16 + 4, x * 16 + 4, y * 16 + 16);
-                g.drawLine(x * 16 + 16, y * 16 + 12, x * 16 + 11, y * 16 + 12);
+                g.drawLine(x * 16 + 16, y * 16 + 12, x * 16 + 12, y * 16 + 12);
                 g.drawLine(x * 16 + 12, y * 16 + 12, x * 16 + 12, y * 16 + 16);
                 break;
             case UP_DOWN:
