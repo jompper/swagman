@@ -22,6 +22,7 @@ public class Pacman extends AbstractTile implements Moving, Drawing {
     private Direction changeDirection;
     private int locationX;
     private int locationY;
+    private int mouthPosition;
 
     public Pacman(int x, int y, Direction d) {
         super(x, y);
@@ -29,6 +30,7 @@ public class Pacman extends AbstractTile implements Moving, Drawing {
         this.changeDirection = d;
         this.locationX = 0;
         this.locationY = 0;
+        this.mouthPosition = 0;
     }
 
     /**
@@ -120,23 +122,23 @@ public class Pacman extends AbstractTile implements Moving, Drawing {
     }
 
     @Override
-    public void moveLocation(){
-        if(this.locationX <= -3){
+    public void moveLocation() {
+        if (this.locationX <= -3) {
             this.locationX += 3;
-        }else if(this.locationX >= 3){
+        } else if (this.locationX >= 3) {
             this.locationX -= 3;
-        }else{
+        } else {
             this.locationX = 0;
         }
-        if(this.locationY <= -3){
+        if (this.locationY <= -3) {
             this.locationY += 3;
-        }else if(this.locationY >= 3){
+        } else if (this.locationY >= 3) {
             this.locationY -= 3;
-        }else {
+        } else {
             this.locationY = 0;
         }
     }
-    
+
     /**
      * Get n next X position to direction d from Pacmans current position. Used
      * to check if next tile is movable and later for AI
@@ -178,7 +180,40 @@ public class Pacman extends AbstractTile implements Moving, Drawing {
     @Override
     public void draw(Graphics g) {
         g.setColor(Color.YELLOW);
-        g.fillOval(x * 16 + locationX, y * 16 + locationY, 16, 16);
+        g.fillOval(x * 16 + locationX - 2, y * 16 + locationY - 2, 20, 20);
+
+        this.mouthPosition++;
+        g.setColor(Color.BLACK);
+        int[] recX;
+        int[] recY;
+        if(mouthPosition == 24){
+            mouthPosition = 0;
+        }
+        if(mouthPosition < 6){
+            recX = new int[]{x * 16 + locationX, x * 16 + locationX + 8, x * 16 + locationX + 16};
+            recY = new int[]{y * 16 + locationY, y * 16 + locationY + 8, y * 16 + locationY + 16};
+        }else if(mouthPosition < 12 || mouthPosition > 17){
+            recX = new int[]{x * 16 + locationX + 3, x * 16 + locationX + 8, x * 16 + locationX + 13};
+            recY = new int[]{y * 16 + locationY + 3, y * 16 + locationY + 8, y * 16 + locationY + 13};
+        }else{
+            recX = new int[]{x * 16 + locationX + 6, x * 16 + locationX + 8, x * 16 + locationX + 10};
+            recY = new int[]{y * 16 + locationY + 6, y * 16 + locationY + 8, y * 16 + locationY + 10};
+        }
+        switch (this.direction) {
+            case UP:
+                recY = new int[]{y * 16 + locationY - 2, y * 16 + locationY + 8, y * 16 + locationY - 2};
+                break;
+            case DOWN:
+                recY = new int[]{y * 16 + locationY + 18, y * 16 + locationY + 8, y * 16 + locationY + 18};
+                break;
+            case LEFT:
+                recX = new int[]{x * 16 + locationX - 2, x * 16 + locationX + 8, x * 16 + locationX - 2};
+                break;
+            case RIGHT:
+                recX = new int[]{x * 16 + locationX + 18, x * 16 + locationX + 8, x * 16 + locationX + 18};
+                break;
+        }
+        g.fillPolygon(recX, recY, 3);
     }
 
     @Override

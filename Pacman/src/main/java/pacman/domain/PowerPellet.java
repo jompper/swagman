@@ -30,7 +30,7 @@ public class PowerPellet extends AbstractTile implements Drawing, Eatable {
     public void draw(Graphics g) {
         if(isEaten())return;
         g.setColor(Color.WHITE);
-        g.fillRect(x * 16 + 3, y * 16 + 3, 10, 10);
+        g.fillOval(x * 16 + 2, y * 16 + 2, 12, 12);
     }
 
     /**
