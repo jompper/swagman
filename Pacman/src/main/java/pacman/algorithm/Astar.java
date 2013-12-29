@@ -84,9 +84,11 @@ public class Astar {
 
         }
         Anode dd = atable[dy][dx];
-        while (atable[dd.getFromY()][dd.getFromX()].getStart() > 0) {
+        int counter = 0;
+        while (atable[dd.getFromY()][dd.getFromX()].getStart() > 0 && counter < 100) {
             //System.out.println("x: " + dd.getX() + "/" + dd.getFromX() + ", y: " + dd.getY() + "/" + dd.getFromY() + ", s: " + dd.getStart() + ", e: " + dd.getEnd());
             dd = atable[dd.getFromY()][dd.getFromX()];
+            counter++;
         }
         //System.out.println("x: " + dd.getX() + "/" + this.sx + " y: " + dd.getY() + "/" + this.sy + " s: " + dd.getStart());
         //System.exit(0);

@@ -8,8 +8,10 @@ package pacman.util;
 import java.util.ArrayList;
 import java.util.List;
 import pacman.domain.Blinky;
+import pacman.domain.Clyde;
 import pacman.domain.Direction;
 import pacman.domain.Eatable;
+import pacman.domain.Inky;
 import pacman.domain.PacDot;
 import pacman.domain.Pacman;
 import pacman.domain.Pinky;
@@ -33,7 +35,9 @@ public class LevelBuilder {
     private Pacman pacman;
     private Blinky blinky;
     private Pinky pinky;
-    
+    private Inky inky;
+    private Clyde clyde;
+
     private int escapeX;
     private int escapeY;
 
@@ -104,7 +108,18 @@ public class LevelBuilder {
                         this.pinky = new Pinky(s, r);
                         tiles.add(this.pinky);
                         map[r][s] = 0;
-                        break;                        
+                        break;
+                    case 7:
+                        this.inky = new Inky(s, r);
+                        tiles.add(this.inky);
+                        map[r][s] = 0;
+                        break;
+                    case 8:
+                        this.clyde = new Clyde(s, r);
+                        tiles.add(this.clyde);
+                        map[r][s] = 0;
+                        break;
+
                     case 9:
                         this.escapeX = s;
                         this.escapeY = r;
@@ -125,24 +140,32 @@ public class LevelBuilder {
     public Pacman getPacman() {
         return this.pacman;
     }
-    
-    public Blinky getBlinky(){
+
+    public Blinky getBlinky() {
         return this.blinky;
     }
-    
-    public Pinky getPinky(){
+
+    public Pinky getPinky() {
         return this.pinky;
     }
     
-    public List<Moving> getMovings(){
+    public Inky getInky() {
+        return this.inky;
+    }
+    
+    public Clyde getClyde() {
+        return this.clyde;
+    }
+
+    public List<Moving> getMovings() {
         return this.movings;
     }
-    
-    public int getEscapeX(){
+
+    public int getEscapeX() {
         return this.escapeX;
     }
-    
-    public int getEscapeY(){
+
+    public int getEscapeY() {
         return this.escapeY;
     }
 }

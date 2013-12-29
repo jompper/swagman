@@ -28,7 +28,7 @@ public class PinkyLogic implements MoveLogic {
     
     @Override
     public void move(){
-        Astar a = new Astar(this.map, this.pinky.getX(), this.pinky.getY(), this.pacman.getNextX(2, this.pacman.getDirection()), this.pacman.getNextY(2, this.pacman.getDirection()), this.pinky.getChangeDirection());
+        Astar a = new Astar(this.map, this.pinky.getX(), this.pinky.getY(), this.pacman.getNextX(2, this.pacman.getDirection()), this.pacman.getNextY(2, this.pacman.getDirection()), this.pinky.getDirection());
         if(a.getDirection() != null){
             this.pinky.setChangeDirection(a.getDirection());
         }
