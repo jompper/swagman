@@ -7,13 +7,16 @@ package pacman.util;
 
 import java.util.ArrayList;
 import java.util.List;
+import pacman.domain.Blinky;
 import pacman.domain.Direction;
 import pacman.domain.Eatable;
 import pacman.domain.PacDot;
 import pacman.domain.Pacman;
+import pacman.domain.Pinky;
 import pacman.domain.PowerPellet;
 import pacman.level.Level;
 import pacman.tile.Drawing;
+import pacman.tile.Moving;
 import pacman.tile.Wall;
 import pacman.tile.WallType;
 
@@ -25,8 +28,14 @@ public class LevelBuilder {
 
     private List<Drawing> tiles;
     private Eatable eatables[][];
+    private List<Moving> movings;
 
     private Pacman pacman;
+    private Blinky blinky;
+    private Pinky pinky;
+    
+    private int escapeX;
+    private int escapeY;
 
     /**
      * 0 = Empty, 1 = PacDot, 2 = PowerPellet, 3 = Cherry, 4 = Pacman 10 = Wall
@@ -40,6 +49,7 @@ public class LevelBuilder {
     public LevelBuilder(Level level) {
         this.tiles = new ArrayList<>();
         this.eatables = new Eatable[level.getHeight()][level.getWidth()];
+        this.movings = new ArrayList<>();
         int[][] map = level.getLevel();
         for (int r = 0; r < level.getHeight(); r++) {
             for (int s = 0; s < level.getWidth(); s++) {
@@ -85,6 +95,20 @@ public class LevelBuilder {
                         tiles.add(this.pacman);
                         map[r][s] = 0;
                         break;
+                    case 5:
+                        this.blinky = new Blinky(s, r);
+                        tiles.add(this.blinky);
+                        map[r][s] = 0;
+                        break;
+                    case 6:
+                        this.pinky = new Pinky(s, r);
+                        tiles.add(this.pinky);
+                        map[r][s] = 0;
+                        break;                        
+                    case 9:
+                        this.escapeX = s;
+                        this.escapeY = r;
+                        break;
                 }
             }
         }
@@ -100,5 +124,25 @@ public class LevelBuilder {
 
     public Pacman getPacman() {
         return this.pacman;
+    }
+    
+    public Blinky getBlinky(){
+        return this.blinky;
+    }
+    
+    public Pinky getPinky(){
+        return this.pinky;
+    }
+    
+    public List<Moving> getMovings(){
+        return this.movings;
+    }
+    
+    public int getEscapeX(){
+        return this.escapeX;
+    }
+    
+    public int getEscapeY(){
+        return this.escapeY;
     }
 }

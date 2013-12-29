@@ -11,8 +11,13 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JPanel;
+import pacman.algorithm.BlinkyLogic;
+import pacman.algorithm.MoveLogic;
+import pacman.algorithm.PinkyLogic;
+import pacman.domain.Blinky;
 import pacman.domain.Eatable;
 import pacman.domain.Pacman;
+import pacman.domain.Pinky;
 import pacman.level.Level;
 import pacman.tile.Drawing;
 import pacman.tile.Moving;
@@ -25,7 +30,9 @@ import pacman.util.LevelBuilder;
 public class Board extends JPanel {
 
     private Pacman pacman;
-
+    private Blinky blinky;
+    private Pinky pinky;
+    
     private Level level;
     private GameState gameState;
     private int timeout;
@@ -34,13 +41,19 @@ public class Board extends JPanel {
     private List<Moving> movings;
     private Eatable[][] eatables;
     
+    private List<MoveLogic> moveLogics;
+    
     private int highScore;
     private int score;
+    
+    private int escapeX;
+    private int escapeY;
 
     public Board(Level level) {
         this.setBackground(Color.BLACK);
         this.drawings = new ArrayList<>();
         this.movings = new ArrayList<>();
+        this.moveLogics = new ArrayList<>();
         this.gameState = GameState.START;
         this.newGame(level);
         this.highScore = 0;
@@ -52,12 +65,26 @@ public class Board extends JPanel {
         this.level = level;
         LevelBuilder lb = new LevelBuilder(level);
         this.drawings.addAll(lb.getDrawings());
+        this.movings.addAll(lb.getMovings());
         this.pacman = lb.getPacman();
         this.movings.add(this.pacman);
         this.eatables = lb.getEatables();
         this.gameState = GameState.START;
         this.score = 0;
         this.timeout = 200;
+        
+        this.blinky = lb.getBlinky();
+        this.movings.add(this.blinky);
+        BlinkyLogic bl = new BlinkyLogic(this.blinky, this.pacman, level.getLevel());
+        this.moveLogics.add(bl);
+        
+        this.pinky = lb.getPinky();
+        this.movings.add(this.pinky);
+        PinkyLogic pl = new PinkyLogic(this.pinky, this.pacman, level.getLevel());
+        this.moveLogics.add(pl);
+        
+        this.escapeX = lb.getEscapeX();
+        this.escapeY = lb.getEscapeY();
     }
     
     /**
@@ -153,6 +180,15 @@ public class Board extends JPanel {
             if(this.score > this.highScore){
                 this.highScore = score;
             }
+        }
+        for(MoveLogic ml : this.moveLogics){
+            ml.move();
+        }
+        if(this.pinky.inJail() && this.score > 300){
+            
+            this.pinky.setX(this.escapeX);
+            this.pinky.setY(this.escapeY);
+            this.pinky.setJail(false);
         }
     }
 
