@@ -6,32 +6,31 @@
 
 package pacman.algorithm;
 
-import pacman.domain.Blinky;
-import pacman.domain.Direction;
 import pacman.domain.Inky;
 import pacman.domain.Pacman;
+import pacman.tile.AbstractMovingTile;
 
 /**
  *
  * @author Joni
  */
 public class InkyLogic  implements MoveLogic {
-    private Inky inky;
-    private Blinky blinky;
-    private Pacman pacman;
-    private int[][] map;
+    private final Inky inky;
+    private final AbstractMovingTile tile;
+    private final Pacman pacman;
+    private final int[][] map;
     
-    public InkyLogic(Inky i, Blinky b, Pacman p, int[][] map){
+    public InkyLogic(Inky i, AbstractMovingTile b, Pacman p, int[][] map){
         this.inky = i;
-        this.blinky = b;
+        this.tile = b;
         this.pacman = p;
         this.map = map;
     }
     
     @Override
     public void move(){
-        int px = this.pacman.getNextX(2, this.pacman.getDirection()) - (this.blinky.getX() - this.pacman.getNextX(2, this.pacman.getDirection()));
-        int py = this.pacman.getNextY(2, this.pacman.getDirection()) - (this.blinky.getY() - this.pacman.getNextY(2, this.pacman.getDirection()));
+        int px = this.pacman.getNextX(2, this.pacman.getDirection()) - (this.tile.getX() - this.pacman.getNextX(2, this.pacman.getDirection()));
+        int py = this.pacman.getNextY(2, this.pacman.getDirection()) - (this.tile.getY() - this.pacman.getNextY(2, this.pacman.getDirection()));
         Astar a = new Astar(this.map, this.inky.getX(), this.inky.getY(), px, py, this.inky.getDirection());
         if(a.getDirection() != null){
             this.inky.setChangeDirection(a.getDirection());

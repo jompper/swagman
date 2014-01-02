@@ -1,7 +1,11 @@
 Aihe:		Pacman
 	
-		Toteutetaan pelattava Pacman peli, sekä tekoäly monstereille osana Tietorakenteiden harjoitustyökurssia.
+			Toteutetaan pelattava Pacman peli, sekä tekoäly monstereille osana Tietorakenteiden harjoitustyökurssia.
 
 Käyttäjät:	Pelaaja
 Toiminnot:	Aloita peli
-		Liikuta hahmoa
+			Uusi peli
+			Sulje peli
+			Liikuta hahmoja
+			Syö PowerPellet / Pac-Dot / Cherry
+			Tarkista söikö monsteri sinut

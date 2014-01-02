@@ -7,7 +7,6 @@ package pacman.domain;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import pacman.tile.AbstractMovingTile;
 import pacman.tile.Drawing;
 import pacman.tile.Moving;
 
@@ -15,19 +14,10 @@ import pacman.tile.Moving;
  *
  * @author Joni
  */
-public class Blinky extends AbstractMovingTile implements Moving, Drawing, Monster {
+public class Blinky extends AbstractMonster implements Moving, Drawing, Monster {
 
     public Blinky(int x, int y) {
-        super(x, y, Direction.RIGHT);
-        this.locationX = 0;
-        this.locationY = 0;
-        this.speed = 1.9;
-    }
-
-    @Override
-    public void move(){
-        super.move();
-        
+        super(x, y, Direction.RIGHT, false);
     }
     
     @Override
@@ -35,5 +25,6 @@ public class Blinky extends AbstractMovingTile implements Moving, Drawing, Monst
         g.setColor(Color.RED);
         g.fillOval(x * 16 + (int) locationX, y * 16 + (int) locationY, 16, 16);
     }
+
 
 }

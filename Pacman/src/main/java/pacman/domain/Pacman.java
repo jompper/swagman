@@ -22,7 +22,7 @@ public class Pacman extends AbstractMovingTile implements Moving, Drawing {
     private int mouthPosition;
 
     public Pacman(int x, int y, Direction d) {
-        super(x, y, d);
+        super(x, y, d, 2);
         this.mouthPosition = 0;
     }
 

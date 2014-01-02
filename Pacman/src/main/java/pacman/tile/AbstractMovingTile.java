@@ -19,15 +19,19 @@ public class AbstractMovingTile extends AbstractTile implements Moving {
     protected double locationX;
     protected double locationY;
 
-    public AbstractMovingTile(int x, int y, Direction d) {
+    public AbstractMovingTile(int x, int y, Direction d, double speed) {
         super(x, y);
         this.direction = d;
         this.changeDirection = d;
         this.locationX = 0;
         this.locationY = 0;
-        this.speed = 2;
+        this.speed = speed;
     }
 
+    public void setSpeed(double speed){
+        this.speed = speed;
+    }
+    
     /**
      * Returns Pacmans current direction
      *
@@ -71,67 +75,66 @@ public class AbstractMovingTile extends AbstractTile implements Moving {
     }
 
     /**
-     * Moves Pacman to Pacmans current direction.
-     *
-     * TODO: Smooth moving, 11 tiles per second. Equals 11 * 16 = 176 pixel per
-     * second. Change game speed to 60 FPS Move 3 pixels at a time. Tile
-     * position + 9 pixels = Next tile
-     *
+     * Moves object to current direction.
+     * @return true if tile really moves
      */
     @Override
-    public void move() {
+    public boolean move() {
         switch (this.direction) {
             case UP:
-                this.locationY -= this.speed;
-                this.locationX = 0;
+                moveLocationXY(0, this.locationY - this.speed);
                 if (this.locationY <= -9) {
                     this.locationY += 16;
                     this.y--;
+                    return true;
                 }
                 break;
             case DOWN:
-                this.locationY += this.speed;
-                this.locationX = 0;
+                moveLocationXY(0, this.locationY + this.speed);
                 if (this.locationY >= 9) {
                     this.locationY -= 16;
                     this.y++;
+                    return true;
                 }
                 break;
             case LEFT:
-                this.locationX -= this.speed;
-                this.locationY = 0;
+                moveLocationXY(this.locationX - this.speed, 0);
                 if (this.locationX <= -9) {
                     this.locationX += 16;
                     this.x--;
+                    return true;
                 }
                 break;
             case RIGHT:
-                this.locationX += this.speed;
-                this.locationY = 0;
+                moveLocationXY(this.locationX + this.speed, 0);
                 if (this.locationX >= 9) {
                     this.locationX -= 16;
                     this.x++;
+                    return true;
                 }
                 break;
         }
+        return false;
     }
-
+    
+    private void moveLocationXY(double locationX, double locationY){
+        this.locationX = locationX;
+        this.locationY = locationY;
+    }
+    
     @Override
     public void moveLocation() {
-        if (this.locationX <= -this.speed) {
-            this.locationX += this.speed;
-        } else if (this.locationX >= this.speed) {
-            this.locationX -= this.speed;
-        } else {
-            this.locationX = 0;
+        this.locationX = moveLocation(this.locationX, this.speed);
+        this.locationY = moveLocation(this.locationY, this.speed);
+    }
+    
+    private double moveLocation(double location, double speed){
+        if (location <= -speed) {
+            return location + speed;
+        } else if (location >= speed) {
+            return location - speed;
         }
-        if (this.locationY <= -this.speed) {
-            this.locationY += this.speed;
-        } else if (this.locationY >= this.speed) {
-            this.locationY -= this.speed;
-        } else {
-            this.locationY = 0;
-        }
+        return 0;
     }
 
     /**

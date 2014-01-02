@@ -8,32 +8,16 @@ package pacman.domain;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import pacman.tile.AbstractMovingTile;
 import pacman.tile.Drawing;
-import pacman.tile.Moving;
 
 /**
  *
  * @author Joni
  */
-public class Pinky extends AbstractMovingTile implements Moving, Drawing, Monster {
+public class Pinky extends AbstractMonster implements Drawing {
 
-    private boolean inJail;
-    
     public Pinky(int x, int y) {
-        super(x, y, Direction.RIGHT);
-        this.locationX = 0;
-        this.locationY = 0;
-        this.speed = 1.9;
-        this.inJail = true;
-    }
-    
-    public void setJail(boolean jail){
-        this.inJail = jail;
-    }
-    
-    public boolean inJail(){
-        return this.inJail;
+        super(x, y, Direction.RIGHT, true);
     }
     
     @Override
@@ -41,4 +25,5 @@ public class Pinky extends AbstractMovingTile implements Moving, Drawing, Monste
         g.setColor(Color.PINK);
         g.fillOval(x * 16 + (int) locationX, y * 16 + (int) locationY, 16, 16);
     }
+
 }

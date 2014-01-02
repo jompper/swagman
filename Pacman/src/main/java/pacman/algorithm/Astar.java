@@ -24,16 +24,19 @@ public class Astar {
     private int sy;
 
     public Astar(int[][] map, int sx, int sy, int dx, int dy, Direction sd) {
-        if (sx == dx && sy == dy) {
-            this.d = sd;
-            return;
-        }
-
-        
         this.map = map;
         this.height = map.length;
         this.width = map[0].length;
-        
+        if (sx < 0) {
+            sx = 0;
+        } else if (sx > width - 1) {
+            sx = width - 1;
+        }
+        if (sy < 0) {
+            sy = 0;
+        } else if (sy > height - 1) {
+            sy = height - 1;
+        }
         if (dx < 0) {
             dx = 0;
         } else if (dx > width - 1) {
@@ -57,18 +60,32 @@ public class Astar {
                 atable[y][x] = a;
             }
         }
-        Anode start = atable[sy][sx];
-        start.setStart(0);
-        start.setFromDirection(sd);
-        start.use();
-        //pq.remove(start);
-        pq.add(start);
+        Anode us = atable[sy][sx];
+        us.setStart(0);
+        us.setFromDirection(sd);
+        us.use();
         //System.out.println("SX: " + sx + " SY: " + sy + " DX: "+ dx + " DY: " + dy);
+
+        int x = us.getX();
+        int y = us.getY();
+        if (x > 0 && us.getFromDirection() != Direction.RIGHT && this.map[y][x - 1] < 10) {
+            this.NodeUpdate(pq, atable[y][x - 1], us, Direction.LEFT);
+        }
+        if (y > 0 && us.getFromDirection() != Direction.DOWN && this.map[y - 1][x] < 10) {
+            this.NodeUpdate(pq, atable[y - 1][x], us, Direction.UP);
+        }
+        if (x < width - 1 && us.getFromDirection() != Direction.LEFT && this.map[y][x + 1] < 10) {
+            this.NodeUpdate(pq, atable[y][x + 1], us, Direction.RIGHT);
+        }
+        if (y < height - 1 && us.getFromDirection() != Direction.UP && this.map[y + 1][x] < 10) {
+            this.NodeUpdate(pq, atable[y + 1][x], us, Direction.DOWN);
+        }
+
         while (!pq.isEmpty() && !pq.contains(atable[dy][dx])) {
             Anode u = pq.remove();
 
-            int x = u.getX();
-            int y = u.getY();
+            x = u.getX();
+            y = u.getY();
             if (x > 0 && u.getFromDirection() != Direction.RIGHT) {
                 this.NodeUpdate(pq, atable[y][x - 1], u, Direction.LEFT);
             }
@@ -85,22 +102,11 @@ public class Astar {
         }
         Anode dd = atable[dy][dx];
         int counter = 0;
-        while (atable[dd.getFromY()][dd.getFromX()].getStart() > 0 && counter < 100) {
-            //System.out.println("x: " + dd.getX() + "/" + dd.getFromX() + ", y: " + dd.getY() + "/" + dd.getFromY() + ", s: " + dd.getStart() + ", e: " + dd.getEnd());
+        while (atable[dd.getFromY()][dd.getFromX()].getStart() > 0 && counter < 1000) {
             dd = atable[dd.getFromY()][dd.getFromX()];
             counter++;
         }
-        //System.out.println("x: " + dd.getX() + "/" + this.sx + " y: " + dd.getY() + "/" + this.sy + " s: " + dd.getStart());
-        //System.exit(0);
-        if (dd.getX() < sx) {
-            this.d = Direction.LEFT;
-        } else if (dd.getX() > sx) {
-            this.d = Direction.RIGHT;
-        } else if (dd.getY() < sy) {
-            this.d = Direction.UP;
-        } else if (dd.getY() > sy) {
-            this.d = Direction.DOWN;
-        }
+        this.d = dd.getFromDirection();
     }
 
     private void NodeUpdate(PriorityQueue pq, Anode node, Anode from, Direction nd) {
@@ -110,12 +116,12 @@ public class Astar {
             node.setFromDirection(nd);
             node.use();
             //System.out.println("s: " + from.getStart());
-            if(this.map[node.getY()][node.getX()]<10){
+            if (this.map[node.getY()][node.getX()] < 10) {
                 node.setStart(from.getStart() + 1);
-            }else{
+            } else {
                 node.setStart(from.getStart() + this.width * this.height);
             }
-            
+
             //pq.remove(node);
             pq.add(node);
         }

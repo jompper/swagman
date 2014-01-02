@@ -6,10 +6,16 @@
 
 package pacman.domain;
 
+import pacman.algorithm.MoveLogic;
+
 /**
  *
  * @author Joni
  */
 public interface Monster {
-    
+    public void setAI(MoveLogic ml);
+    public void AIMove();
+    public boolean isMove();
+    public void setJail(boolean jail);
+    public boolean inJail();
 }

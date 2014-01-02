@@ -23,6 +23,7 @@ public class PacmanTest {
     @Before
     public void setUp() {
         this.pacman = new Pacman(0, 0, Direction.UP);
+        this.pacman.setSpeed(16);
     }
 
     @Test

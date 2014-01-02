@@ -31,6 +31,7 @@ public class LevelBuilder {
     private List<Drawing> tiles;
     private Eatable eatables[][];
     private List<Moving> movings;
+    private List<Moving> monsters;
 
     private Pacman pacman;
     private Blinky blinky;
@@ -54,6 +55,12 @@ public class LevelBuilder {
         this.tiles = new ArrayList<>();
         this.eatables = new Eatable[level.getHeight()][level.getWidth()];
         this.movings = new ArrayList<>();
+        this.monsters = new ArrayList<>();
+        buildMap(level);
+
+    }
+
+    protected final void buildMap(Level level) {
         int[][] map = level.getLevel();
         for (int r = 0; r < level.getHeight(); r++) {
             for (int s = 0; s < level.getWidth(); s++) {
@@ -97,29 +104,37 @@ public class LevelBuilder {
                     case 4:
                         this.pacman = new Pacman(s, r, Direction.RIGHT);
                         tiles.add(this.pacman);
+                        movings.add(this.pacman);
                         map[r][s] = 0;
                         break;
                     case 5:
                         this.blinky = new Blinky(s, r);
+                        monsters.add(this.blinky);
                         tiles.add(this.blinky);
+                        movings.add(this.blinky);
                         map[r][s] = 0;
                         break;
                     case 6:
                         this.pinky = new Pinky(s, r);
+                        monsters.add(this.pinky);
                         tiles.add(this.pinky);
+                        movings.add(this.pinky);
                         map[r][s] = 0;
                         break;
                     case 7:
                         this.inky = new Inky(s, r);
+                        monsters.add(this.inky);
                         tiles.add(this.inky);
+                        movings.add(this.inky);
                         map[r][s] = 0;
                         break;
                     case 8:
                         this.clyde = new Clyde(s, r);
+                        monsters.add(this.clyde);
                         tiles.add(this.clyde);
+                        movings.add(this.clyde);
                         map[r][s] = 0;
                         break;
-
                     case 9:
                         this.escapeX = s;
                         this.escapeY = r;
@@ -129,12 +144,17 @@ public class LevelBuilder {
         }
     }
 
+
     public List<Drawing> getDrawings() {
         return this.tiles;
     }
 
     public Eatable[][] getEatables() {
         return this.eatables;
+    }
+
+    public List<Moving> getMonsters() {
+        return this.monsters;
     }
 
     public Pacman getPacman() {
@@ -148,11 +168,11 @@ public class LevelBuilder {
     public Pinky getPinky() {
         return this.pinky;
     }
-    
+
     public Inky getInky() {
         return this.inky;
     }
-    
+
     public Clyde getClyde() {
         return this.clyde;
     }

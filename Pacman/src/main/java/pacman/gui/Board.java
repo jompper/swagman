@@ -14,15 +14,18 @@ import javax.swing.JPanel;
 import pacman.algorithm.BlinkyLogic;
 import pacman.algorithm.ClydeLogic;
 import pacman.algorithm.InkyLogic;
-import pacman.algorithm.MoveLogic;
 import pacman.algorithm.PinkyLogic;
 import pacman.domain.Blinky;
 import pacman.domain.Clyde;
+import pacman.domain.Direction;
 import pacman.domain.Eatable;
 import pacman.domain.Inky;
+import pacman.domain.Monster;
 import pacman.domain.Pacman;
 import pacman.domain.Pinky;
 import pacman.level.Level;
+import pacman.level.LevelOne;
+import pacman.tile.AbstractMovingTile;
 import pacman.tile.Drawing;
 import pacman.tile.Moving;
 import pacman.util.LevelBuilder;
@@ -46,8 +49,7 @@ public class Board extends JPanel {
     private List<Drawing> drawings;
     private List<Moving> movings;
     private Eatable[][] eatables;
-
-    private List<MoveLogic> moveLogics;
+    private List<Moving> monsters;
 
     private int highScore;
     private int score;
@@ -59,46 +61,43 @@ public class Board extends JPanel {
         this.setBackground(Color.BLACK);
         this.drawings = new ArrayList<>();
         this.movings = new ArrayList<>();
-        this.moveLogics = new ArrayList<>();
+        this.monsters = new ArrayList<>();
         this.gameState = GameState.START;
         this.newGame(level);
         this.highScore = 0;
     }
 
-    public void newGame(Level level) {
+    public final void newGame(Level level) {
         this.drawings.clear();
         this.movings.clear();
+        this.monsters.clear();
         this.level = level;
         LevelBuilder lb = new LevelBuilder(level);
         this.drawings.addAll(lb.getDrawings());
         this.movings.addAll(lb.getMovings());
+        this.monsters.addAll(lb.getMonsters());
         this.pacman = lb.getPacman();
-        this.movings.add(this.pacman);
         this.eatables = lb.getEatables();
         this.gameState = GameState.START;
         this.score = 0;
         this.timeout = 200;
 
         this.blinky = lb.getBlinky();
-        this.movings.add(this.blinky);
         BlinkyLogic bl = new BlinkyLogic(this.blinky, this.pacman, level.getLevel());
-        this.moveLogics.add(bl);
+        this.blinky.setAI(bl);
 
         this.pinky = lb.getPinky();
-        this.movings.add(this.pinky);
         PinkyLogic pl = new PinkyLogic(this.pinky, this.pacman, level.getLevel());
-        this.moveLogics.add(pl);
+        this.pinky.setAI(pl);
 
         this.inky = lb.getInky();
-        this.movings.add(this.inky);
         InkyLogic il = new InkyLogic(this.inky, this.blinky, this.pacman, level.getLevel());
-        this.moveLogics.add(il);
+        this.inky.setAI(il);
 
         this.clyde = lb.getClyde();
-        this.movings.add(this.clyde);
         ClydeLogic cl = new ClydeLogic(this.clyde, this.pacman, level.getLevel());
-        this.moveLogics.add(cl);
-        
+        this.clyde.setAI(cl);
+
         this.escapeX = lb.getEscapeX();
         this.escapeY = lb.getEscapeY();
     }
@@ -142,80 +141,116 @@ public class Board extends JPanel {
 
     /**
      * Move all moving objects on the game After objects have been moven, checks
-     * if Pacman is in a tile that contains eatable object.
-     *
-     * TODO: Add true boundary checks.
-     *
-     * Make interface Eating, make Pacman implement that interface. Then loop
-     * all Eating object and check if their current position has something to be
-     * eaten. Now Pacman should implement Eating and Eatable interfaces and
-     * Ghosts should implement Eating interface with condition Pacman.
+     * if Pacman is in a tile that contains eatable object. And if monsters
+     * intersect with Pacmans location
      */
     public void move() {
-        if (this.gameState != GameState.GAME) {
+        if (this.checkTimeout()) {
             return;
+        }
+        for (Moving m : this.movings) {
+            move(m);
+        }
+        this.score += checkEat(this.pacman);
+        checkMonsterIntersectPacman();
+        checkMonsterJail();
+    }
+
+    private void move(Moving m) {
+        if (canMove(m, m.getChangeDirection())) {
+            m.setDirection(m.getChangeDirection());
+        }
+        if (canMove(m, m.getDirection())) {
+            m.move();
+        } else {
+            m.moveLocation();
+        }
+        fixOutOfBounds(m, this.level.getWidth() - 1, this.level.getHeight() - 1);
+    }
+
+    private boolean canMove(Moving m, Direction d) {
+        int nextX = m.getNextX(1, d);
+        int nextY = m.getNextY(1, d);
+        return (!this.level.isBlocked(nextX, nextY));
+    }
+
+    private void checkMonsterIntersectPacman() {
+        for (Moving m : this.monsters) {
+            if (m.getX() == this.pacman.getX() && m.getY() == this.pacman.getY()) {
+                loseGame();
+                return;
+            }
+        }
+    }
+
+    private boolean checkTimeout() {
+        if (this.gameState != GameState.GAME) {
+            return true;
         }
         if (this.timeout > 0) {
             this.timeout -= 2;
-            return;
         }
-        int maxW = this.level.getWidth() - 1;
-        int maxH = this.level.getHeight() - 1;
-        for (Moving m : this.movings) {
-            int nextX = m.getNextX(1, m.getDirection());
-            int nextY = m.getNextY(1, m.getDirection());
-            int nextXCD = m.getNextX(1, m.getChangeDirection());
-            int nextYCD = m.getNextY(1, m.getChangeDirection());
+        return this.timeout > 0;
+    }
 
-            if (m.getDirection() != m.getChangeDirection() && !this.level.isBlocked(nextXCD, nextYCD)) {
-                m.setDirection(m.getChangeDirection());
-                m.move();
-            } else if (!this.level.isBlocked(nextX, nextY)) {
-                m.move();
-            } else {
-                m.moveLocation();
-            }
-
-            int mX = m.getX();
-            int mY = m.getY();
-
-            if (mX < 0) {
-                m.setX(maxW);
-            } else if (mX > maxW) {
-                m.setX(0);
-            }
-            if (mY < 0) {
-                m.setY(maxH);
-            } else if (mY > maxH) {
-                m.setY(0);
-            }
-        }
-        Eatable e = this.eatables[this.pacman.getY()][this.pacman.getX()];
-        if (e != null) {
-            this.score += e.eat();
-            if (this.score > this.highScore) {
-                this.highScore = score;
-            }
-        }
-        for (MoveLogic ml : this.moveLogics) {
-            ml.move();
-        }
+    private void checkMonsterJail() {
         if (this.pinky.inJail() && this.score > 300) {
-
             this.pinky.setX(this.escapeX);
             this.pinky.setY(this.escapeY);
+            this.pinky.AIMove();
             this.pinky.setJail(false);
         }
-        if( this.inky.inJail() && this.score > 600){
+        if (this.inky.inJail() && this.score > 600) {
             this.inky.setX(this.escapeX);
             this.inky.setY(this.escapeY);
+            this.inky.AIMove();
             this.inky.setJail(false);
         }
-        if( this.clyde.inJail() && this.score > 1200){
+        if (this.clyde.inJail() && this.score > 1200) {
             this.clyde.setX(this.escapeX);
             this.clyde.setY(this.escapeY);
             this.clyde.setJail(false);
+            this.clyde.AIMove();
         }
+    }
+
+    private void loseGame() {
+        if (this.score > this.highScore) {
+            this.highScore = this.score;
+        }
+        newGame(new LevelOne());
+        gameState = GameState.GAME;
+    }
+
+    private int checkEat(AbstractMovingTile amt) {
+        Eatable e = this.eatables[amt.getY()][amt.getX()];
+        int score = 0;
+        if (e != null) {
+            score = e.eat();
+        }
+        return score;
+    }
+
+    private boolean freeFromJail(Monster m, int score, int limit) {
+        if (m.inJail() && score > limit) {
+            m.setJail(false);
+            return true;
+        }
+        return false;
+    }
+
+    private void fixOutOfBounds(Moving m, int maxW, int maxH) {
+        m.setX(fixOutOfBounds(m.getX(), maxW));
+        m.setY(fixOutOfBounds(m.getY(), maxH));
+    }
+
+    private int fixOutOfBounds(int pos, int max) {
+        if (pos < 0) {
+            return max;
+        } else if (pos > max) {
+            return 0;
+        }
+        return pos;
     }
 
     @Override
@@ -223,38 +258,50 @@ public class Board extends JPanel {
         super.paintComponent(g);
         switch (this.gameState) {
             case GAME:
-                g.setColor(Color.WHITE);
-                g.setFont(new Font("Arial", Font.BOLD, 16));
-                g.drawString("HIGH SCORE", 160, 16);
-                g.drawString("" + this.highScore, 160, 32);
-                g.drawString("1UP", 48, 16);
-                g.drawString("" + this.score, 48, 32);
-                for (Drawing d : this.drawings) {
-                    d.draw(g);
-                }
-                if (this.timeout > 0) {
-                    g.setColor(Color.YELLOW);
-                    g.setFont(new Font("Arial", Font.BOLD, 200));
-                    g.drawString("" + (this.timeout / 100 + 1), 170, 340);
-                }
+                paintGame(g);
                 break;
             case START:
-                g.setColor(Color.YELLOW);
-                g.setFont(new Font("Arial", Font.BOLD, 100));
-                g.drawString("Pac-Man", 20, 100);
-                g.setFont(new Font("Arial", Font.BOLD, 30));
-                g.drawRect(130, 150, 200, 50);
-                g.drawString("Start Game", 157, 185);
-                g.drawRect(130, 250, 200, 50);
-                g.drawString("Restart", 182, 285);
-                g.drawRect(130, 350, 200, 50);
-                g.drawString("Quit Game", 157, 385);
+                paintMenu(g);
                 break;
         }
 
     }
 
+    private void paintGame(Graphics g) {
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Arial", Font.BOLD, 16));
+        g.drawString("HIGH SCORE", 160, 16);
+        g.drawString("" + this.highScore, 160, 32);
+        g.drawString("1UP", 48, 16);
+        g.drawString("" + this.score, 48, 32);
+        for (Drawing d : this.drawings) {
+            d.draw(g);
+        }
+        if (this.timeout > 0) {
+            g.setColor(Color.YELLOW);
+            g.setFont(new Font("Arial", Font.BOLD, 200));
+            g.drawString("" + (this.timeout / 100 + 1), 170, 340);
+        }
+    }
+
+    private void paintMenu(Graphics g) {
+        g.setColor(Color.YELLOW);
+        g.setFont(new Font("Arial", Font.BOLD, 100));
+        g.drawString("Pac-Man", 20, 100);
+        g.setFont(new Font("Arial", Font.BOLD, 30));
+        g.drawRect(130, 150, 200, 50);
+        g.drawString("Start Game", 157, 185);
+        g.drawRect(130, 250, 200, 50);
+        g.drawString("Restart", 182, 285);
+        g.drawRect(130, 350, 200, 50);
+        g.drawString("Quit Game", 157, 385);
+    }
+
     public GameState getGameState() {
         return this.gameState;
+    }
+
+    public void setTimeout(int timeout) {
+        this.timeout = timeout;
     }
 }

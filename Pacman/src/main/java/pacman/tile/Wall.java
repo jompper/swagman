@@ -14,7 +14,7 @@ import java.awt.Graphics;
  */
 public class Wall extends AbstractTile implements Drawing {
 
-    private WallType wallType;
+    private final WallType wallType;
 
     public Wall(int x, int y, WallType wallType) {
         super(x, y);
@@ -26,50 +26,81 @@ public class Wall extends AbstractTile implements Drawing {
         g.setColor(Color.BLUE);
         switch (wallType) {
             case LEFT_RIGHT:
-                g.drawLine(x * 16, y * 16 + 4, x * 16 + 16, y * 16 + 4);
-                g.drawLine(x * 16, y * 16 + 12, x * 16 + 16, y * 16 + 12);
+                drawWallLeftRight(g);
                 break;
             case LEFT_UP:
-                g.drawLine(x * 16, y * 16 + 4, x * 16 + 3, y * 16 + 4);
-                g.drawLine(x * 16 + 4, y * 16 + 4, x * 16 + 4, y * 16);
-                g.drawLine(x * 16, y * 16 + 12, x * 16 + 11, y * 16 + 12);
-                g.drawLine(x * 16 + 12, y * 16 + 12, x * 16 + 12, y * 16);
+                drawWallLeftUp(g);
                 break;
             case LEFT_DOWN:
-                g.drawLine(x * 16, y * 16 + 4, x * 16 + 11, y * 16 + 4);
-                g.drawLine(x * 16 + 12, y * 16 + 4, x * 16 + 12, y * 16 + 16);
-                g.drawLine(x * 16, y * 16 + 12, x * 16 + 4, y * 16 + 12);
-                g.drawLine(x * 16 + 4, y * 16 + 12, x * 16 + 4, y * 16 + 16);
+                drawWallLeftDown(g);
                 break;
             case RIGHT_UP:
-                g.drawLine(x * 16 + 16, y * 16 + 4, x * 16 + 13, y * 16 + 4);
-                g.drawLine(x * 16 + 12, y * 16 + 4, x * 16 + 12, y * 16);
-                g.drawLine(x * 16 + 16, y * 16 + 12, x * 16 + 5, y * 16 + 12);
-                g.drawLine(x * 16 + 4, y * 16 + 12, x * 16 + 4, y * 16);
+                drawWallRightUp(g);
                 break;
             case RIGHT_DOWN:
-                g.drawLine(x * 16 + 16, y * 16 + 4, x * 16 + 5, y * 16 + 4);
-                g.drawLine(x * 16 + 4, y * 16 + 4, x * 16 + 4, y * 16 + 16);
-                g.drawLine(x * 16 + 16, y * 16 + 12, x * 16 + 12, y * 16 + 12);
-                g.drawLine(x * 16 + 12, y * 16 + 12, x * 16 + 12, y * 16 + 16);
+                drawWallRightDown(g);
                 break;
             case UP_DOWN:
-                g.drawLine(x * 16 + 4, y * 16, x * 16 + 4, y * 16 + 16);
-                g.drawLine(x * 16 + 12, y * 16, x * 16 + 12, y * 16 + 16);
+                drawWallUpDown(g);
                 break;
             case GATE_LEFT:
-                g.drawLine(x * 16, y * 16 + 4, x * 16, y * 16 + 12);
-                g.setColor(Color.RED);
-                g.drawLine(x * 16 + 1, y * 16 + 6, x * 16 + 16, y * 16 + 6);
-                g.drawLine(x * 16 + 1, y * 16 + 10, x * 16 + 16, y * 16 + 10);
+                drawGateLeft(g);
                 break;
             case GATE_RIGHT:
-                g.drawLine(x * 16 + 16, y * 16 + 4, x * 16 + 16, y * 16 + 12);
-                g.setColor(Color.RED);
-                g.drawLine(x * 16, y * 16 + 6, x * 16 + 15, y * 16 + 6);
-                g.drawLine(x * 16, y * 16 + 10, x * 16 + 15, y * 16 + 10);
+                drawGateRight(g);
                 break;
         }
     }
 
+    protected void drawWallLeftRight(Graphics g) {
+        g.drawLine(x * 16, y * 16 + 4, x * 16 + 16, y * 16 + 4);
+        g.drawLine(x * 16, y * 16 + 12, x * 16 + 16, y * 16 + 12);
+    }
+
+    protected void drawWallUpDown(Graphics g) {
+        g.drawLine(x * 16 + 4, y * 16, x * 16 + 4, y * 16 + 16);
+        g.drawLine(x * 16 + 12, y * 16, x * 16 + 12, y * 16 + 16);
+    }
+
+    protected void drawWallLeftUp(Graphics g) {
+        g.drawLine(x * 16, y * 16 + 4, x * 16 + 3, y * 16 + 4);
+        g.drawLine(x * 16 + 4, y * 16 + 4, x * 16 + 4, y * 16);
+        g.drawLine(x * 16, y * 16 + 12, x * 16 + 11, y * 16 + 12);
+        g.drawLine(x * 16 + 12, y * 16 + 12, x * 16 + 12, y * 16);
+    }
+
+    protected void drawWallLeftDown(Graphics g) {
+        g.drawLine(x * 16, y * 16 + 4, x * 16 + 11, y * 16 + 4);
+        g.drawLine(x * 16 + 12, y * 16 + 4, x * 16 + 12, y * 16 + 16);
+        g.drawLine(x * 16, y * 16 + 12, x * 16 + 4, y * 16 + 12);
+        g.drawLine(x * 16 + 4, y * 16 + 12, x * 16 + 4, y * 16 + 16);
+    }
+
+    protected void drawWallRightUp(Graphics g) {
+        g.drawLine(x * 16 + 16, y * 16 + 4, x * 16 + 13, y * 16 + 4);
+        g.drawLine(x * 16 + 12, y * 16 + 4, x * 16 + 12, y * 16);
+        g.drawLine(x * 16 + 16, y * 16 + 12, x * 16 + 5, y * 16 + 12);
+        g.drawLine(x * 16 + 4, y * 16 + 12, x * 16 + 4, y * 16);
+    }
+
+    protected void drawWallRightDown(Graphics g) {
+        g.drawLine(x * 16 + 16, y * 16 + 4, x * 16 + 5, y * 16 + 4);
+        g.drawLine(x * 16 + 4, y * 16 + 4, x * 16 + 4, y * 16 + 16);
+        g.drawLine(x * 16 + 16, y * 16 + 12, x * 16 + 12, y * 16 + 12);
+        g.drawLine(x * 16 + 12, y * 16 + 12, x * 16 + 12, y * 16 + 16);
+    }
+
+    protected void drawGateLeft(Graphics g) {
+        g.drawLine(x * 16, y * 16 + 4, x * 16, y * 16 + 12);
+        g.setColor(Color.RED);
+        g.drawLine(x * 16 + 1, y * 16 + 6, x * 16 + 16, y * 16 + 6);
+        g.drawLine(x * 16 + 1, y * 16 + 10, x * 16 + 16, y * 16 + 10);
+    }
+
+    protected void drawGateRight(Graphics g) {
+        g.drawLine(x * 16 + 16, y * 16 + 4, x * 16 + 16, y * 16 + 12);
+        g.setColor(Color.RED);
+        g.drawLine(x * 16, y * 16 + 6, x * 16 + 15, y * 16 + 6);
+        g.drawLine(x * 16, y * 16 + 10, x * 16 + 15, y * 16 + 10);
+    }
 }

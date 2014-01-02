@@ -13,7 +13,7 @@ import pacman.domain.Direction;
  * @author Joni
  */
 public interface Moving {
-    public void move();
+    public boolean move();
     public void moveLocation();
     public void setX(int x);
     public void setY(int y);
