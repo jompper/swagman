@@ -9,14 +9,13 @@ import java.awt.Color;
 import java.awt.Graphics;
 import pacman.tile.AbstractMovingTile;
 import pacman.tile.Drawing;
-import pacman.tile.Moving;
 
 /**
  * Pacman is games main character and the only object, player can move.
  *
  * @author Joni
  */
-public class Pacman extends AbstractMovingTile implements Moving, Drawing {
+public class Pacman extends AbstractMovingTile implements Drawing {
 
     
     private int mouthPosition;

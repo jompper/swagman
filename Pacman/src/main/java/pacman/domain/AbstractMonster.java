@@ -7,13 +7,12 @@ package pacman.domain;
 
 import pacman.algorithm.MoveLogic;
 import pacman.tile.AbstractMovingTile;
-import pacman.tile.Moving;
 
 /**
  *
  * @author Joni
  */
-public abstract class AbstractMonster extends AbstractMovingTile implements Moving, Monster {
+public abstract class AbstractMonster extends AbstractMovingTile implements Monster {
     
     private MoveLogic moveLogic;
     private boolean inJail;
