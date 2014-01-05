@@ -92,12 +92,12 @@ public class LevelBuilder {
                         break;
                     case 1:
                         PacDot pd = new PacDot(s, r);
-                        tiles.add(pd);
+                        tiles.add(0,pd);
                         eatables[r][s] = pd;
                         break;
                     case 2:
                         PowerPellet pp = new PowerPellet(s, r);
-                        tiles.add(pp);
+                        tiles.add(0,pp);
                         eatables[r][s] = pp;
                         break;
                     case 3:
@@ -120,21 +120,21 @@ public class LevelBuilder {
                         monsters.add(this.pinky);
                         tiles.add(this.pinky);
                         movings.add(this.pinky);
-                        map[r][s] = 0;
+                        map[r][s] = 20;
                         break;
                     case 7:
                         this.inky = new Inky(s, r);
                         monsters.add(this.inky);
                         tiles.add(this.inky);
                         movings.add(this.inky);
-                        map[r][s] = 0;
+                        map[r][s] = 20;
                         break;
                     case 8:
                         this.clyde = new Clyde(s, r);
                         monsters.add(this.clyde);
                         tiles.add(this.clyde);
                         movings.add(this.clyde);
-                        map[r][s] = 0;
+                        map[r][s] = 20;
                         break;
                     case 9:
                         this.escapeX = s;
