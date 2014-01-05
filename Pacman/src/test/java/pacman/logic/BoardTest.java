@@ -4,16 +4,11 @@
  * Copyright (c) 2013 Joni Salmi. All rights reserved.
  */
 
-package pacman.domain;
+package pacman.logic;
 
-import pacman.gui.Board;
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import pacman.gui.GameState;
 import pacman.level.LevelOne;
 
 /**
@@ -26,7 +21,6 @@ public class BoardTest {
     
     public BoardTest() {
         this.board = new Board(new LevelOne());
-        this.board.setGameState(GameState.GAME);
         this.board.setTimeout(0);
         this.board.getPacman().setSpeed(16);
     }

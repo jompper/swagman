@@ -16,7 +16,7 @@ import javax.swing.Timer;
  */
 public class Game extends Timer implements ActionListener {
 
-    private Board board;
+    private Panel panel;
 
     public Game() {
         super(1000, null);
@@ -38,15 +38,15 @@ public class Game extends Timer implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        board.move();
-        board.repaint();
+        panel.update();
+        panel.repaint();
     }
 
-    public void setBoard(Board b) {
-        this.board = b;
+    public void setPanel(Panel b) {
+        this.panel = b;
     }
 
-    public Board getBoard() {
-        return this.board;
+    public Panel getBoard() {
+        return this.panel;
     }
 }

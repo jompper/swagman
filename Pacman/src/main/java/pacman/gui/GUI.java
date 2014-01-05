@@ -18,7 +18,7 @@ public class GUI implements Runnable {
 
     private Game game;
     private JFrame frame;
-    private Board board;
+    private Panel panel;
     
     private KeyboardListener keyListener;
     
@@ -40,17 +40,21 @@ public class GUI implements Runnable {
 
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
+        frame.setResizable(false);
+        
+        
         createComponents(frame.getContentPane());
 
         frame.pack();
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
 
     public void createComponents(Container container) {
-        this.board = new Board(new LevelOne());
-        container.add(this.board);
-        this.keyListener = new KeyboardListener(this.board);
-        MiceListener miceListener = new MiceListener(this.board);
+        this.panel = new Panel(new LevelOne());
+        container.add(this.panel);
+        this.keyListener = new KeyboardListener(this.panel);
+        MiceListener miceListener = new MiceListener(this.panel);
         this.frame.addKeyListener(this.keyListener);
         this.frame.addMouseListener(miceListener);
     }
@@ -59,7 +63,7 @@ public class GUI implements Runnable {
         return frame;
     }
 
-    public Board getBoard() {
-        return this.board;
+    public Panel getPanel() {
+        return this.panel;
     }
 }

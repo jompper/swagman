@@ -7,7 +7,9 @@ package pacman.gui;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import static pacman.gui.GameState.START;
 import pacman.level.LevelOne;
+import pacman.logic.Board;
 
 /**
  *
@@ -15,26 +17,30 @@ import pacman.level.LevelOne;
  */
 public class MiceListener implements MouseListener {
 
+    private Panel panel;
     private Board board;
 
-    public MiceListener(Board b) {
-        this.board = b;
+    public MiceListener(Panel p) {
+        this.panel = p;
+        this.board = p.getBoard();
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
         int mX = e.getX();
         int mY = e.getY();
-        switch (this.board.getGameState()) {
+        switch (panel.getGameState()) {
             case START:
                 if (mX >= 137 && mX <= 337) {
                     if (mY >= 180 && mY <= 230) {
-                        this.board.setGameState(GameState.GAME);
+                        panel.setGameState(GameState.GAME);
                     } else if (mY >= 280 && mY <= 330) {
-                        this.board.newGame(new LevelOne());
-                        this.board.setGameState(GameState.GAME);
+                        board.newGame(new LevelOne());
+                        panel.setGameState(GameState.GAME);
                     } else if(mY >= 380 && mY <= 430){
                         System.exit(0);
+                    } else if(mY >= 480 && mY <= 530){
+                        board.toggleShowPaths();
                     }
                 }
                 break;

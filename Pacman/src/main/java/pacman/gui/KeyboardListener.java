@@ -9,6 +9,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import pacman.domain.Direction;
 import pacman.domain.Pacman;
+import pacman.logic.Board;
 
 /**
  * Listens to keyboard
@@ -19,10 +20,12 @@ import pacman.domain.Pacman;
  */
 public class KeyboardListener implements KeyListener {
 
+    private Panel panel;
     private Board board;
 
-    public KeyboardListener(Board b) {
-        this.board = b;
+    public KeyboardListener(Panel p) {
+        this.panel = p;
+        this.board = p.getBoard();
     }
 
     @Override
@@ -36,14 +39,14 @@ public class KeyboardListener implements KeyListener {
      */
     @Override
     public void keyPressed(KeyEvent e) {
-        switch (this.board.getGameState()) {
+        switch (panel.getGameState()) {
             case START:
                 if (e.getKeyCode() == KeyEvent.VK_ENTER || e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-                    this.board.setGameState(GameState.GAME);
+                    panel.setGameState(GameState.GAME);
                 }
                 break;
             case GAME:
-                Pacman p = this.board.getPacman();
+                Pacman p = board.getPacman();
                 switch (e.getKeyCode()) {
                     case KeyEvent.VK_UP:
                     case KeyEvent.VK_W:
@@ -61,8 +64,15 @@ public class KeyboardListener implements KeyListener {
                     case KeyEvent.VK_D:
                         p.setChangeDirection(Direction.RIGHT);
                         break;
+                    case KeyEvent.VK_CONTROL:
+                    case KeyEvent.VK_P:
+                        board.toggleShowPaths();
+                        break;
                     case KeyEvent.VK_ESCAPE:
-                        this.board.setGameState(GameState.START);
+                        panel.setGameState(GameState.START);
+                        break;
+                    case KeyEvent.VK_ALT:
+                        board.toggleDebug();
                         break;
                 }
                 break;

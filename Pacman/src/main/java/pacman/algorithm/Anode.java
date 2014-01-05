@@ -86,7 +86,6 @@ public class Anode implements Comparable<Anode>{
     
     @Override
     public int compareTo(Anode o) {
-        if(this.getEnd()==0)return Integer.MIN_VALUE;
         return (this.getStart() + this.getEnd()) - (o.getStart() + o.getEnd());
     }
 }

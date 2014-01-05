@@ -18,6 +18,7 @@ public class AbstractMovingTile extends AbstractTile implements Moving {
     protected double speed;
     protected double locationX;
     protected double locationY;
+    private boolean isChase;
 
     public AbstractMovingTile(int x, int y, Direction d, double speed) {
         super(x, y);
@@ -26,12 +27,13 @@ public class AbstractMovingTile extends AbstractTile implements Moving {
         this.locationX = 0;
         this.locationY = 0;
         this.speed = speed;
+        this.isChase = true;
     }
 
-    public void setSpeed(double speed){
+    public void setSpeed(double speed) {
         this.speed = speed;
     }
-    
+
     /**
      * Returns Pacmans current direction
      *
@@ -76,6 +78,7 @@ public class AbstractMovingTile extends AbstractTile implements Moving {
 
     /**
      * Moves object to current direction.
+     *
      * @return true if tile really moves
      */
     @Override
@@ -116,25 +119,30 @@ public class AbstractMovingTile extends AbstractTile implements Moving {
         }
         return false;
     }
-    
-    private void moveLocationXY(double locationX, double locationY){
+
+    private void moveLocationXY(double locationX, double locationY) {
         this.locationX = locationX;
         this.locationY = locationY;
     }
-    
+
     @Override
     public void moveLocation() {
         this.locationX = moveLocation(this.locationX, this.speed);
         this.locationY = moveLocation(this.locationY, this.speed);
     }
-    
-    private double moveLocation(double location, double speed){
+
+    private double moveLocation(double location, double speed) {
         if (location <= -speed) {
             return location + speed;
         } else if (location >= speed) {
             return location - speed;
         }
         return 0;
+    }
+
+    @Override
+    public int getNextX(int n) {
+        return getNextX(n, this.direction);
     }
 
     /**
@@ -154,6 +162,11 @@ public class AbstractMovingTile extends AbstractTile implements Moving {
                 return this.x + n;
         }
         return this.x;
+    }
+
+    @Override
+    public int getNextY(int n) {
+        return getNextY(n, this.direction);
     }
 
     /**
@@ -185,4 +198,11 @@ public class AbstractMovingTile extends AbstractTile implements Moving {
         this.y = y;
     }
 
+    public void setChase(boolean chase) {
+        this.isChase = chase;
+    }
+
+    public boolean isChase() {
+        return this.isChase;
+    }
 }

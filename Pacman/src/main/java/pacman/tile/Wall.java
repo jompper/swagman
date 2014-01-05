@@ -23,7 +23,7 @@ public class Wall extends AbstractTile implements Drawing {
 
     @Override
     public void draw(Graphics g) {
-        g.setColor(Color.BLUE);
+        g.setColor(new Color(33, 33, 255));
         switch (wallType) {
             case LEFT_RIGHT:
                 drawWallLeftRight(g);

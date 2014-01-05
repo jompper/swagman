@@ -5,32 +5,52 @@
  */
 package pacman.algorithm;
 
+import java.util.ArrayList;
+import java.util.List;
 import pacman.domain.Blinky;
+import pacman.domain.Direction;
 import pacman.domain.Pacman;
 
 /**
  *
  * @author Joni
  */
-public class BlinkyLogic implements MoveLogic {
+public class BlinkyLogic extends AbstractMoveLogic implements MoveLogic {
 
     private Blinky blinky;
     private Pacman pacman;
-    private int[][] map;
 
     public BlinkyLogic(Blinky b, Pacman p, int[][] map) {
+        super(map);
         this.blinky = b;
         this.pacman = p;
-        this.map = map;
     }
 
     @Override
-    public void move() {
-        //System.out.println("X: " + this.blinky.getX() + "/" + this.blinky.getNextX(1, this.blinky.getDirection()) + " Y: " + this.blinky.getY() + "/" + this.blinky.getNextY(1, this.blinky.getDirection()));
-        Astar a = new Astar(this.map, this.blinky.getX(), this.blinky.getY(), this.pacman.getX(), this.pacman.getY(), this.blinky.getDirection());
-        if (a.getDirection() != null) {
-            this.blinky.setChangeDirection(a.getDirection());
+    public void move(boolean chase) {
+        if (chase) {
+            this.blinky.setChangeDirection(chaseMove());
+        } else {
+            this.blinky.setChangeDirection(scatterMove());
         }
+    }
+
+    private Direction chaseMove() {
+        int sourceX = blinky.getX();
+        int sourceY = blinky.getY();
+        int destinationX = pacman.getX();
+        int destinationY = pacman.getY();
+
+        return findPath(sourceX, sourceY, destinationX, destinationY, blinky.getDirection());
+    }
+
+    private Direction scatterMove() {
+        int sourceX = blinky.getX();
+        int sourceY = blinky.getY();
+        int destinationX = map[0].length - 2;
+        int destinationY = 0;
+
+        return findPath(sourceX, sourceY, destinationX, destinationY, blinky.getDirection());
     }
 
 }

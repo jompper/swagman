@@ -25,4 +25,6 @@ public interface Moving {
     public void setChangeDirection(Direction d);
     public int getNextX(int n, Direction d);
     public int getNextY(int n, Direction d);
+    public int getNextX(int n);
+    public int getNextY(int n);
 }

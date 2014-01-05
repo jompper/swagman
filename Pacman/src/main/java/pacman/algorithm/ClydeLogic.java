@@ -5,37 +5,54 @@
  */
 package pacman.algorithm;
 
+import java.util.ArrayList;
+import java.util.List;
 import pacman.domain.Clyde;
+import pacman.domain.Direction;
 import pacman.domain.Pacman;
 
 /**
  *
  * @author Joni
  */
-public class ClydeLogic implements MoveLogic {
+public class ClydeLogic extends AbstractMoveLogic implements MoveLogic {
 
     private Clyde clyde;
     private Pacman pacman;
-    private int[][] map;
 
     public ClydeLogic(Clyde c, Pacman p, int[][] map) {
+        super(map);
         this.clyde = c;
         this.pacman = p;
-        this.map = map;
     }
 
     @Override
-    public void move() {
-        int px = this.pacman.getX();
-        int py = this.pacman.getY();
-        if(Math.abs(this.clyde.getX() - px) + Math.abs(this.clyde.getY() - py) < 8){
-            px = 0;
-            py = this.map.length - 1;
+    public void move(boolean chase) {
+        if(chase){
+            clyde.setChangeDirection(chaseMove());
+        }else{
+            clyde.setChangeDirection(scatterMove());   
         }
-        Astar a = new Astar(this.map, this.clyde.getX(), this.clyde.getY(), px, py, this.clyde.getDirection());
-        if (a.getDirection() != null) {
-            this.clyde.setChangeDirection(a.getDirection());
+    }
+
+    private Direction chaseMove(){
+        int sourceX = clyde.getX();
+        int sourceY = clyde.getY();
+        int destinationX = pacman.getX();
+        int destinationY = pacman.getY();
+        if(Math.abs(sourceX-destinationX) + Math.abs(sourceY - destinationY) <=8){
+            return scatterMove();
         }
+        return findPath(sourceX, sourceY, destinationX, destinationY, clyde.getDirection());
+        
+    }
+    
+    private Direction scatterMove() {
+        int sourceX = clyde.getX();
+        int sourceY = clyde.getY();
+        int destinationX = 1;
+        int destinationY = map.length - 1;
+        return findPath(sourceX, sourceY, destinationX, destinationY, clyde.getDirection());
     }
 
 }

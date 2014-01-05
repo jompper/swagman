@@ -7,6 +7,7 @@ package pacman.util;
 
 import java.util.ArrayList;
 import java.util.List;
+import pacman.domain.AbstractMonster;
 import pacman.domain.Blinky;
 import pacman.domain.Clyde;
 import pacman.domain.Direction;
@@ -31,7 +32,7 @@ public class LevelBuilder {
     private List<Drawing> tiles;
     private Eatable eatables[][];
     private List<Moving> movings;
-    private List<Moving> monsters;
+    private List<AbstractMonster> monsters;
 
     private Pacman pacman;
     private Blinky blinky;
@@ -153,7 +154,7 @@ public class LevelBuilder {
         return this.eatables;
     }
 
-    public List<Moving> getMonsters() {
+    public List<AbstractMonster> getMonsters() {
         return this.monsters;
     }
 

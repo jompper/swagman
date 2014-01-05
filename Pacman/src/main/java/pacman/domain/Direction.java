@@ -11,5 +11,5 @@ package pacman.domain;
  * @author Joni
  */
 public enum Direction {
-    UP, DOWN, LEFT, RIGHT;
+    RIGHT, DOWN, LEFT, UP;
 }

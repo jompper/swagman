@@ -6,10 +6,13 @@
 
 package pacman.algorithm;
 
+import java.util.List;
+
 /**
  *
  * @author Joni
  */
 public interface MoveLogic {
-    public void move();
+    public void move(boolean chase);
+    public List<Anode> getPathTiles();
 }

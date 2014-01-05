@@ -11,11 +11,10 @@ import pacman.tile.AbstractTile;
 import pacman.tile.Drawing;
 
 /**
- * Main eatables, little dots on the game
- * which pacman eats all the time.
- * 
+ * Main eatables, little dots on the game which pacman eats all the time.
+ *
  * Eating should increase players score
- * 
+ *
  * @author Joni
  */
 public class PacDot extends AbstractTile implements Drawing, Eatable {
@@ -30,16 +29,14 @@ public class PacDot extends AbstractTile implements Drawing, Eatable {
     @Override
     public void draw(Graphics g) {
         if (!isEaten()) {
-            g.setColor(Color.WHITE);
+            g.setColor(new Color(255, 184, 174));
             g.fillRect(x * 16 + 6, y * 16 + 6, 4, 4);
         }
     }
 
-    
     /**
-     * Return boolean true if PacDot is already eaten,
-     * Otherwise return false
-     * 
+     * Return boolean true if PacDot is already eaten, Otherwise return false
+     *
      * @return eaten status
      */
     @Override
@@ -48,8 +45,7 @@ public class PacDot extends AbstractTile implements Drawing, Eatable {
     }
 
     /**
-     * Sets PacDot as eaten, if not eaten.
-     * TODO: Increase player score
+     * Sets PacDot as eaten, if not eaten. TODO: Increase player score
      */
     @Override
     public int eat() {
