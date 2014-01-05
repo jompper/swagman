@@ -5,8 +5,6 @@
  */
 package pacman.algorithm;
 
-import java.util.ArrayList;
-import java.util.List;
 import pacman.domain.Direction;
 import pacman.domain.Inky;
 import pacman.domain.Pacman;
