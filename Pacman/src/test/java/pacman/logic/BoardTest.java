@@ -9,7 +9,9 @@ package pacman.logic;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import pacman.level.LevelOne;
+import pacman.domain.Direction;
+import pacman.domain.Moving;
+import pacman.level.LevelTest;
 
 /**
  *
@@ -20,9 +22,10 @@ public class BoardTest {
     private Board board;
     
     public BoardTest() {
-        this.board = new Board(new LevelOne());
+        this.board = new Board(new LevelTest());
         this.board.setTimeout(0);
         this.board.getPacman().setSpeed(16);
+        this.board.getPacman().setDirection(Direction.UP);
     }
  
     @Before
@@ -32,14 +35,46 @@ public class BoardTest {
     
     @Test
     public void testPacmanLocationIsCorrect(){
-        assertEquals(14, this.board.getPacman().getX());
-        assertEquals(26, this.board.getPacman().getY());
+        testLocation(board.getPacman(),5,3);
     }
     
     @Test
-    public void testBoardMovePacmanDirectionRight(){
+    public void testMoveEatsPacDotIncreaseScore(){
         board.move();
-        assertEquals(15, this.board.getPacman().getX());
-        assertEquals(26, this.board.getPacman().getY());
+        testLocation(board.getPacman(),5,2);
+        assertEquals(10, this.board.getScore());
+    }
+    
+    @Test
+    public void testMoveTwiceEatTwiceScore(){
+        // Should eat pacdot + 10
+        board.move();
+        // Should eat PowerPellet + 50
+        board.move();
+        testLocation(board.getPacman(),5,1);
+        assertEquals(60, this.board.getScore());
+    }
+    
+    
+    
+    @Test
+    public void testEatAllLevelEnd(){
+        board.move();
+        board.move();
+        board.getPacman().setChangeDirection(Direction.LEFT);
+        board.move();
+        board.move();
+        //Level one should be loaded now
+        testLocation(board.getPacman(),14,26);
+    }
+    
+    @Test
+    public void testAllEatenRestartsMap(){
+        board.checkAllEaten();
+    }
+    
+    private void testLocation(Moving m, int x, int y){
+        assertEquals(x, m.getX());
+        assertEquals(y, m.getY());
     }
 }

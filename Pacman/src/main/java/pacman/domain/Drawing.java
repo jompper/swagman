@@ -3,7 +3,7 @@
  * 21.12.2013
  * Copyright (c) 2013 Joni Salmi. All rights reserved.
  */
-package pacman.tile;
+package pacman.domain;
 
 import java.awt.Graphics;
 

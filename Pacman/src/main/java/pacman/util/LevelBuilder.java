@@ -8,20 +8,20 @@ package pacman.util;
 import java.util.ArrayList;
 import java.util.List;
 import pacman.domain.AbstractMonster;
-import pacman.domain.Blinky;
-import pacman.domain.Clyde;
+import pacman.sprite.Blinky;
+import pacman.sprite.Clyde;
 import pacman.domain.Direction;
 import pacman.domain.Eatable;
-import pacman.domain.Inky;
-import pacman.domain.PacDot;
-import pacman.domain.Pacman;
-import pacman.domain.Pinky;
-import pacman.domain.PowerPellet;
+import pacman.sprite.Inky;
+import pacman.sprite.PacDot;
+import pacman.sprite.Pacman;
+import pacman.sprite.Pinky;
+import pacman.sprite.PowerPellet;
 import pacman.level.Level;
-import pacman.tile.Drawing;
-import pacman.tile.Moving;
-import pacman.tile.Wall;
-import pacman.tile.WallType;
+import pacman.domain.Drawing;
+import pacman.domain.Moving;
+import pacman.sprite.Wall;
+import pacman.domain.WallType;
 
 /**
  *
@@ -61,6 +61,10 @@ public class LevelBuilder {
 
     }
 
+    /**
+     * Make objects from map
+     * @param level 
+     */
     protected final void buildMap(Level level) {
         int[][] map = level.getLevel();
         for (int r = 0; r < level.getHeight(); r++) {
@@ -146,46 +150,80 @@ public class LevelBuilder {
     }
 
 
+    /**
+     * @return All objects that should be drawn
+     */
     public List<Drawing> getDrawings() {
         return this.tiles;
     }
 
+    /**
+     * @return eatables as table for fast access with coorinates 
+     */
     public Eatable[][] getEatables() {
         return this.eatables;
     }
 
+    /**
+     * @return all monsters in list 
+     */
     public List<AbstractMonster> getMonsters() {
         return this.monsters;
     }
 
+    /**
+     * @return Pacman
+     */
     public Pacman getPacman() {
         return this.pacman;
     }
 
+    /**
+     * @return Blinky monster
+     */
     public Blinky getBlinky() {
         return this.blinky;
     }
 
+    /**
+     * @return Pinky monster 
+     */
     public Pinky getPinky() {
         return this.pinky;
     }
 
+    /**
+     * @return Inky monster 
+     */
     public Inky getInky() {
         return this.inky;
     }
 
+    /**
+     * @return Clyde monster 
+     */
     public Clyde getClyde() {
         return this.clyde;
     }
 
+    /**
+     * @return All moving objects 
+     */
     public List<Moving> getMovings() {
         return this.movings;
     }
 
+    /**
+     * 
+     * @return Escape X coordinate 
+     */
     public int getEscapeX() {
         return this.escapeX;
     }
 
+    /**
+     * @return Escape Y coordinate
+     */
     public int getEscapeY() {
         return this.escapeY;
     }

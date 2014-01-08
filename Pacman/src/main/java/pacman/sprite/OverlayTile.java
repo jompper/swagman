@@ -4,24 +4,25 @@
  * Copyright (c) 2014 Joni Salmi. All rights reserved.
  */
 
-package pacman.domain;
+package pacman.sprite;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import pacman.tile.Drawing;
+import pacman.domain.AbstractTile;
+import pacman.domain.Drawing;
 
 /**
- *
+ * Overlay tile for pathfinding
+ * 
+ * Color should have nice alpha channel
+ * 
  * @author Joni
  */
-public class OverlayTile implements Drawing {
-    private int x;
-    private int y;
+public class OverlayTile  extends AbstractTile implements Drawing {
     private Color color;
 
     public OverlayTile(int x, int y, Color c){
-        this.x = x;
-        this.y = y;
+        super(x,y);
         this.color = c;
     }
     

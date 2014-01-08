@@ -25,7 +25,7 @@ public class Panel extends JPanel {
         this.setBackground(Color.BLACK);
         this.board = new Board(level);
         this.menu = new MainMenu();
-        this.gameState = GameState.START;
+        this.gameState = GameState.MENU;
     }
     
     public void update(){
@@ -43,7 +43,7 @@ public class Panel extends JPanel {
             case GAME:
                 board.draw(g);
                 break;
-            case START:
+            case MENU:
                 menu.draw(g);
                 break;
         }

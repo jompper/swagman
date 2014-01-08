@@ -6,8 +6,8 @@
 package pacman.algorithm;
 
 import pacman.domain.Direction;
-import pacman.domain.Pacman;
-import pacman.domain.Pinky;
+import pacman.sprite.Pacman;
+import pacman.sprite.Pinky;
 
 /**
  *

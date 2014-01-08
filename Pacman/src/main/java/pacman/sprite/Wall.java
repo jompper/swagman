@@ -3,10 +3,13 @@
  * 21.12.2013
  * Copyright (c) 2013 Joni Salmi. All rights reserved.
  */
-package pacman.tile;
+package pacman.sprite;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import pacman.domain.AbstractTile;
+import pacman.domain.Drawing;
+import pacman.domain.WallType;
 
 /**
  *

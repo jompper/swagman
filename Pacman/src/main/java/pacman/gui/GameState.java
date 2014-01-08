@@ -11,5 +11,5 @@ package pacman.gui;
  * @author Joni
  */
 public enum GameState {
-    START, GAME;
+    MENU, GAME;
 }

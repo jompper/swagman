@@ -3,12 +3,13 @@
  * 22.12.2013
  * Copyright (c) 2013 Joni Salmi. All rights reserved.
  */
-package pacman.domain;
+package pacman.sprite;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import pacman.tile.AbstractMovingTile;
-import pacman.tile.Drawing;
+import pacman.domain.Direction;
+import pacman.domain.AbstractMovingTile;
+import pacman.domain.Drawing;
 
 /**
  * Pacman is games main character and the only object, player can move.
@@ -23,10 +24,15 @@ public class Pacman extends AbstractMovingTile implements Drawing {
     public Pacman(int x, int y, Direction d) {
         super(x, y, d, 2);
         this.mouthPosition = 0;
+        this.locationX = -7;
     }
 
     
 
+    /**
+     * Draw Pac-Man simple huh ?
+     * @param g 
+     */
     @Override
     public void draw(Graphics g) {
         int locationX = (int)this.locationX;
@@ -51,6 +57,7 @@ public class Pacman extends AbstractMovingTile implements Drawing {
             recX = new int[]{x * 16 + locationX + 6, x * 16 + locationX + 8, x * 16 + locationX + 10};
             recY = new int[]{y * 16 + locationY + 6, y * 16 + locationY + 8, y * 16 + locationY + 10};
         }
+        // Fix triangle to current moving direction
         switch (this.direction) {
             case UP:
                 recY = new int[]{y * 16 + locationY - 2, y * 16 + locationY + 8, y * 16 + locationY - 2};

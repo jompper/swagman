@@ -3,11 +3,12 @@
  * 28.12.2013
  * Copyright (c) 2013 Joni Salmi. All rights reserved.
  */
-package pacman.tile;
+package pacman.domain;
 
 import pacman.domain.Direction;
 
 /**
+ * Abstact Moving object All moving objects could extend this class
  *
  * @author Joni
  */
@@ -30,6 +31,11 @@ public class AbstractMovingTile extends AbstractTile implements Moving {
         this.isChase = true;
     }
 
+    /**
+     * Set new speed 2 is basic value for pacman
+     *
+     * @param speed
+     */
     public void setSpeed(double speed) {
         this.speed = speed;
     }
@@ -120,17 +126,33 @@ public class AbstractMovingTile extends AbstractTile implements Moving {
         return false;
     }
 
+    /**
+     * Set new fake location XY
+     *
+     * @param locationX
+     * @param locationY
+     */
     private void moveLocationXY(double locationX, double locationY) {
         this.locationX = locationX;
         this.locationY = locationY;
     }
 
+    /**
+     * Center fake XY if unable to move to fix sprite location
+     */
     @Override
     public void moveLocation() {
         this.locationX = moveLocation(this.locationX, this.speed);
         this.locationY = moveLocation(this.locationY, this.speed);
     }
 
+    /**
+     * Return new distance to origo with speed
+     *
+     * @param location
+     * @param speed
+     * @return basicly distance from origo - speed
+     */
     private double moveLocation(double location, double speed) {
         if (location <= -speed) {
             return location + speed;
@@ -140,6 +162,11 @@ public class AbstractMovingTile extends AbstractTile implements Moving {
         return 0;
     }
 
+    /**
+     * Get n next X position value to current direction
+     * @param n
+     * @return
+     */
     @Override
     public int getNextX(int n) {
         return getNextX(n, this.direction);
@@ -147,7 +174,7 @@ public class AbstractMovingTile extends AbstractTile implements Moving {
 
     /**
      * Get n next X position to direction d from Pacmans current position. Used
-     * to check if next tile is movable and later for AI
+     * to check if next tile is movable and for AI
      *
      * @param n
      * @param d
@@ -164,6 +191,12 @@ public class AbstractMovingTile extends AbstractTile implements Moving {
         return this.x;
     }
 
+    
+    /**
+     * Get n next Y position value to current direction
+     * @param n
+     * @return
+     */
     @Override
     public int getNextY(int n) {
         return getNextY(n, this.direction);
@@ -171,7 +204,7 @@ public class AbstractMovingTile extends AbstractTile implements Moving {
 
     /**
      * Get n next Y position to direction d from Pacmans current position. Used
-     * to check if next tile is movalbe and later for AI
+     * to check if next tile is movalbe and for AI
      *
      * @param n
      * @param d
@@ -188,20 +221,37 @@ public class AbstractMovingTile extends AbstractTile implements Moving {
         return this.y;
     }
 
+    
+    /**
+     * Force set new Y to object
+     * @param x 
+     */
     @Override
     public void setX(int x) {
         this.x = x;
     }
 
+    
+    /**
+     * Force set new Y to object
+     * @param y 
+     */
     @Override
     public void setY(int y) {
         this.y = y;
     }
 
+    /**
+     * Set object to chase or scatter mode
+     * @param chase 
+     */
     public void setChase(boolean chase) {
         this.isChase = chase;
     }
 
+    /**
+     * @return current mode for object 
+     */
     public boolean isChase() {
         return this.isChase;
     }

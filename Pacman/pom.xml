@@ -54,6 +54,20 @@
                 <groupId>org.pitest</groupId>
                 <artifactId>pitest-maven</artifactId>
                 <version>0.30</version>
+                <configuration>
+                  <targetClasses>
+                      <param>pacman.domain*</param>
+                      <param>pacman.level*</param>
+                      <param>pacman.logic*</param>
+                      <param>pacman.util*</param>
+                  </targetClasses>
+                  <targetTests>
+                      <param>pacman.domain*</param>
+                      <param>pacman.level*</param>
+                      <param>pacman.logic*</param>
+                      <param>pacman.util*</param>
+                  </targetTests>
+              </configuration>
             </plugin>
         </plugins>
     </build>

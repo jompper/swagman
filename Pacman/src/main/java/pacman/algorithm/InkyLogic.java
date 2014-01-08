@@ -6,9 +6,9 @@
 package pacman.algorithm;
 
 import pacman.domain.Direction;
-import pacman.domain.Inky;
-import pacman.domain.Pacman;
-import pacman.tile.AbstractMovingTile;
+import pacman.sprite.Inky;
+import pacman.sprite.Pacman;
+import pacman.domain.AbstractMovingTile;
 
 /**
  *

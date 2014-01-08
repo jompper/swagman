@@ -8,13 +8,11 @@ package pacman.gui;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import pacman.domain.Direction;
-import pacman.domain.Pacman;
+import pacman.sprite.Pacman;
 import pacman.logic.Board;
 
 /**
  * Listens to keyboard
- *
- * TODO: WASD Pause game
  *
  * @author Joni
  */
@@ -33,14 +31,18 @@ public class KeyboardListener implements KeyListener {
     }
 
     /**
-     * Sets Pacmans change direction accoring to key press
-     *
+     * Sets Pacmans change direction according to key press
+     * 
+     * Pause/Resume with ESC
+     * 
+     * Toggle Paths with CTRL or P
+     * Toggle God Mode with ALT or G
      * @param e
      */
     @Override
     public void keyPressed(KeyEvent e) {
         switch (panel.getGameState()) {
-            case START:
+            case MENU:
                 if (e.getKeyCode() == KeyEvent.VK_ENTER || e.getKeyCode() == KeyEvent.VK_ESCAPE) {
                     panel.setGameState(GameState.GAME);
                 }
@@ -69,9 +71,10 @@ public class KeyboardListener implements KeyListener {
                         board.toggleShowPaths();
                         break;
                     case KeyEvent.VK_ESCAPE:
-                        panel.setGameState(GameState.START);
+                        panel.setGameState(GameState.MENU);
                         break;
                     case KeyEvent.VK_ALT:
+                    case KeyEvent.VK_G:
                         board.toggleDebug();
                         break;
                 }

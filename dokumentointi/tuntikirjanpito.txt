@@ -8,3 +8,6 @@ Päivämäärä	Tunnit	Kuvaus
 2013-12-22	4		Koodin uudelleenkirjoitus / Pacman
 2013-12-28	5		Koodausta
 2013-12-28	5		Tekoäly Tira
+2014-01-06	3		Koodausta
+2014-01-07	3		Koodausta
+2014-01-08	3		Koodausta

@@ -6,6 +6,7 @@
 
 package pacman.domain;
 
+import pacman.sprite.PowerPellet;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

@@ -3,17 +3,17 @@
  * 28.12.2013
  * Copyright (c) 2013 Joni Salmi. All rights reserved.
  */
-package pacman.domain;
+package pacman.sprite;
 
 import java.awt.Color;
-import java.awt.Graphics;
-import pacman.tile.Drawing;
+import pacman.domain.Direction;
 
 /**
- *
+ * Set color extend AbstractMonster
+ * Everything is set.
  * @author Joni
  */
-public class Pinky extends AbstractMonster implements Drawing {
+public class Pinky extends GeneralMonster {
 
     public Pinky(int x, int y) {
         super(x, y, Direction.RIGHT, true);

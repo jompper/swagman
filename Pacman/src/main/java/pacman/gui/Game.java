@@ -25,9 +25,6 @@ public class Game extends Timer implements ActionListener {
         setDelay(17);
     }
 
-    public void restartGame(){
-        
-    }
     
     /**
      * Update game every n millisecond

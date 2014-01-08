@@ -7,9 +7,9 @@ package pacman.algorithm;
 
 import java.util.ArrayList;
 import java.util.List;
-import pacman.domain.Blinky;
+import pacman.sprite.Blinky;
 import pacman.domain.Direction;
-import pacman.domain.Pacman;
+import pacman.sprite.Pacman;
 
 /**
  *

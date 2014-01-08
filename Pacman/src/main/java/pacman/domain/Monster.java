@@ -7,10 +7,14 @@ package pacman.domain;
 
 import java.util.List;
 import pacman.algorithm.MoveLogic;
-import pacman.tile.Drawing;
 
 /**
- *
+ * Monster interface for no real reason
+ * Now why did I create this
+ * 
+ * Wall baybe someone implements other kind
+ * of monster, which I highly doubt
+ * 
  * @author Joni
  */
 public interface Monster {
