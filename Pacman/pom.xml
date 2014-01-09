@@ -56,12 +56,16 @@
                 <version>0.30</version>
                 <configuration>
                   <targetClasses>
+                      <param>pacman.algorithm*</param>
+                      <param>pacman.datastructure*</param>
                       <param>pacman.domain*</param>
                       <param>pacman.level*</param>
                       <param>pacman.logic*</param>
                       <param>pacman.util*</param>
                   </targetClasses>
                   <targetTests>
+                      <param>pacman.algorithm*</param>
+                      <param>pacman.datastructure*</param>
                       <param>pacman.domain*</param>
                       <param>pacman.level*</param>
                       <param>pacman.logic*</param>

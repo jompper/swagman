@@ -1,100 +1,198 @@
 /*
- * Swagman - MinHeap
- * 16.12.2013
- * Copyright (c) 2013 Joni Salmi. All rights reserved.
+ * Pacman - MinHeap
+ * 9.1.2014
+ * Copyright (c) 2014 Joni Salmi. All rights reserved.
  */
 package pacman.datastructure;
 
-/**
- *
- * @author Joni
- */
-public class MinHeap<E> {
+import java.util.Comparator;
 
-    private int heap[];
-    private int tableSize;
+/**
+ * Min Heap, always returns smallest value from the heap.
+ * Nodes have to implement Comparable interface to self.
+ * 
+ * @author Joni
+ * @param <T>
+ */
+public class MinHeap<T extends Comparable<T>> implements Comparator<T> {
+
+    private T[] heapTable;
     private int heapSize;
 
-    public MinHeap(){
-        this(50);
+    /**
+     * Contruct heap with capacity for 1000 nodes
+     */
+    public MinHeap() {
+        this(1000);
     }
-    
+
+    /**
+     * Construct Heap, with starting heapSize of size
+     * @param size 
+     */
     public MinHeap(int size) {
-        tableSize = size + 1;
+        heapTable = (T[]) new Comparable[size + 1];
         heapSize = 0;
-        heap = new int[tableSize];
     }
 
-    private void swap(int s, int d){
-        int tmp = heap[s];
-        heap[s] = heap[d];
-        heap[d] = tmp;
-    }
-    
-    public int size(){
-        return heapSize;
-    }
-    
-    public void add(int e) {
-        heapSize++;
-        if (tableSize < heapSize) {
-            tableSize(tableSize * 2);
-        }
-        heap[heapSize] = e;
-        int current = heapSize;
-        while (heap[current] < heap[parent(current)]) {
-            swap(current, parent(current));
-            current = parent(current);
-        }
+    /**
+     * Make sure there's room for new node,
+     * add node to the heap (increment heapSize
+     * by one) and deepify from there.
+     * 
+     * @param t 
+     */
+    public void add(T t) {
+        ensureHeapSize();
+        heapTable[++heapSize] = t;
+        deepify(heapSize);
     }
 
-    public int removeMin(){
-        int r = heap[1];
-        heap[1] = heap[heapSize--];
+    /**
+     * Return the smallest node (index one), move last node to
+     * index one and heapify from there to ensure order
+     * 
+     * @return the smallest node, and null if heap is empty
+     */
+    public T remove() {
+        if (isEmpty()) {
+            return null;
+        }
+        T t = heapTable[1];
+        heapTable[1] = heapTable[heapSize--];
         heapify(1);
-        return r;
+        return t;
     }
-    
-    private void heapify(int i){
-        int l = left(i);
-        int r = right(i);
-        if(r <= heapSize){
-            int s = r;
-            if(heap[l] < heap[r]){
-                s = l;
-            }
-            if(heap[s] < heap[i]){
-                swap(s,i);
-                heapify(s);
-            }
-        }else if(l == heapSize && heap[l] < heap[i]){
-            swap(l,i);
+
+
+    /**
+     * @param i
+     * @return index of parent for node i
+     * return self if root
+     */
+    private int parent(int i) {
+        if (i == 1) {
+            return 1;
         }
-    }
-    
-    private void tableSize(int size) {
-        if (size > tableSize) {
-            int[] newHeap = new int[size];
-            for (int i = 1; i < tableSize; i++) {
-                newHeap[i] = heap[i];
-            }
-            heap = newHeap;
-        }
-    }
-
-    public boolean empty(){
-        return heapSize == 0;
-    }
-    
-    public int left(int i) {
-        return 2 * i;
-    }
-
-    public int right(int i) {
-        return 2 * i + 1;
-    }
-
-    public int parent(int i) {
         return i / 2;
     }
+
+    /**
+     * @param i
+     * @return index for left child for node i
+     */
+    private int left(int i) {
+        return i * 2;
+    }
+
+    /**
+     * @param i
+     * @return index of right child for node i 
+     */
+    private int right(int i) {
+        return i * 2 + 1;
+    }
+
+    /**
+     * Swap two indexes
+     * @param s
+     * @param d 
+     */
+    private void swap(int s, int d) {
+        T tmp = heapTable[s];
+        heapTable[s] = heapTable[d];
+        heapTable[d] = tmp;
+    }
+
+    /**
+     * Basic heapify operation, checks left and right child, of 
+     * the index node, selects the smaller one and checks against 
+     * current index (their parent). If child is smaller swap 
+     * places and heapify from the new current index
+     * 
+     * @param i 
+     */
+    private void heapify(int i) {
+        int leftChild = left(i);
+        int rightChild = right(i);
+        if (rightChild <= heapSize) {
+            int smaller = isSmaller(heapTable[leftChild], heapTable[rightChild]) ? leftChild : rightChild;
+            if (isSmaller(heapTable[smaller], heapTable[i])) {
+                swap(smaller, i);
+                heapify(smaller);
+            }
+        } else if (leftChild == heapSize && isSmaller(heapTable[leftChild], heapTable[i])) {
+            swap(leftChild, i);
+        }
+    }
+
+    
+    /**
+     * Deepify from index i. Swap places with parent while smaller
+     * @param i 
+     */
+    private void deepify(int i) {
+        while (isSmaller(heapTable[i], heapTable[parent(i)])) {
+            swap(i, parent(i));
+            i = parent(i);
+        }
+    }
+    
+    /**
+     * Makes sure that the capacity meets the requirements
+     * Doubles the capacity if heap is full
+     */
+    private void ensureHeapSize() {
+        if (heapSize >= heapTable.length - 1) {
+            T[] tmp = (T[]) new Comparable[heapTable.length * 2];
+            for (int i = 1; i <= heapSize; i++) {
+                tmp[i] = heapTable[i];
+            }
+            heapTable = tmp;
+        }
+    }
+
+    /**
+     * @return heapSize = how many objects are included in heap
+     */
+    public int size() {
+        return heapSize;
+    }
+
+    /**
+     * @return true if size is zero
+     */
+    public boolean isEmpty() {
+        return size() == 0;
+    }
+
+    /**
+     * 
+     * @param t
+     * @return is element t in heap
+     */
+    public boolean contains(T t){
+        for(int i = 1; i <= heapSize; i++){
+            if(t == heapTable[i]){
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    private boolean isSmaller(T smaller, T bigger){
+        return compare(smaller, bigger) < 0;
+    }
+    
+    /**
+     * Compare two nodes
+     * @param o1
+     * @param o2
+     * @return < 0 if o1 smaller than o2, else > 0
+     */
+    @Override
+    public int compare(T o1, T o2) {
+        return o1.compareTo(o2);
+    }
+
 }
