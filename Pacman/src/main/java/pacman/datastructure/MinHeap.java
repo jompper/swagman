@@ -43,7 +43,7 @@ public class MinHeap<T extends Comparable<T>> implements Comparator<T> {
      * @param t 
      */
     public void add(T t) {
-        ensureHeapSize();
+        ensureCapacity();
         heapTable[++heapSize] = t;
         deepify(heapSize);
     }
@@ -142,7 +142,7 @@ public class MinHeap<T extends Comparable<T>> implements Comparator<T> {
      * Makes sure that the capacity meets the requirements
      * Doubles the capacity if heap is full
      */
-    private void ensureHeapSize() {
+    private void ensureCapacity() {
         if (heapSize >= heapTable.length - 1) {
             T[] tmp = (T[]) new Comparable[heapTable.length * 2];
             for (int i = 1; i <= heapSize; i++) {

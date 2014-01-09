@@ -160,7 +160,11 @@ public abstract class AbstractMonster extends AbstractMovingTile implements Mons
         int counter = 0;
         int count = pathTiles.size();
         for (Anode n : pathTiles) {
-            Color c = new Color(this.color.getRed(), this.color.getGreen(), this.color.getBlue(), 50);
+            int distance = n.getStart() * 3;
+            if(distance > 150){
+                distance = 150;
+            }
+            Color c = new Color(this.color.getRed(), this.color.getGreen(), this.color.getBlue(), 40 + distance);
             if (counter == count - 1) {
                 c = new Color(this.color.getRed(), this.color.getGreen(), this.color.getBlue(), 200);
             }

@@ -5,7 +5,7 @@
  */
 package pacman.algorithm;
 
-import java.util.Stack;
+import pacman.datastructure.Stack;
 import static org.junit.Assert.*;
 import org.junit.Test;
 import pacman.domain.Direction;

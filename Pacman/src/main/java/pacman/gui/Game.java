@@ -21,7 +21,7 @@ public class Game extends Timer implements ActionListener {
     public Game() {
         super(1000, null);
         this.addActionListener(this);
-        setInitialDelay(2000);
+        setInitialDelay(300);
         setDelay(17);
     }
 

@@ -7,8 +7,8 @@ package pacman.algorithm;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.PriorityQueue;
-import java.util.Stack;
+import pacman.datastructure.Stack;
+import pacman.datastructure.MinHeap;
 import pacman.domain.Direction;
 
 /**
@@ -91,7 +91,7 @@ public class Astar {
      * @param pq 
      */
     
-    private void initializePathFind(PriorityQueue<Anode> pq) {
+    private void initializePathFind(MinHeap<Anode> pq) {
         atable = buildAtable();
         Anode u = atable[sourceY][sourceX];
         u.setStart(0);
@@ -108,9 +108,9 @@ public class Astar {
      * Find path, call's other needed functions
      */
     private void findPath() {
-        PriorityQueue<Anode> pq = new PriorityQueue();
-        initializePathFind(pq);
-        findPath(pq);
+        MinHeap<Anode> mh = new MinHeap<>();
+        initializePathFind(mh);
+        findPath(mh);
         Stack<Anode> path = getPath();
         if (path.size() >= 2) {
             path.pop();
@@ -207,7 +207,7 @@ public class Astar {
      * @param pq 
      */
     
-    private void findPath(PriorityQueue<Anode> pq) {
+    private void findPath(MinHeap<Anode> pq) {
         while (!pq.isEmpty() && !pq.contains(atable[destinationY][destinationX])) {
 
             Anode u = pq.remove();
@@ -245,14 +245,14 @@ public class Astar {
         Stack<Anode> pathStack = new Stack<>();
         atable[sourceY][sourceX].setStart(0);
         Anode lastNode = atable[destinationY][destinationX];
-        pathStack.add(lastNode);
+        pathStack.push(lastNode);
         if (sourceX == destinationX && sourceY == destinationY) {
             lastNode = atable[lastNode.getFromY()][lastNode.getFromX()];
-            pathStack.add(lastNode);
+            pathStack.push(lastNode);
         }
         while (lastNode.getStart() > 0 && maxTry > 0) {
             lastNode = atable[lastNode.getFromY()][lastNode.getFromX()];
-            pathStack.add(lastNode);
+            pathStack.push(lastNode);
             maxTry--;
         }
         return pathStack;
@@ -330,7 +330,7 @@ public class Astar {
      * @param from
      * @param nd 
      */
-    private void NodeUpdate(PriorityQueue pq, int x, int y, Anode from, Direction nd) {
+    private void NodeUpdate(MinHeap<Anode> pq, int x, int y, Anode from, Direction nd) {
         if (reverseDirection(from.getFromDirection()) == nd) {
             return;
         }
