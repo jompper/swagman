@@ -3,7 +3,7 @@ Pac-Man
 
 ### Ohjelmoinnin harjoitustyö
 - dokumentointi
-- Paketit: pacman, pacman.domain, pacman.gui, pacman.level,	pacman.tile, pacman.util
+- Paketit: pacman, pacman.domain, pacman.gui, pacman.level,	pacman.logic, pacman.sprite, pacman.util
 	
 ### Tietorakenteiden harjoitustyö
 - tira-dokumentointi

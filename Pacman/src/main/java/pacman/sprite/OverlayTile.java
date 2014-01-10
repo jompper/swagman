@@ -31,4 +31,8 @@ public class OverlayTile  extends AbstractTile implements Drawing {
         g.setColor(color);
         g.fillRect(x*16, y*16, 16, 16);
     }
+    
+    public Color getColor(){
+        return color;
+    }
 }
