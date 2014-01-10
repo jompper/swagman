@@ -1,11 +1,14 @@
-Aihe:		Pacman
-	
-			Toteutetaan pelattava Pacman peli, sekä tekoäly monstereille osana Tietorakenteiden harjoitustyökurssia.
+Aihe:				Pac-Man peli
+			
+					Toteutetaan pelattava Pacman peli, sekä tekoäly monstereille osana Tietorakenteiden harjoitustyökurssia.
 
-Käyttäjät:	Pelaaja
-Toiminnot:	Aloita peli
-			Uusi peli
-			Sulje peli
-			Liikuta hahmoja
-			Syö PowerPellet / Pac-Dot / Cherry
-			Tarkista söikö monsteri sinut
+Käyttäjät:			Pelaaja
+Toiminnot:			Aloita peli
+					Uusi peli
+					Sulje peli
+					Liikuta hahmoja
+					
+Pelin tarkoitus:	Pelissä on tarkoitus liikuttaa keltaista hahmoa ja pyrkiä syömään kaikki pelilaudalla
+					näkyvät ympyrät ja neliöt. Pelaajan on tarkoitus vältää joutumasta hirviöiden syömiksi,	mikäli pelaaja syödään pelaaja häviää pelin ja se alkaa alusta.
+			
+TODO:				Pelaajalle elämiä, Cherryt (Lisää pisteitä)	
