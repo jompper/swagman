@@ -108,7 +108,7 @@ public class LevelOne implements Level {
         if (x < 0 || x >= this.width || y < 0 || y >= this.height) {
             return false;
         }
-        return this.level[y][x] > 9 && this.level[y][x] < 20;
+        return this.level[y][x] > 9;
     }
 
 }
