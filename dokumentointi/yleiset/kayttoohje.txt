@@ -1,0 +1,24 @@
+Pacman käyttöohje:
+
+Valikko:
+- Start Game 	| Sulkee valikon ja aloittaa/jatkaa peliä, pikanäppäin Enter tai Esc
+- Restart Game 	| Aloittaa uuden pelin
+- Quit Game 	| Sulkee pelin
+
+Peli:
+NUOLET / WASD 	| Liikuta pelaajaa
+CTRL / P 		| Näytä / Piilota lyhimmän reitin visualisointi
+ALT / G 		| Kuolemattomuus
+
+Liikkumisesta: Nykyinen suunta + seuraava suunta muistissa, siis mahdollista painaa näppäintä ennen haluttua käännöstä, ja käännös tapahtuu heti kun mahdollista.
+
+Tavoite:
+Pelin tavoitteena on kerätä kaikki PacDotit (pienet neliöt) ja PowerPelletit (suuret pallukat) sekä
+kerätä mahdollisimman paljon pisteitä. Peli alkaa alusta kuolemalla, tavoitteena siis väistää hirviöitä tai vaihtoehtoisesti pelin voi aloittaa uudelleen valikosta.
+
+Pelissä on mahdollista selviytyä hengissä vaikka luuleekin törmäävänsä hirviöön koska alkuperäisen pelin tapaan pacmanin ja monstereiden sijannit vertaillaan vast liikkumisien jälkeen. Jos molemmat liikkuvat 
+samanaikaisesti ruutuun jossa toinen on ollut, on mahdollista selvitä hengissä.
+
+Hyviä taktiikoita:
+Koita saada kaikki hirviöt seuraamaan sinua hyvin lähellä, pystyt näin kiertämään tason helpommin
+ilman että hirviöiden tekoäly ehtii reagoida muutoksiin.

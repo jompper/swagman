@@ -3,7 +3,6 @@
  * 5.1.2014
  * Copyright (c) 2014 Joni Salmi. All rights reserved.
  */
-
 package pacman.logic;
 
 import java.awt.Color;
@@ -34,33 +33,90 @@ import pacman.util.LevelBuilder;
  *
  * @author Joni
  */
-public class Board implements Drawing{
-    
-    private Pacman pacman;
-    private Blinky blinky;
-    private Pinky pinky;
-    private Inky inky;
-    private Clyde clyde;
+public class Board implements Drawing {
 
+    /**
+     * Pacman and friends
+     */
+    protected Pacman pacman;
+    protected Blinky blinky;
+    protected Pinky pinky;
+    protected Inky inky;
+    protected Clyde clyde;
+
+    /**
+     * Current level
+     */
     private Level level;
+
+    /**
+     * Current timeout value
+     *
+     * 60fps * n seconds = 60n 120 for 2 seconds
+     */
     private int timeout;
+
+    /**
+     * Scatter time value
+     *
+     * 0 = chase mode
+     */
     private int scatter;
+
+    /**
+     * Should the game draw tiles ?
+     */
     private boolean showPaths;
+
+    /**
+     * God mode ?
+     */
     private boolean debug;
 
+    /**
+     * All objects that should be drawn to map
+     */
     private List<Drawing> drawings;
+
+    /**
+     * All objects that should be moved
+     */
     private List<Moving> movings;
+
+    /**
+     * All eatables in [y][x] table for fast access
+     */
     private Eatable[][] eatables;
+
+    /**
+     * All monsters that can eat pacman
+     */
     private List<AbstractMonster> monsters;
 
+    /**
+     * Session high-score
+     */
     private int highScore;
+
+    /**
+     * Players current score
+     */
     private int score;
 
+    /**
+     * Players round score
+     */
+    private int roundScore;
+
+    /**
+     * Coordinates for jail escape
+     */
     private int escapeX;
     private int escapeY;
 
     /**
      * Initialise board with Level ready to play
+     *
      * @param level
      */
     public Board(Level level) {
@@ -69,13 +125,13 @@ public class Board implements Drawing{
         this.monsters = new ArrayList<>();
         this.highScore = 0;
         this.score = 0;
-        this.showPaths = true;
+        this.showPaths = false;
         this.newGame(level);
     }
 
     /**
-     * Start new game with Level
-     * Set timeout to x seconds
+     * Start new game with Level Set timeout to x seconds
+     *
      * @param level
      */
     public final void newGame(Level level) {
@@ -84,15 +140,16 @@ public class Board implements Drawing{
         this.monsters.clear();
         this.level = level;
         buildLevel(level);
-        this.timeout = 200;
+        this.timeout = 180;
+        this.roundScore = 0;
     }
 
     /**
-     * Extract all objects from level
-     * using LevelBuilder
-     * @param level 
+     * Extract all objects from level using LevelBuilder
+     *
+     * @param level
      */
-    private void buildLevel(Level level){     
+    private void buildLevel(Level level) {
         LevelBuilder lb = new LevelBuilder(level);
         this.drawings.addAll(lb.getDrawings());
         this.movings.addAll(lb.getMovings());
@@ -101,16 +158,16 @@ public class Board implements Drawing{
         this.eatables = lb.getEatables();
 
         this.escapeX = lb.getEscapeX();
-        this.escapeY = lb.getEscapeY();  
+        this.escapeY = lb.getEscapeY();
         createMonsters(lb);
     }
-    
-     
+
     /**
      * Set Ai to monsters from LevelBuilder
-     * @param lb 
+     *
+     * @param lb
      */
-    private void createMonsters(LevelBuilder lb){
+    private void createMonsters(LevelBuilder lb) {
         this.blinky = lb.getBlinky();
         BlinkyLogic bl = new BlinkyLogic(this.blinky, this.pacman, level.getLevel());
         this.blinky.setAI(bl);
@@ -126,24 +183,6 @@ public class Board implements Drawing{
         this.clyde = lb.getClyde();
         ClydeLogic cl = new ClydeLogic(this.clyde, this.pacman, level.getLevel());
         this.clyde.setAI(cl);
-    }
-    
-    /**
-     * Add new drawing object d to game
-     *
-     * @param d
-     */
-    public void addDrawing(Drawing d) {
-        this.drawings.add(d);
-    }
-
-    /**
-     * Add new moving object m to game
-     *
-     * @param m
-     */
-    public void addMoving(Moving m) {
-        this.movings.add(m);
     }
 
     /**
@@ -172,7 +211,9 @@ public class Board implements Drawing{
         for (Moving m : this.movings) {
             move(m);
         }
-        this.score += checkEat(this.pacman);
+        int eatScore = checkEat(this.pacman);
+        this.roundScore += eatScore;
+        this.score += eatScore;
         if (!debug && isChase()) {
             checkMonsterIntersectPacman();
         }
@@ -189,14 +230,14 @@ public class Board implements Drawing{
     }
 
     /**
-     * Move Moving object
-     * Change direction to new if able to move to that Direction. 
-     * If new tile ain't wall move, else center sprite to current
-     * position. 
-     * 
-     * Always check if out of map and return to otherside of map
-     * if this happens. Called to prevent overflow errors
-     * @param m 
+     * Move Moving object Change direction to new if able to move to that
+     * Direction. If new tile ain't wall move, else center sprite to current
+     * position.
+     *
+     * Always check if out of map and return to otherside of map if this
+     * happens. Called to prevent overflow errors
+     *
+     * @param m
      */
     private void move(Moving m) {
         if (canMove(m, m.getChangeDirection())) {
@@ -204,15 +245,15 @@ public class Board implements Drawing{
         }
         if (canMove(m, m.getDirection())) {
             m.move();
+            fixOutOfBounds(m, this.level.getWidth() - 1, this.level.getHeight() - 1);
         } else {
             m.moveLocation();
         }
-        fixOutOfBounds(m, this.level.getWidth() - 1, this.level.getHeight() - 1);
 
     }
 
     /**
-     * 
+     *
      * @param m
      * @param d
      * @return true if next tile ain't wall else false
@@ -232,8 +273,7 @@ public class Board implements Drawing{
     }
 
     /**
-     * Check if any of monsters is in same position as
-     * Pacman, if so, loseGame
+     * Check if any of monsters is in same position as Pacman, if so, loseGame
      */
     private void checkMonsterIntersectPacman() {
         for (Moving m : this.monsters) {
@@ -246,37 +286,38 @@ public class Board implements Drawing{
         }
     }
 
-    
     /**
      * if timeout left decrease
+     *
      * @return true if timeout left
      */
     private boolean checkTimeout() {
+        boolean ret = this.timeout > 0;
         if (this.timeout > 0) {
             this.timeout -= 2;
         }
-        return this.timeout > 0;
+        return ret;
     }
 
     /**
      * Check if monsters are in jail and should be freed
-     * 
+     *
      * Force set new XY location to escape coordinates
      */
     private void checkMonsterJail() {
-        if (this.pinky.inJail() && this.score > 600) {
+        if (this.pinky.inJail() && this.roundScore > 600) {
             this.pinky.setX(this.escapeX);
             this.pinky.setY(this.escapeY);
             this.pinky.AIMove();
             this.pinky.setJail(false);
         }
-        if (this.inky.inJail() && this.score > 1200) {
+        if (this.inky.inJail() && this.roundScore > 1200) {
             this.inky.setX(this.escapeX);
             this.inky.setY(this.escapeY);
             this.inky.AIMove();
             this.inky.setJail(false);
         }
-        if (this.clyde.inJail() && this.score > 1800) {
+        if (this.clyde.inJail() && this.roundScore > 1800) {
             this.clyde.setX(this.escapeX);
             this.clyde.setY(this.escapeY);
             this.clyde.setJail(false);
@@ -293,9 +334,9 @@ public class Board implements Drawing{
 
     /**
      * Game Lost
-     * 
-     * Reset score, set new highscore if higher than current
-     * Start new game with level one
+     *
+     * Reset score, set new highscore if higher than current Start new game with
+     * level one
      */
     public void loseGame() {
         if (this.score > this.highScore) {
@@ -306,30 +347,28 @@ public class Board implements Drawing{
     }
 
     /**
-     * Check if AbstractMoving tile is position
-     * where it could eat something, if so eat it
-     * and return score it values.
-     * 
+     * Check if AbstractMoving tile is position where it could eat something, if
+     * so eat it and return score it values.
+     *
      * If score is 50 activate scatter mode
-     * 
+     *
      * @param amt
      * @return score of eaten object
      */
-    private int checkEat(AbstractMovingTile amt) {
+    protected int checkEat(AbstractMovingTile amt) {
         Eatable e = this.eatables[amt.getY()][amt.getX()];
-        int score = 0;
+        int eatableScore = 0;
         if (e != null) {
-            score = e.eat();
-            if (score == 50) {
+            eatableScore = e.eat();
+            if (eatableScore == 50) {
                 activateScatter();
             }
         }
-        return score;
+        return eatableScore;
     }
 
     /**
-     * Deactivate scatter mode, set all monsters to chase
-     * mode again. 
+     * Deactivate scatter mode, set all monsters to chase mode again.
      */
     private void deactivateScatter() {
         this.scatter = 0;
@@ -339,13 +378,12 @@ public class Board implements Drawing{
     }
 
     /**
-     * Activate scatter mode, set all monster to scatter
-     * mode. 
-     * 
+     * Activate scatter mode, set all monster to scatter mode.
+     *
      * 7 seconds = 60fps * 7 = 420 frames
      */
     private void activateScatter() {
-        this.scatter = 420;
+        this.scatter = 260;
         for (AbstractMovingTile m : this.monsters) {
             m.setChase(false);
         }
@@ -353,6 +391,7 @@ public class Board implements Drawing{
 
     /**
      * Checks if all eatables in map have been eaten already
+     *
      * @return true if everything eaten = map complete
      */
     public boolean checkAllEaten() {
@@ -368,9 +407,10 @@ public class Board implements Drawing{
 
     /**
      * Check if moving object is out of map, and fix it
+     *
      * @param m
      * @param maxW
-     * @param maxH 
+     * @param maxH
      */
     private void fixOutOfBounds(Moving m, int maxW, int maxH) {
         m.setX(fixOutOfBounds(m.getX(), maxW));
@@ -379,8 +419,8 @@ public class Board implements Drawing{
 
     /**
      * Check if position is out of map
-     * 
-     * 
+     *
+     *
      * @param pos
      * @param max
      * @return max value if position < 0 else return 0
@@ -396,15 +436,15 @@ public class Board implements Drawing{
 
     /**
      * Draws the timeout number
+     *
      * @param g
-     * @param number 
+     * @param number
      */
     private void drawTimeOutNumber(Graphics g, int number) {
         g.setColor(Color.YELLOW);
         g.setFont(new Font("Arial", Font.BOLD, 200));
         g.drawString("" + number, 170, 340);
     }
-
 
     /**
      *
@@ -415,8 +455,7 @@ public class Board implements Drawing{
     }
 
     /**
-     * Toggle path showing, Hidden mode in menu
-     * CTRL hotkey
+     * Toggle path showing, Hidden mode in menu CTRL hotkey
      */
     public void toggleShowPaths() {
         this.showPaths = !this.showPaths;
@@ -429,18 +468,29 @@ public class Board implements Drawing{
         this.debug = !this.debug;
     }
 
-    
+    /**
+     * Set god mode to
+     *
+     * @param godModeOn
+     */
+    public void setDebug(boolean godModeOn) {
+        this.debug = godModeOn;
+    }
+
     /**
      * @return current score
      */
-    public int getScore(){
+    public int getScore() {
         return this.score;
-    }    
-    
-    
+    }
+
+    public Blinky getBlinky() {
+        return this.blinky;
+    }
+
     /**
-     * Draw everything :)
-     * Ain't nobody got time to explain
+     * Draw everything :) Ain't nobody got time to explain
+     *
      * @param g
      */
     @Override

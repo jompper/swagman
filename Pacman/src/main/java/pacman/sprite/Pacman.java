@@ -18,7 +18,6 @@ import pacman.domain.Drawing;
  */
 public class Pacman extends AbstractMovingTile implements Drawing {
 
-    
     private int mouthPosition;
 
     public Pacman(int x, int y, Direction d) {
@@ -27,36 +26,54 @@ public class Pacman extends AbstractMovingTile implements Drawing {
         this.locationX = -7;
     }
 
+    private void moveMouth(){
+        if(++mouthPosition >= 24){
+            mouthPosition = 0;
+        }
+    }
     
 
     /**
      * Draw Pac-Man simple huh ?
-     * @param g 
+     *
+     * @param g
      */
     @Override
     public void draw(Graphics g) {
-        int locationX = (int)this.locationX;
-        int locationY = (int)this.locationY;
+        int locationX = (int) this.locationX;
+        int locationY = (int) this.locationY;
         g.setColor(Color.YELLOW);
         g.fillOval(x * 16 + locationX - 2, y * 16 + locationY - 2, 20, 20);
+        drawMouth(g, locationX, locationY);
+        moveMouth();
+    }
 
-        this.mouthPosition++;
-        g.setColor(Color.BLACK);
-        int[] recX;
-        int[] recY;
-        if(mouthPosition == 24){
-            mouthPosition = 0;
+    /**
+     * Draw mouth for pac-man and animate it
+     *
+     * Evil draw over hacking, basicly draw black triangle over the yellow
+     * pacman oval. Missing alpha channel but don't know how possible anyways
+     *
+     * @param g
+     * @param locationX
+     * @param locationY
+     */
+    private void drawMouth(Graphics g, int locationX, int locationY) {
+
+        // Animate the mouth
+        int mouthFix = 3;
+        if (mouthPosition < 6) {
+            mouthFix = 0;
+        } else if (mouthPosition >= 12 && mouthPosition < 18) {
+            mouthFix = 6;
         }
-        if(mouthPosition < 6){
-            recX = new int[]{x * 16 + locationX, x * 16 + locationX + 8, x * 16 + locationX + 16};
-            recY = new int[]{y * 16 + locationY, y * 16 + locationY + 8, y * 16 + locationY + 16};
-        }else if(mouthPosition < 12 || mouthPosition > 17){
-            recX = new int[]{x * 16 + locationX + 3, x * 16 + locationX + 8, x * 16 + locationX + 13};
-            recY = new int[]{y * 16 + locationY + 3, y * 16 + locationY + 8, y * 16 + locationY + 13};
-        }else{
-            recX = new int[]{x * 16 + locationX + 6, x * 16 + locationX + 8, x * 16 + locationX + 10};
-            recY = new int[]{y * 16 + locationY + 6, y * 16 + locationY + 8, y * 16 + locationY + 10};
-        }
+
+        // X positions needed for up and down
+        int[] recX = new int[]{x * 16 + locationX + mouthFix, x * 16 + locationX + 8, x * 16 + locationX + 16 - mouthFix};
+        
+        // Y position needed for left and right
+        int[] recY = new int[]{y * 16 + locationY + mouthFix, y * 16 + locationY + 8, y * 16 + locationY + 16 - mouthFix};
+
         // Fix triangle to current moving direction
         switch (this.direction) {
             case UP:
@@ -72,7 +89,7 @@ public class Pacman extends AbstractMovingTile implements Drawing {
                 recX = new int[]{x * 16 + locationX + 18, x * 16 + locationX + 8, x * 16 + locationX + 18};
                 break;
         }
+        g.setColor(Color.BLACK);
         g.fillPolygon(recX, recY, 3);
     }
-
 }

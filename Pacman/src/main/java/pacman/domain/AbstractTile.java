@@ -12,9 +12,18 @@ package pacman.domain;
  */
 public abstract class AbstractTile implements Tile {
 
+    /**
+     * Objects current location
+     */
     protected int x;
     protected int y;
 
+    
+    /**
+     * Consturcts AbstractTile with position
+     * @param x coordinate
+     * @param y coordinate
+     */
     public AbstractTile(int x, int y) {
         this.x = x;
         this.y = y;

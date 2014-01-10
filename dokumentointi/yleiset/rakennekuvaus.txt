@@ -1,0 +1,34 @@
+Rakennekuvaus:
+
+Sovelluksen käynnistyessä ladataan käyttöliittymä, siis kartta sekä valikko.
+
+Käytännössä Board luokka toimii pelin aivoina. Panel olio kutsuu Board luokan move()
+ja paint() metodeja kerran 17 millisekunnissa. 
+
+Move metodin toiminta:
+Tarkistetaan onko peli jo alkanut, (~kahden sekunnin viive jotta käyttäjä ehtii reagoida)
+
+Pyritään liikuttamaan kaikkia liikkuvia olioita (Pacman + hirviöt). Mikäli edessä on seinä /
+muu este, liikkumisen sijaan keskitetään olio nykyiseen sijaintiinsa. 
+
+Jokaisen siirymän jälkeen tarkistetaan onko hahmo siirtynyt ulos kartasta, ja jos niin
+siirretään se toiselle puolelle karttaa.
+
+Siirtojen jälkeen on syytä tarkistaa onko Pac-Man mahdollisesti sellaisessa ruudussa josta löytyy jotakin syötävää. Yritetään syödä ruudun syötävät ja lisätään pisteitä syötävän arvon verran.
+Jos syötävä on jo syöty eivät pisteet kasva. Jos syödään 50 pisteen arvoinen syötävä käynnistyy
+pelkotila, jolloin hirviöt lähtevät karkuun kukin omaan kulmaansa. Pelkotila kestää muutaman 
+sekunnin.
+
+On myös syytä tarkistaa onko hirviö samassa ruudussa  pacmanin kanssa, siis vertaillaan jokaisen
+hirviön sijaintia Pac-Manin sijainnin kanssa. Jos sijainnit täsmäävät, hävitään peli ja ladataan
+ensimmäinen taso.
+
+Hirviöt vapautuvat vankilasta tasaisin pisterajoin (600 pisteen välein). 
+
+Jos kaikki syötävät on syöty, niin ladataan uusi taso (tällä hetkellä sama taso). Pisteet
+eivät tietenkään katoa mihinkään. 
+
+Lopuksi tarkistetaan vielä onko Jahtaus tila päälle, jos ei niin vähennetään ajastimen arvoa.
+Jos vähennyksen jälkeen ajastimen arvo on 0, palautetaan jahtaus tila päälle jolloin hirviöt
+alkavat taas jahdata Pac-Mania.
+

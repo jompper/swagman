@@ -6,15 +6,21 @@
 package pacman.level;
 
 /**
- *
+ * Basic Pac-Man level
  * @author Joni
  */
 public class LevelOne implements Level {
 
+    /**
+     * Map data
+     */
     private final int level[][];
     private final int width;
     private final int height;
 
+    /**
+     * Construct level
+     */
     public LevelOne() {
 
         /**
@@ -67,16 +73,25 @@ public class LevelOne implements Level {
         this.height = level.length;
     }
 
+    /**
+     * @return int[][] level
+     */
     @Override
     public int[][] getLevel() {
         return level;
     }
 
+    /**
+     * @return level width
+     */
     @Override
     public int getWidth() {
         return this.width;
     }
 
+    /**
+     * @return level height
+     */
     @Override
     public int getHeight() {
         return this.height;

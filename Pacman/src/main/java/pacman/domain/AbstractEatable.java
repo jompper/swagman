@@ -12,7 +12,14 @@ package pacman.domain;
  */
 public class AbstractEatable  extends AbstractTile implements Eatable {
 
+    /**
+     * Is already eaten ?
+     */
     private boolean eaten;
+    
+    /**
+     * How much do you score ?
+     */
     private final int score;
     
     public AbstractEatable(int x, int y, int score) {

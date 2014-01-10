@@ -10,31 +10,43 @@ import java.awt.Dimension;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 import pacman.level.LevelOne;
+
 /**
- *
+ * Gui class / JFrame class
  * @author Joni
  */
 public class GUI implements Runnable {
 
-    private Game game;
+
+    /**
+     * JFrame and panel to show GUI
+     */
     private JFrame frame;
     private Panel panel;
     
+    /**
+     * KeyBoard listener for menu and game
+     */
     private KeyboardListener keyListener;
     
+    /**
+     * Width and height of window
+     */
     private int width;
     private int height;
     
 
-    public GUI(Game game, int width, int height) {
-        this.game = game;
+    public GUI(int width, int height) {
         this.width = width;
         this.height = height;
     }
 
+    /**
+     * Build frame with components
+     */
     @Override
     public void run() {
-        frame = new JFrame("Pacman");
+        frame = new JFrame("Pac-Man");
 
         frame.setPreferredSize(new Dimension(width, height));
 
@@ -50,6 +62,10 @@ public class GUI implements Runnable {
         frame.setVisible(true);
     }
 
+    /**
+     * Create components for the frame
+     * @param container 
+     */
     public void createComponents(Container container) {
         this.panel = new Panel(new LevelOne());
         container.add(this.panel);

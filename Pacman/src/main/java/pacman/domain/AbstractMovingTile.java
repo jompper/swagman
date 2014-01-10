@@ -5,8 +5,6 @@
  */
 package pacman.domain;
 
-import pacman.domain.Direction;
-
 /**
  * Abstact Moving object All moving objects could extend this class
  *
@@ -14,13 +12,39 @@ import pacman.domain.Direction;
  */
 public class AbstractMovingTile extends AbstractTile implements Moving {
 
+    /**
+     * Objects current direction
+     */
     protected Direction direction;
+    
+    /**
+     * Direction where would like to move whenpossible
+     */
     protected Direction changeDirection;
+    
+    /**
+     * Speed, how many pixels per move does object move
+     */
     protected double speed;
+    
+    /**
+     * Fake location, for smooth moving and drawing
+     */
     protected double locationX;
     protected double locationY;
+    
+    /**
+     * Is object in chase mode
+     */
     private boolean isChase;
 
+    /**
+     * Construct AbstractMovingTile
+     * @param x coordinate
+     * @param y coordinate
+     * @param d current direction
+     * @param speed current speed
+     */
     public AbstractMovingTile(int x, int y, Direction d, double speed) {
         super(x, y);
         this.direction = d;
@@ -34,7 +58,7 @@ public class AbstractMovingTile extends AbstractTile implements Moving {
     /**
      * Set new speed 2 is basic value for pacman
      *
-     * @param speed
+     * @param speed of an object
      */
     public void setSpeed(double speed) {
         this.speed = speed;
@@ -43,7 +67,7 @@ public class AbstractMovingTile extends AbstractTile implements Moving {
     /**
      * Returns Pacmans current direction
      *
-     * @return
+     * @return current direction
      */
     @Override
     public Direction getDirection() {
@@ -54,7 +78,7 @@ public class AbstractMovingTile extends AbstractTile implements Moving {
      * Returns Pacmans change direction. Direction is changed when pacman can
      * move to this direction.
      *
-     * @return
+     * @return Direction where should go when possible
      */
     @Override
     public Direction getChangeDirection() {
@@ -64,7 +88,7 @@ public class AbstractMovingTile extends AbstractTile implements Moving {
     /**
      * Set Pacmans direction to d Now pacman moves to direction d
      *
-     * @param d
+     * @param d new Direction
      */
     @Override
     public void setDirection(Direction d) {
@@ -75,7 +99,7 @@ public class AbstractMovingTile extends AbstractTile implements Moving {
      * Set Pacmans change direction to d. Pacmans direction is changed to change
      * direction when pacman can move to this direction.
      *
-     * @param d
+     * @param d new direction where should turn when ever possible
      */
     @Override
     public void setChangeDirection(Direction d) {
@@ -149,8 +173,8 @@ public class AbstractMovingTile extends AbstractTile implements Moving {
     /**
      * Return new distance to origo with speed
      *
-     * @param location
-     * @param speed
+     * @param location value
+     * @param speed value
      * @return basicly distance from origo - speed
      */
     private double moveLocation(double location, double speed) {
@@ -164,8 +188,8 @@ public class AbstractMovingTile extends AbstractTile implements Moving {
 
     /**
      * Get n next X position value to current direction
-     * @param n
-     * @return
+     * @param n steps in current direction
+     * @return x coordinate
      */
     @Override
     public int getNextX(int n) {
@@ -176,9 +200,9 @@ public class AbstractMovingTile extends AbstractTile implements Moving {
      * Get n next X position to direction d from Pacmans current position. Used
      * to check if next tile is movable and for AI
      *
-     * @param n
-     * @param d
-     * @return
+     * @param n steps in
+     * @param d direction
+     * @return x coordinate
      */
     @Override
     public int getNextX(int n, Direction d) {
@@ -194,8 +218,8 @@ public class AbstractMovingTile extends AbstractTile implements Moving {
     
     /**
      * Get n next Y position value to current direction
-     * @param n
-     * @return
+     * @param n steps in current direction
+     * @return y coordinate
      */
     @Override
     public int getNextY(int n) {
@@ -206,9 +230,9 @@ public class AbstractMovingTile extends AbstractTile implements Moving {
      * Get n next Y position to direction d from Pacmans current position. Used
      * to check if next tile is movalbe and for AI
      *
-     * @param n
-     * @param d
-     * @return
+     * @param n steps in
+     * @param d direction
+     * @return y coordinate
      */
     @Override
     public int getNextY(int n, Direction d) {
@@ -224,7 +248,7 @@ public class AbstractMovingTile extends AbstractTile implements Moving {
     
     /**
      * Force set new Y to object
-     * @param x 
+     * @param x coordinate
      */
     @Override
     public void setX(int x) {
@@ -234,7 +258,7 @@ public class AbstractMovingTile extends AbstractTile implements Moving {
     
     /**
      * Force set new Y to object
-     * @param y 
+     * @param y coordinate
      */
     @Override
     public void setY(int y) {
@@ -243,7 +267,7 @@ public class AbstractMovingTile extends AbstractTile implements Moving {
 
     /**
      * Set object to chase or scatter mode
-     * @param chase 
+     * @param chase status
      */
     public void setChase(boolean chase) {
         this.isChase = chase;

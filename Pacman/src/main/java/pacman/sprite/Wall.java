@@ -12,18 +12,31 @@ import pacman.domain.Drawing;
 import pacman.domain.WallType;
 
 /**
+ * Basic blue walls seen all around the map You can't miss em can you ?
  *
  * @author Joni
  */
 public class Wall extends AbstractTile implements Drawing {
 
+    /**
+     * Type of the wall, as WallType of the wall
+     */
     private final WallType wallType;
 
     public Wall(int x, int y, WallType wallType) {
         super(x, y);
         this.wallType = wallType;
     }
+    
+    public WallType getWallType(){
+        return this.wallType;
+    }
 
+    /**
+     * Set color for wall and draw according to wall type
+     *
+     * @param g
+     */
     @Override
     public void draw(Graphics g) {
         g.setColor(new Color(33, 33, 255));
@@ -55,16 +68,34 @@ public class Wall extends AbstractTile implements Drawing {
         }
     }
 
+    /**
+     * Draw walls that have end points in directions
+     */
+    /**
+     * End points: Left and right
+     *
+     * @param g
+     */
     protected void drawWallLeftRight(Graphics g) {
         g.drawLine(x * 16, y * 16 + 4, x * 16 + 16, y * 16 + 4);
         g.drawLine(x * 16, y * 16 + 12, x * 16 + 16, y * 16 + 12);
     }
 
+    /**
+     * End points: Up and down
+     *
+     * @param g
+     */
     protected void drawWallUpDown(Graphics g) {
         g.drawLine(x * 16 + 4, y * 16, x * 16 + 4, y * 16 + 16);
         g.drawLine(x * 16 + 12, y * 16, x * 16 + 12, y * 16 + 16);
     }
 
+    /**
+     * End points: Left and up
+     *
+     * @param g
+     */
     protected void drawWallLeftUp(Graphics g) {
         g.drawLine(x * 16, y * 16 + 4, x * 16 + 3, y * 16 + 4);
         g.drawLine(x * 16 + 4, y * 16 + 4, x * 16 + 4, y * 16);
@@ -72,6 +103,11 @@ public class Wall extends AbstractTile implements Drawing {
         g.drawLine(x * 16 + 12, y * 16 + 12, x * 16 + 12, y * 16);
     }
 
+    /**
+     * End points: Left and down
+     *
+     * @param g
+     */
     protected void drawWallLeftDown(Graphics g) {
         g.drawLine(x * 16, y * 16 + 4, x * 16 + 11, y * 16 + 4);
         g.drawLine(x * 16 + 12, y * 16 + 4, x * 16 + 12, y * 16 + 16);
@@ -79,6 +115,11 @@ public class Wall extends AbstractTile implements Drawing {
         g.drawLine(x * 16 + 4, y * 16 + 12, x * 16 + 4, y * 16 + 16);
     }
 
+    /**
+     * End points: Right and up
+     *
+     * @param g
+     */
     protected void drawWallRightUp(Graphics g) {
         g.drawLine(x * 16 + 16, y * 16 + 4, x * 16 + 13, y * 16 + 4);
         g.drawLine(x * 16 + 12, y * 16 + 4, x * 16 + 12, y * 16);
@@ -86,6 +127,11 @@ public class Wall extends AbstractTile implements Drawing {
         g.drawLine(x * 16 + 4, y * 16 + 12, x * 16 + 4, y * 16);
     }
 
+    /**
+     * End points: Right and down
+     *
+     * @param g
+     */
     protected void drawWallRightDown(Graphics g) {
         g.drawLine(x * 16 + 16, y * 16 + 4, x * 16 + 5, y * 16 + 4);
         g.drawLine(x * 16 + 4, y * 16 + 4, x * 16 + 4, y * 16 + 16);
@@ -93,6 +139,12 @@ public class Wall extends AbstractTile implements Drawing {
         g.drawLine(x * 16 + 12, y * 16 + 12, x * 16 + 12, y * 16 + 16);
     }
 
+    /**
+     * Gate: draw wall stop to the left
+     * End points: Left and right
+     *
+     * @param g
+     */
     protected void drawGateLeft(Graphics g) {
         g.drawLine(x * 16, y * 16 + 4, x * 16, y * 16 + 12);
         g.setColor(Color.RED);
@@ -100,6 +152,11 @@ public class Wall extends AbstractTile implements Drawing {
         g.drawLine(x * 16 + 1, y * 16 + 10, x * 16 + 16, y * 16 + 10);
     }
 
+    /**
+     * Gate: draw wall stop to the right
+     * End points: Left and right
+     * @param g 
+     */
     protected void drawGateRight(Graphics g) {
         g.drawLine(x * 16 + 16, y * 16 + 4, x * 16 + 16, y * 16 + 12);
         g.setColor(Color.RED);

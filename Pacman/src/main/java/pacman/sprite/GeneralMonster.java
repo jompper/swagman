@@ -3,7 +3,6 @@
  * 8.1.2014
  * Copyright (c) 2014 Joni Salmi. All rights reserved.
  */
-
 package pacman.sprite;
 
 import java.awt.Color;
@@ -22,12 +21,12 @@ public abstract class GeneralMonster extends AbstractMonster implements Drawing 
         super(x, y, d, inJail);
         this.color = Color.GREEN;
     }
-    
+
     /**
-     * Draw the monster, release the kraken
-     * Not symmetric draws as symmetric
+     * Draw the monster, release the kraken. Not symmetric draws nearly symmetric
      * Just go with it
-     * @param g 
+     *
+     * @param g
      */
     @Override
     public void draw(Graphics g) {
@@ -79,7 +78,8 @@ public abstract class GeneralMonster extends AbstractMonster implements Drawing 
 
     /**
      * Draw the eyes, hardcore two ellipses and two squares
-     * @param g 
+     *
+     * @param g
      */
     private void drawEyes(Graphics g) {
         g.setColor(Color.WHITE);

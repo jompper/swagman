@@ -13,53 +13,67 @@ import pacman.domain.Direction;
 
 /**
  * Astart, built to find shortest path from point A to point B
+ *
  * @author Joni
  */
 public class Astar {
 
-    private Direction newDirection;
-    private Direction sourceDirection;
+    /**
+     * Map where the path is being found
+     */
     private int[][] map;
     private int width;
     private int height;
 
+    /**
+     * Table which keeps record of distances from all coordinates and to all
+     * coordinates
+     */
     private Anode[][] atable;
 
+    /**
+     * All nodes that should be visualized
+     */
     private List<Anode> tiles;
 
+    /**
+     * Source coordinates
+     */
     private int sourceX;
     private int sourceY;
+
+    /**
+     * Destination coordinates
+     */
     private int destinationX;
     private int destinationY;
 
     /**
-     * Find shortest path from a to b
-     * @param map
-     * @param stx
-     * @param sty
-     * @param dtx
-     * @param dty
-     * @param sd 
+     * Direction where the object comes from
      */
-    
-    public Astar(int[][] map, int stx, int sty, int dtx, int dty, Direction sd) {
+    private Direction sourceDirection;
+
+    /**
+     * Initialise Astar
+     *
+     * @param map
+     */
+    public Astar(int[][] map) {
         this.map = map;
         this.height = map.length;
         this.width = map[0].length;
         this.tiles = new ArrayList<>();
-        setCoordinates(stx, sty, dtx, dty, sd);
-        findPath();
     }
 
     /**
      * Set coodinates
+     *
      * @param stx
      * @param sty
      * @param dtx
      * @param dty
-     * @param sd 
+     * @param sd
      */
-    
     private void setCoordinates(int stx, int sty, int dtx, int dty, Direction sd) {
         this.sourceX = checkCollision(stx, 0, width - 1);
         this.sourceY = checkCollision(sty, 0, height - 1);
@@ -73,7 +87,7 @@ public class Astar {
     /**
      * fix coordinates if in wall
      */
-    private void fixCoordinatesInWall(){
+    private void fixCoordinatesInWall() {
         if (isWall(sourceX, sourceY)) {
             int[] p = findNearestNotWall(sourceX, sourceY, 0, width - 1, 0, height - 1);
             sourceX = p[0];
@@ -85,12 +99,12 @@ public class Astar {
             destinationY = p[1];
         }
     }
-    
+
     /**
      * Initialize, build atable, handle source node
-     * @param pq 
+     *
+     * @param pq
      */
-    
     private void initializePathFind(MinHeap<Anode> pq) {
         atable = buildAtable();
         Anode u = atable[sourceY][sourceX];
@@ -105,34 +119,41 @@ public class Astar {
     }
 
     /**
-     * Find path, call's other needed functions
+     * Find path
+     *
+     * @param sourceX
+     * @param sourceY
+     * @param destinationX
+     * @param destinationY
+     * @param sourceDirection
+     * @return
      */
-    private void findPath() {
+    public Direction findPath(int sourceX, int sourceY, int destinationX, int destinationY, Direction sourceDirection) {
+        this.tiles.clear();
+        setCoordinates(sourceX, sourceY, destinationX, destinationY, sourceDirection);
         MinHeap<Anode> mh = new MinHeap<>();
         initializePathFind(mh);
         findPath(mh);
         Stack<Anode> path = getPath();
         if (path.size() >= 2) {
             path.pop();
-            this.newDirection = path.pop().getFromDirection();
+            return path.pop().getFromDirection();
         } else {
-            this.newDirection = firstPossibleDirection();
+            return firstPossibleDirection();
         }
     }
 
     /**
-     * Find nearest coordinate that is not wall
-     * Time complexcity O(|map|)
-     * 
+     * Find nearest coordinate that is not wall Time complexcity O(|map|)
+     *
      * @param x
      * @param y
      * @param minX
      * @param maxX
      * @param minY
      * @param maxY
-     * @return 
+     * @return
      */
-    
     private int[] findNearestNotWall(int x, int y, int minX, int maxX, int minY, int maxY) {
         int[] p = new int[]{x, y};
         int min = Integer.MAX_VALUE;
@@ -142,7 +163,7 @@ public class Astar {
                     continue;
                 }
                 int distance = Math.abs(x - dx) + Math.abs(y - dy);
-                if(distance < min){
+                if (distance < min) {
                     p[0] = dx;
                     p[1] = dy;
                     min = distance;
@@ -154,9 +175,9 @@ public class Astar {
 
     /**
      * If no path is found, return some direction can move to
-     * @return 
+     *
+     * @return
      */
-    
     private Direction firstPossibleDirection() {
         Direction r = reverseDirection(sourceDirection);
         for (Direction d : Direction.values()) {
@@ -186,11 +207,11 @@ public class Astar {
     }
 
     /**
-     * Build table with correct distances from destination
-     * Default set all pathLength to Map size * 2
-     * @return Anode[][] which contains all map coordinates as nodes 
+     * Build table with correct distances from destination Default set all
+     * pathLength to Map size * 2
+     *
+     * @return Anode[][] which contains all map coordinates as nodes
      */
-    
     public final Anode[][] buildAtable() {
         Anode[][] table = new Anode[height][width];
         for (int y = 0; y < height; y++) {
@@ -204,9 +225,9 @@ public class Astar {
 
     /**
      * Find the shortest path from source to destination
-     * @param pq 
+     *
+     * @param pq
      */
-    
     private void findPath(MinHeap<Anode> pq) {
         while (!pq.isEmpty() && !pq.contains(atable[destinationY][destinationX])) {
 
@@ -224,34 +245,36 @@ public class Astar {
     }
 
     /**
-     * Get path found with findPath
-     * returns getPath(mapSize) 
-     * @return 
+     * Get path found with findPath returns getPath(mapSize)
+     *
+     * @return
      */
-    
     public final Stack<Anode> getPath() {
         return getPath(width * height);
     }
 
     /**
-     * Get path found with findPath, path max length = maxTry
-     * Best called with |map|. So continues anyway
+     * Get path found with findPath, path max length = maxTry Best called with
+     * |map|. So continues anyway
+     *
      * @param maxTry
-     * @return path in stack. Source point first (on top), 
-     * destination last (on bottom)
+     * @return path in stack. Source point first (on top), destination last (on
+     * bottom)
      */
-    
     public Stack<Anode> getPath(int maxTry) {
         Stack<Anode> pathStack = new Stack<>();
         atable[sourceY][sourceX].setStart(0);
         Anode lastNode = atable[destinationY][destinationX];
+        lastNode.setInPath(true);
         pathStack.push(lastNode);
         if (sourceX == destinationX && sourceY == destinationY) {
             lastNode = atable[lastNode.getFromY()][lastNode.getFromX()];
+            lastNode.setInPath(true);
             pathStack.push(lastNode);
         }
         while (lastNode.getStart() > 0 && maxTry > 0) {
             lastNode = atable[lastNode.getFromY()][lastNode.getFromX()];
+            lastNode.setInPath(true);
             pathStack.push(lastNode);
             maxTry--;
         }
@@ -260,12 +283,12 @@ public class Astar {
 
     /**
      * Return fixed value if coordinate part out of map
+     *
      * @param xy
      * @param min
      * @param max
-     * @return 
+     * @return
      */
-    
     private int checkCollision(int xy, int min, int max) {
         if (xy < min) {
             return min;
@@ -276,7 +299,7 @@ public class Astar {
     }
 
     /**
-     * 
+     *
      * @param x
      * @param y
      * @return true coordinate is out of map, else false
@@ -285,9 +308,8 @@ public class Astar {
         return x < 0 || y < 0 || x > this.width - 1 || y > this.height - 1;
     }
 
-    
     /**
-     * 
+     *
      * @param x
      * @param y
      * @return true if map location is wall
@@ -299,10 +321,9 @@ public class Astar {
         return this.map[y][x] >= 10;
     }
 
-    
     /**
-     * getReverseDirection
-     * Up = Down...
+     * getReverseDirection Up = Down...
+     *
      * @param d
      * @return reverse direction
      */
@@ -321,14 +342,13 @@ public class Astar {
     }
 
     /**
-     * Update node, if no errors, add to Heap
-     * Build path with setFrom
-     * 
+     * Update distance and add from node, if no errors, add to Heap Build path with setFrom
+     *
      * @param pq
      * @param x
      * @param y
      * @param from
-     * @param nd 
+     * @param nd
      */
     private void NodeUpdate(MinHeap<Anode> pq, int x, int y, Anode from, Direction nd) {
         if (reverseDirection(from.getFromDirection()) == nd) {
@@ -356,10 +376,9 @@ public class Astar {
 
     }
 
-    public Direction getDirection() {
-        return this.newDirection;
-    }
-
+    /**
+     * @return List of tiles that should be visualized
+     */
     public List<Anode> getTiles() {
         return this.tiles;
     }

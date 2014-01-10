@@ -49,29 +49,35 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>cobertura-maven-plugin</artifactId>
                 <version>2.6</version>
+                <configuration>
+                    <instrumentation>
+                        <includes>   
+                            <include>pacman/domain/*.class</include>
+                            <include>pacman/level/*.class</include>
+                            <include>pacman/logic/*.class</include>
+                            <include>pacman/util/*.class</include>
+                        </includes>
+                    </instrumentation>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.pitest</groupId>
                 <artifactId>pitest-maven</artifactId>
                 <version>0.30</version>
                 <configuration>
-                  <targetClasses>
-                      <param>pacman.algorithm*</param>
-                      <param>pacman.datastructure*</param>
-                      <param>pacman.domain*</param>
-                      <param>pacman.level*</param>
-                      <param>pacman.logic*</param>
-                      <param>pacman.util*</param>
-                  </targetClasses>
-                  <targetTests>
-                      <param>pacman.algorithm*</param>
-                      <param>pacman.datastructure*</param>
-                      <param>pacman.domain*</param>
-                      <param>pacman.level*</param>
-                      <param>pacman.logic*</param>
-                      <param>pacman.util*</param>
-                  </targetTests>
-              </configuration>
+                    <targetClasses>
+                        <param>pacman.domain*</param>
+                        <param>pacman.level*</param>
+                        <param>pacman.logic*</param>
+                        <param>pacman.util*</param>
+                    </targetClasses>
+                    <targetTests>
+                        <param>pacman.domain*</param>
+                        <param>pacman.level*</param>
+                        <param>pacman.logic*</param>
+                        <param>pacman.util*</param>
+                    </targetTests>
+                </configuration>
             </plugin>
         </plugins>
     </build>

@@ -29,17 +29,36 @@ import pacman.domain.WallType;
  */
 public class LevelBuilder {
 
+    /**
+     * Everythings that needs to be drawn
+     */
     private List<Drawing> tiles;
-    private Eatable eatables[][];
+    /**
+     * Everything that should be eatable
+     */
+    protected Eatable eatables[][];
+    /**
+     * Everything that should be moving
+     */
     private List<Moving> movings;
+    /**
+     * Everything that should be scary
+     */
     private List<AbstractMonster> monsters;
 
+    
+    /**
+     * Required elements
+     */
     private Pacman pacman;
     private Blinky blinky;
     private Pinky pinky;
     private Inky inky;
     private Clyde clyde;
 
+    /**
+     * Jailbreak location coordinates
+     */
     private int escapeX;
     private int escapeY;
 
@@ -48,7 +67,7 @@ public class LevelBuilder {
      * Left-Right, 11 = Wall Top-Down, 12 = Wall Right-Down, 13 = Wall Right-up,
      * 14 = Wall Left-Down, 15 = Wall Left-Up, 16 = Gate Left, 17 = Gate Right
      *
-     * TODO: Cherry, Ghosts
+     * TODO: Cherry
      *
      * @param level
      */
@@ -63,7 +82,8 @@ public class LevelBuilder {
 
     /**
      * Make objects from map
-     * @param level 
+     *
+     * @param level
      */
     protected final void buildMap(Level level) {
         int[][] map = level.getLevel();
@@ -71,37 +91,37 @@ public class LevelBuilder {
             for (int s = 0; s < level.getWidth(); s++) {
                 switch (map[r][s]) {
                     case 10:
-                        tiles.add(new Wall(s, r, WallType.LEFT_RIGHT));
+                        addWall(s, r, WallType.LEFT_RIGHT);
                         break;
                     case 11:
-                        tiles.add(new Wall(s, r, WallType.UP_DOWN));
+                        addWall(s, r, WallType.UP_DOWN);
                         break;
                     case 12:
-                        tiles.add(new Wall(s, r, WallType.RIGHT_DOWN));
+                        addWall(s, r, WallType.RIGHT_DOWN);
                         break;
                     case 13:
-                        tiles.add(new Wall(s, r, WallType.RIGHT_UP));
+                        addWall(s, r, WallType.RIGHT_UP);
                         break;
                     case 14:
-                        tiles.add(new Wall(s, r, WallType.LEFT_DOWN));
+                        addWall(s, r, WallType.LEFT_DOWN);
                         break;
                     case 15:
-                        tiles.add(new Wall(s, r, WallType.LEFT_UP));
+                        addWall(s, r, WallType.LEFT_UP);
                         break;
                     case 16:
-                        tiles.add(new Wall(s, r, WallType.GATE_LEFT));
+                        addWall(s, r, WallType.GATE_LEFT);
                         break;
                     case 17:
-                        tiles.add(new Wall(s, r, WallType.GATE_RIGHT));
+                        addWall(s, r, WallType.GATE_RIGHT);
                         break;
                     case 1:
                         PacDot pd = new PacDot(s, r);
-                        tiles.add(0,pd);
+                        tiles.add(0, pd);
                         eatables[r][s] = pd;
                         break;
                     case 2:
                         PowerPellet pp = new PowerPellet(s, r);
-                        tiles.add(0,pp);
+                        tiles.add(0, pp);
                         eatables[r][s] = pp;
                         break;
                     case 3:
@@ -149,6 +169,15 @@ public class LevelBuilder {
         }
     }
 
+    /**
+     * Add wall to location of map
+     * @param x
+     * @param y
+     * @param wt 
+     */
+    private void addWall(int x, int y, WallType wt) {
+        tiles.add(new Wall(x, y, wt));
+    }
 
     /**
      * @return All objects that should be drawn
@@ -158,14 +187,14 @@ public class LevelBuilder {
     }
 
     /**
-     * @return eatables as table for fast access with coorinates 
+     * @return eatables as table for fast access with coorinates
      */
     public Eatable[][] getEatables() {
         return this.eatables;
     }
 
     /**
-     * @return all monsters in list 
+     * @return all monsters in list
      */
     public List<AbstractMonster> getMonsters() {
         return this.monsters;
@@ -186,36 +215,36 @@ public class LevelBuilder {
     }
 
     /**
-     * @return Pinky monster 
+     * @return Pinky monster
      */
     public Pinky getPinky() {
         return this.pinky;
     }
 
     /**
-     * @return Inky monster 
+     * @return Inky monster
      */
     public Inky getInky() {
         return this.inky;
     }
 
     /**
-     * @return Clyde monster 
+     * @return Clyde monster
      */
     public Clyde getClyde() {
         return this.clyde;
     }
 
     /**
-     * @return All moving objects 
+     * @return All moving objects
      */
     public List<Moving> getMovings() {
         return this.movings;
     }
 
     /**
-     * 
-     * @return Escape X coordinate 
+     *
+     * @return Escape X coordinate
      */
     public int getEscapeX() {
         return this.escapeX;

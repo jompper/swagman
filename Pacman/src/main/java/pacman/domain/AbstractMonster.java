@@ -20,10 +20,29 @@ import pacman.algorithm.MoveLogic;
  */
 public abstract class AbstractMonster extends AbstractMovingTile implements Monster {
 
+    /**
+     * Monster MoveLogic used, to move monster
+     */
     private MoveLogic moveLogic;
+    
+    /**
+     * Is monster in jail
+     */
     private boolean inJail;
+    
+    /**
+     * Should monster use moveLogic next time move is called
+     */
     private boolean isMove;
+    
+    /**
+     * Color of monster and path for drawing purposes
+     */
     protected Color color;
+    
+    /**
+     * Is monster moving up in gentleUpDown mode ?
+     */
     private boolean gentleUp;
 
     /**
@@ -36,10 +55,10 @@ public abstract class AbstractMonster extends AbstractMovingTile implements Mons
      * 
      * TODO: Implement monster eating and find path to escape coordinates
      * 
-     * @param x
-     * @param y
-     * @param d
-     * @param inJail 
+     * @param x coordinate
+     * @param y coordinate
+     * @param d direction
+     * @param inJail jail status
      */
     public AbstractMonster(int x, int y, Direction d, boolean inJail) {
         super(x, y, d, 1.9);
@@ -108,7 +127,7 @@ public abstract class AbstractMonster extends AbstractMovingTile implements Mons
 
     /**
      * Set monster to jail or not to jail
-     * @param jail 
+     * @param jail new jail status
      */
     @Override
     public void setJail(boolean jail) {
@@ -126,7 +145,7 @@ public abstract class AbstractMonster extends AbstractMovingTile implements Mons
 
     /**
      * Set AI for monster MoveLogic
-     * @param ml 
+     * @param ml movelogic for monster
      */
     @Override
     public void setAI(MoveLogic ml) {
@@ -160,13 +179,11 @@ public abstract class AbstractMonster extends AbstractMovingTile implements Mons
         int counter = 0;
         int count = pathTiles.size();
         for (Anode n : pathTiles) {
-            int distance = n.getStart() * 3;
-            if(distance > 40){
-                distance = 40;
-            }
-            Color c = new Color(this.color.getRed(), this.color.getGreen(), this.color.getBlue(), 90 - distance);
+            Color c = new Color(this.color.getRed(), this.color.getGreen(), this.color.getBlue(), 40);
             if (counter == count - 1) {
                 c = new Color(this.color.getRed(), this.color.getGreen(), this.color.getBlue(), 200);
+            }else if(n.isPath()){
+                c = new Color(this.color.getRed(), this.color.getGreen(), this.color.getBlue(),70);
             }
             tiles.add(new OverlayTile(n.getX(), n.getY(), c));
             counter++;

@@ -8,10 +8,10 @@ package pacman.gui;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import static pacman.gui.GameState.MENU;
-import pacman.level.LevelOne;
 import pacman.logic.Board;
 
 /**
+ * Mice Listener for game. Only used in menu for now at least.
  *
  * @author Joni
  */
@@ -25,6 +25,11 @@ public class MiceListener implements MouseListener {
         this.board = p.getBoard();
     }
 
+    /**
+     * If mouse was clicked check if buttons were pressed and do the actions.
+     *
+     * @param e
+     */
     @Override
     public void mouseClicked(MouseEvent e) {
         int mX = e.getX();
@@ -37,10 +42,8 @@ public class MiceListener implements MouseListener {
                     } else if (mY >= 280 && mY <= 330) {
                         board.loseGame();
                         panel.setGameState(GameState.GAME);
-                    } else if(mY >= 380 && mY <= 430){
+                    } else if (mY >= 380 && mY <= 430) {
                         System.exit(0);
-                    } else if(mY >= 480 && mY <= 530){
-                        board.toggleShowPaths();
                     }
                 }
                 break;

@@ -12,7 +12,7 @@ import java.awt.Graphics;
 import pacman.domain.Drawing;
 
 /**
- *
+ * Basic GUI main menu
  * @author Joni
  */
 public class MainMenu implements Drawing {
@@ -29,8 +29,6 @@ public class MainMenu implements Drawing {
         g.drawString("Restart", 182, 285);
         g.drawRect(130, 350, 200, 50);
         g.drawString("Quit Game", 157, 385);
-        g.drawRect(130, 450, 200, 50);
-        g.drawString("Hidden Mode", 140, 485);
     }
     
 }

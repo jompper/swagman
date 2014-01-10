@@ -6,10 +6,11 @@
 package pacman.domain;
 
 /**
+ * All different wall types used in game
  *
  * @author Joni
  */
 public enum WallType {
 
-    LEFT_RIGHT, LEFT_UP, LEFT_DOWN, RIGHT_UP, RIGHT_DOWN, UP_DOWN, GATE_LEFT, GATE_RIGHT, GATE_DOWN, GATE_UP;
+    LEFT_RIGHT, LEFT_UP, LEFT_DOWN, RIGHT_UP, RIGHT_DOWN, UP_DOWN, GATE_LEFT, GATE_RIGHT;
 }

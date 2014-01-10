@@ -29,8 +29,6 @@ public class Game extends Timer implements ActionListener {
     /**
      * Update game every n millisecond
      *
-     * TODO: Start Menu Pause Menu
-     *
      * @param e
      */
     @Override

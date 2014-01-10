@@ -26,6 +26,7 @@ public class Anode implements Comparable<Anode>{
     private int end;
     
     private boolean used;
+    private boolean inPath;
     
     public Anode(int x, int y, int start, int end){
         this.start = start;
@@ -33,6 +34,7 @@ public class Anode implements Comparable<Anode>{
         this.x = x;
         this.y = y;
         this.used = false;
+        this.inPath = false;
     }
 
     public int getX(){
@@ -82,6 +84,14 @@ public class Anode implements Comparable<Anode>{
     
     public boolean isUsed(){
         return this.used;
+    }
+ 
+    public void setInPath(boolean inPath){
+        this.inPath = inPath;
+    }
+    
+    public boolean isPath(){
+        return this.inPath;
     }
     
     @Override

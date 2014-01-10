@@ -26,6 +26,7 @@ public class AstarTest {
             {10, 0, 0, 0, 10},
             {10, 0, 0, 0, 10},
             {10, 10, 10, 10, 10}};
+        this.astar = new Astar(this.map);
     }
 
     @Test
@@ -63,9 +64,9 @@ public class AstarTest {
     }
     
     private Stack<Anode> findPath(int sourceX, int sourceY, int destinationX, int destinationY, Direction d) {
-        Astar a = new Astar(this.map, sourceX, sourceY, destinationX, destinationY, d);
-        Stack<Anode> path = a.getPath();
-        assertEquals(a.getDirection(), path.get(path.size() - 2).getFromDirection());
+        Direction newDirection = astar.findPath(sourceX, sourceY, destinationX, destinationY, d);
+        Stack<Anode> path = astar.getPath();
+        assertEquals(newDirection, path.get(path.size() - 2).getFromDirection());
         return path;
     }
 

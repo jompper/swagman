@@ -12,7 +12,7 @@ import pacman.level.Level;
 import pacman.logic.Board;
 
 /**
- *
+ * JPanel which handles game and menu drawing to itself
  * @author Joni
  */
 public class Panel extends JPanel {
@@ -28,6 +28,9 @@ public class Panel extends JPanel {
         this.gameState = GameState.MENU;
     }
     
+    /**
+     * Update game
+     */
     public void update(){
         switch(this.gameState){
             case GAME:
@@ -36,6 +39,10 @@ public class Panel extends JPanel {
         }
     }
 
+    /**
+     * Paint game
+     * @param g 
+     */
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -49,14 +56,24 @@ public class Panel extends JPanel {
         }
     }
     
+    /**
+     * @return Current game state
+     */
     public GameState getGameState(){
         return this.gameState;
     }
     
+    /**
+     * Set new game state gs
+     * @param gs 
+     */
     public void setGameState(GameState gs){
         this.gameState = gs;
     }
     
+    /**
+     * @return Board (Basicly the whole game)
+     */
     public Board getBoard(){
         return this.board;
     }

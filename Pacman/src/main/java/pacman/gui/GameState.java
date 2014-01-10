@@ -7,7 +7,7 @@
 package pacman.gui;
 
 /**
- *
+ * Game states, Menu and Game for now
  * @author Joni
  */
 public enum GameState {

@@ -8,10 +8,13 @@ package pacman.domain;
 import java.awt.Graphics;
 
 /**
- *
+ * For objects that should be drawn in a way or another
  * @author Joni
  */
 public interface Drawing {
-
+    /**
+     * Drawn almost anything with
+     * @param g Graphics
+     */
     public void draw(Graphics g);
 }

@@ -13,8 +13,6 @@ import pacman.domain.Drawing;
 /**
  * Bigger eatable object in the game
  * When eaten, PowerPellet should change game mode for ? seconds
- * 
- * TODO: Implement AbstractEatable
  * @author Joni
  */
 public class PowerPellet extends AbstractEatable implements Drawing {

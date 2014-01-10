@@ -11,6 +11,14 @@ package pacman.domain;
  * @author Joni
  */
 public interface Eatable {
+    /**
+     * @return is object eaten
+     */
     public boolean isEaten();
+    
+    /**
+     * Eat the object
+     * @return score
+     */
     public int eat();
 }
