@@ -7,7 +7,6 @@ package pacman.algorithm;
 
 import pacman.datastructure.Stack;
 import pacman.domain.Direction;
-import pacman.heurestic.DijkstraHeurestic;
 import pacman.heurestic.Heurestic;
 import pacman.heurestic.ManhattanHeurestic;
 
@@ -21,8 +20,6 @@ public abstract class AbstractMoveLogic implements MoveLogic {
 
     protected final int[][] map;
     private final Astar astar;
-    private final Astar dijkstra;
-    private final Astar manhattan;
 
     /**
      * Initialise Astar with map, and keep map because
@@ -33,9 +30,7 @@ public abstract class AbstractMoveLogic implements MoveLogic {
      */
     public AbstractMoveLogic(int[][] map) {
         this.map = map;
-        this.astar = new Astar(map, new ManhattanHeurestic(), false);
-        this.manhattan = new Astar(map, new ManhattanHeurestic(), true);
-        this.dijkstra = new Astar(map, new DijkstraHeurestic(), true);
+        this.astar = new Astar(map, new ManhattanHeurestic());
     }
 
     /**
@@ -49,12 +44,6 @@ public abstract class AbstractMoveLogic implements MoveLogic {
      */
     public Direction findPath(int sourceX, int sourceY, int destinationX, int destinationY, Direction currentDirection) {
         Direction newDirection = astar.findPath(sourceX, sourceY, destinationX, destinationY, currentDirection);
-        System.out.print("Manhattan: ");
-        manhattan.findPath(sourceX, sourceY, destinationX, destinationY, currentDirection);
-        System.out.print("Dijkstra: ");
-        dijkstra.findPath(sourceX, sourceY, destinationX, destinationY, currentDirection);
-        
-        
         return (newDirection == null) ? currentDirection : newDirection;
     }
 
