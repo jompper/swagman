@@ -5,8 +5,10 @@
  */
 package pacman.algorithm;
 
-import java.util.List;
+import pacman.datastructure.Stack;
 import pacman.domain.Direction;
+import pacman.heurestic.Heurestic;
+import pacman.heurestic.ManhattanHeurestic;
 
 /**
  * Abstract move logic implements methods findPath and getPathTiles. Initialises
@@ -28,7 +30,7 @@ public abstract class AbstractMoveLogic implements MoveLogic {
      */
     public AbstractMoveLogic(int[][] map) {
         this.map = map;
-        this.astar = new Astar(map);
+        this.astar = new Astar(map, new ManhattanHeurestic());
     }
 
     /**
@@ -49,7 +51,15 @@ public abstract class AbstractMoveLogic implements MoveLogic {
      * @return List of nodes that should be visualized
      */
     @Override
-    public List<Anode> getPathTiles() {
+    public Stack<Anode> getPathTiles() {
         return astar.getTiles();
+    }
+    /**
+     * Set new heuresti
+     * @param h for monster AI
+     */
+    @Override
+    public void setHeurestic(Heurestic h){
+        this.astar.setHeurestic(h);
     }
 }

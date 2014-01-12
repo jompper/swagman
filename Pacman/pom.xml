@@ -52,10 +52,8 @@
                 <configuration>
                     <instrumentation>
                         <includes>   
-                            <include>pacman/domain/*.class</include>
-                            <include>pacman/level/*.class</include>
-                            <include>pacman/logic/*.class</include>
-                            <include>pacman/util/*.class</include>
+                            <include>pacman/datastructure/*.class</include>
+                            <include>pacman/algorithm/*.class</include>
                         </includes>
                     </instrumentation>
                 </configuration>
@@ -66,16 +64,12 @@
                 <version>0.30</version>
                 <configuration>
                     <targetClasses>
-                        <param>pacman.domain*</param>
-                        <param>pacman.level*</param>
-                        <param>pacman.logic*</param>
-                        <param>pacman.util*</param>
+                        <param>pacman.datastructure*</param>
+                        <param>pacman.algorithm*</param>
                     </targetClasses>
                     <targetTests>
-                        <param>pacman.domain*</param>
-                        <param>pacman.level*</param>
-                        <param>pacman.logic*</param>
-                        <param>pacman.util*</param>
+                        <param>pacman.datastructure*</param>
+                        <param>pacman.algorithm*</param>
                     </targetTests>
                 </configuration>
             </plugin>

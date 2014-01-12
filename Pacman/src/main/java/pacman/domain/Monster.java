@@ -24,6 +24,10 @@ public interface Monster {
     public void setAI(MoveLogic ml);
 
     /**
+     * @return AI for monster
+     */
+    public MoveLogic getAI();
+    /**
      * Get new direction from move logic
      */
     public void AIMove();

@@ -11,11 +11,11 @@ import java.util.ArrayList;
 import java.util.List;
 import pacman.algorithm.Anode;
 import pacman.algorithm.MoveLogic;
+import pacman.datastructure.Stack;
 
 /**
- * Abstract Monster basicly the whole Monster class
- * except for colors.
- * 
+ * Abstract Monster basicly the whole Monster class except for colors.
+ *
  * @author Joni
  */
 public abstract class AbstractMonster extends AbstractMovingTile implements Monster {
@@ -24,22 +24,22 @@ public abstract class AbstractMonster extends AbstractMovingTile implements Mons
      * Monster MoveLogic used, to move monster
      */
     private MoveLogic moveLogic;
-    
+
     /**
      * Is monster in jail
      */
     private boolean inJail;
-    
+
     /**
      * Should monster use moveLogic next time move is called
      */
     private boolean isMove;
-    
+
     /**
      * Color of monster and path for drawing purposes
      */
     protected Color color;
-    
+
     /**
      * Is monster moving up in gentleUpDown mode ?
      */
@@ -47,14 +47,13 @@ public abstract class AbstractMonster extends AbstractMovingTile implements Mons
 
     /**
      * Construct AbstractMonster
-     * 
-     * You need to set AI to monster else NullPointerException
-     * or something else stupid. Just set it okay ? Also most 
-     * monsters can be in jail. Ok all should be able to if eaten
-     * but that still needs to be implemented. 
-     * 
+     *
+     * You need to set AI to monster else NullPointerException or something else
+     * stupid. Just set it okay ? Also most monsters can be in jail. Ok all
+     * should be able to if eaten but that still needs to be implemented.
+     *
      * TODO: Implement monster eating and find path to escape coordinates
-     * 
+     *
      * @param x coordinate
      * @param y coordinate
      * @param d direction
@@ -69,14 +68,12 @@ public abstract class AbstractMonster extends AbstractMovingTile implements Mons
     }
 
     /**
-     * If in jail just don't do stuff,
-     * else move to current direction.
-     * 
-     * If true move = x or y position changed
-     * call AI to find new direction
-     * 
+     * If in jail just don't do stuff, else move to current direction.
+     *
+     * If true move = x or y position changed call AI to find new direction
+     *
      * @return if real move
-     * 
+     *
      * TODO: Implement gentle up-down movement for jail time
      */
     @Override
@@ -93,27 +90,25 @@ public abstract class AbstractMonster extends AbstractMovingTile implements Mons
     }
 
     /**
-     * Gentle Up Down movement
-     * Very smooth 5/5
-     */ 
-    public void moveGentleUpDown(){
-        if(gentleUp){
+     * Gentle Up Down movement Very smooth 5/5
+     */
+    public void moveGentleUpDown() {
+        if (gentleUp) {
             this.locationY -= this.speed / 3;
-        }else{
+        } else {
             this.locationY += this.speed / 3;
         }
-        if(this.locationY >= 8){
+        if (this.locationY >= 8) {
             this.locationY = 7;
             this.gentleUp = true;
-        }else if(locationY <= -8){
+        } else if (locationY <= -8) {
             this.locationY = -7;
             this.gentleUp = false;
         }
     }
-    
+
     /**
-     * Center monster and find new direction,
-     * shouldn't happen at least not much
+     * Center monster and find new direction, shouldn't happen at least not much
      */
     @Override
     public void moveLocation() {
@@ -127,6 +122,7 @@ public abstract class AbstractMonster extends AbstractMovingTile implements Mons
 
     /**
      * Set monster to jail or not to jail
+     *
      * @param jail new jail status
      */
     @Override
@@ -135,8 +131,8 @@ public abstract class AbstractMonster extends AbstractMovingTile implements Mons
     }
 
     /**
-     * 
-     * @return is monster in jail 
+     *
+     * @return is monster in jail
      */
     @Override
     public boolean inJail() {
@@ -145,11 +141,20 @@ public abstract class AbstractMonster extends AbstractMovingTile implements Mons
 
     /**
      * Set AI for monster MoveLogic
+     *
      * @param ml movelogic for monster
      */
     @Override
     public void setAI(MoveLogic ml) {
         this.moveLogic = ml;
+    }
+
+    /**
+     * @return Monster move logic
+     */
+    @Override
+    public MoveLogic getAI() {
+        return this.moveLogic;
     }
 
     /**
@@ -170,20 +175,22 @@ public abstract class AbstractMonster extends AbstractMovingTile implements Mons
 
     /**
      * Build Astar path finding overlay for map
+     *
      * @return Overlay tiles
      */
     @Override
     public List<Drawing> getPathTiles() {
         List<Drawing> tiles = new ArrayList<>();
-        List<Anode> pathTiles = this.moveLogic.getPathTiles();
+        Stack<Anode> pathTiles = this.moveLogic.getPathTiles();
         int counter = 0;
         int count = pathTiles.size();
-        for (Anode n : pathTiles) {
+        for (int i = 0; i < count; i++) {
+            Anode n = pathTiles.get(i);
             Color c = new Color(this.color.getRed(), this.color.getGreen(), this.color.getBlue(), 40);
             if (counter == count - 1) {
                 c = new Color(this.color.getRed(), this.color.getGreen(), this.color.getBlue(), 200);
-            }else if(n.isPath()){
-                c = new Color(this.color.getRed(), this.color.getGreen(), this.color.getBlue(),70);
+            } else if (n.isPath()) {
+                c = new Color(this.color.getRed(), this.color.getGreen(), this.color.getBlue(), 70);
             }
             tiles.add(new OverlayTile(n.getX(), n.getY(), c));
             counter++;

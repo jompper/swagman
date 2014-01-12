@@ -27,6 +27,12 @@ import pacman.level.LevelOne;
 import pacman.domain.AbstractMovingTile;
 import pacman.domain.Drawing;
 import pacman.domain.Moving;
+import pacman.heurestic.ChebyshevHeurestic;
+import pacman.heurestic.DijkstraHeurestic;
+import pacman.heurestic.EuclideanHeurestic;
+import pacman.heurestic.Heurestic;
+import pacman.heurestic.ManhattanHeurestic;
+import pacman.heurestic.LongestPathHeurestic;
 import pacman.util.LevelBuilder;
 
 /**
@@ -114,6 +120,9 @@ public class Board implements Drawing {
     private int escapeX;
     private int escapeY;
 
+    private List<Heurestic> heurestics;
+    private int currentHeurestic;
+
     /**
      * Initialise board with Level ready to play
      *
@@ -126,7 +135,18 @@ public class Board implements Drawing {
         this.highScore = 0;
         this.score = 0;
         this.showPaths = false;
+        this.heurestics = new ArrayList<>();
+        addHeurestics();
+        this.currentHeurestic = 0;
         this.newGame(level);
+    }
+
+    private void addHeurestics() {
+        this.heurestics.add(new ManhattanHeurestic());
+        this.heurestics.add(new ChebyshevHeurestic());
+        this.heurestics.add(new EuclideanHeurestic());
+        this.heurestics.add(new DijkstraHeurestic());
+        this.heurestics.add(new LongestPathHeurestic());
     }
 
     /**
@@ -514,8 +534,23 @@ public class Board implements Drawing {
         for (Drawing d : this.drawings) {
             d.draw(g);
         }
+        String heurestic = this.heurestics.get(this.currentHeurestic).toString();
+        g.drawString(heurestic.substring(heurestic.lastIndexOf(".") + 1, heurestic.length() - 18), 340, 16);
+        g.drawString("Paths: " + ((this.showPaths)?"ON":"OFF"), 340, 32);
+        g.drawString((this.debug)?"GOD-MODE":"", 340, 48);
         if (checkTimeout()) {
             drawTimeOutNumber(g, (this.timeout / 100 + 1));
+        }
+    }
+
+    public void nextHeurestic() {
+        this.currentHeurestic++;
+        if (this.currentHeurestic == this.heurestics.size()) {
+            this.currentHeurestic = 0;
+        }
+        Heurestic next = this.heurestics.get(currentHeurestic);
+        for (AbstractMonster m : this.monsters) {
+            m.getAI().setHeurestic(next);
         }
     }
 }

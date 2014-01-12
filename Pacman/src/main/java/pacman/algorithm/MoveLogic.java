@@ -6,7 +6,8 @@
 
 package pacman.algorithm;
 
-import java.util.List;
+import pacman.datastructure.Stack;
+import pacman.heurestic.Heurestic;
 
 /**
  *
@@ -14,5 +15,6 @@ import java.util.List;
  */
 public interface MoveLogic {
     public void move(boolean chase);
-    public List<Anode> getPathTiles();
+    public Stack<Anode> getPathTiles();
+    public void setHeurestic(Heurestic h);
 }

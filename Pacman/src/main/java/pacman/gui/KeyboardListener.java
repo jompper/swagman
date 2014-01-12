@@ -77,6 +77,10 @@ public class KeyboardListener implements KeyListener {
                     case KeyEvent.VK_G:
                         board.toggleDebug();
                         break;
+                    case KeyEvent.VK_SHIFT:
+                    case KeyEvent.VK_H:
+                        board.nextHeurestic();
+                        break;
                 }
                 break;
         }

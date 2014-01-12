@@ -9,6 +9,7 @@ import pacman.datastructure.Stack;
 import static org.junit.Assert.*;
 import org.junit.Test;
 import pacman.domain.Direction;
+import pacman.heurestic.ManhattanHeurestic;
 
 /**
  *
@@ -26,7 +27,7 @@ public class AstarTest {
             {10, 0, 0, 0, 10},
             {10, 0, 0, 0, 10},
             {10, 10, 10, 10, 10}};
-        this.astar = new Astar(this.map);
+        this.astar = new Astar(this.map, new ManhattanHeurestic());
     }
 
     @Test

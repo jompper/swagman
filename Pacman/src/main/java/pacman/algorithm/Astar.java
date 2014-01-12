@@ -5,8 +5,7 @@
  */
 package pacman.algorithm;
 
-import java.util.ArrayList;
-import java.util.List;
+import pacman.heurestic.Heurestic;
 import pacman.datastructure.Stack;
 import pacman.datastructure.MinHeap;
 import pacman.domain.Direction;
@@ -34,7 +33,7 @@ public class Astar {
     /**
      * All nodes that should be visualized
      */
-    private List<Anode> tiles;
+    private Stack<Anode> tiles;
 
     /**
      * Source coordinates
@@ -54,15 +53,22 @@ public class Astar {
     private Direction sourceDirection;
 
     /**
+     * Heurestic
+     */
+    private Heurestic heurestic;
+
+    /**
      * Initialise Astar
      *
      * @param map
+     * @param h heurestic for path finding
      */
-    public Astar(int[][] map) {
+    public Astar(int[][] map, Heurestic h) {
         this.map = map;
         this.height = map.length;
         this.width = map[0].length;
-        this.tiles = new ArrayList<>();
+        this.tiles = new Stack<>();
+        this.heurestic = h;
     }
 
     /**
@@ -80,7 +86,7 @@ public class Astar {
         this.destinationX = checkCollision(dtx, 0, width - 1);
         this.destinationY = checkCollision(dty, 0, height - 1);
         this.sourceDirection = sd;
-
+        
         fixCoordinatesInWall();
     }
 
@@ -104,18 +110,29 @@ public class Astar {
      * Initialize, build atable, handle source node
      *
      * @param pq
+     * @return is destination found
      */
-    private void initializePathFind(MinHeap<Anode> pq) {
+    private boolean initializePathFind(MinHeap<Anode> pq) {
         atable = buildAtable();
         Anode u = atable[sourceY][sourceX];
         u.setStart(0);
         u.setFromDirection(sourceDirection);
         int x = u.getX();
         int y = u.getY();
-        this.NodeUpdate(pq, x - 1, y, u, Direction.LEFT);
-        this.NodeUpdate(pq, x + 1, y, u, Direction.RIGHT);
-        this.NodeUpdate(pq, x, y - 1, u, Direction.UP);
-        this.NodeUpdate(pq, x, y + 1, u, Direction.DOWN);
+        boolean found = false;
+        if (this.NodeUpdate(pq, x - 1, y, u, Direction.LEFT)) {
+            found = true;
+        }
+        if (this.NodeUpdate(pq, x + 1, y, u, Direction.RIGHT)) {
+            found = true;
+        }
+        if (this.NodeUpdate(pq, x, y - 1, u, Direction.UP)) {
+            found = true;
+        }
+        if (this.NodeUpdate(pq, x, y + 1, u, Direction.DOWN)) {
+            found = true;
+        }
+        return found;
     }
 
     /**
@@ -126,21 +143,21 @@ public class Astar {
      * @param destinationX
      * @param destinationY
      * @param sourceDirection
-     * @return
+     * @return in which direction should move for shortest path
      */
     public Direction findPath(int sourceX, int sourceY, int destinationX, int destinationY, Direction sourceDirection) {
-        this.tiles.clear();
+        this.tiles = new Stack<>();
         setCoordinates(sourceX, sourceY, destinationX, destinationY, sourceDirection);
         MinHeap<Anode> mh = new MinHeap<>();
-        initializePathFind(mh);
-        findPath(mh);
+        if (!initializePathFind(mh)) {
+            findPath(mh);
+        }
         Stack<Anode> path = getPath();
         if (path.size() >= 2) {
             path.pop();
             return path.pop().getFromDirection();
-        } else {
-            return firstPossibleDirection();
         }
+        return firstPossibleDirection();
     }
 
     /**
@@ -214,10 +231,10 @@ public class Astar {
      */
     public final Anode[][] buildAtable() {
         Anode[][] table = new Anode[height][width];
+        int max = width * height * 2;
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                Anode a = new Anode(x, y, width * height * 2, (Math.abs(x - destinationX) + Math.abs(y - destinationY)));
-                table[y][x] = a;
+                table[y][x] = new Anode(x, y, max, heurestic.getDistance(x, y, destinationX, destinationY));
             }
         }
         return table;
@@ -229,19 +246,27 @@ public class Astar {
      * @param pq
      */
     private void findPath(MinHeap<Anode> pq) {
-        while (!pq.isEmpty() && !pq.contains(atable[destinationY][destinationX])) {
-
+        while (!pq.isEmpty()) {
+            
             Anode u = pq.remove();
-
+            
             int x = u.getX();
             int y = u.getY();
-            tiles.add(u);
-            this.NodeUpdate(pq, x - 1, y, u, Direction.LEFT);
-            this.NodeUpdate(pq, x + 1, y, u, Direction.RIGHT);
-            this.NodeUpdate(pq, x, y - 1, u, Direction.UP);
-            this.NodeUpdate(pq, x, y + 1, u, Direction.DOWN);
+            tiles.push(u);
+            if (this.NodeUpdate(pq, x - 1, y, u, Direction.LEFT)) {
+                break;
+            }
+            if (this.NodeUpdate(pq, x + 1, y, u, Direction.RIGHT)) {
+                break;
+            }
+            if (this.NodeUpdate(pq, x, y - 1, u, Direction.UP)) {
+                break;
+            }
+            if (this.NodeUpdate(pq, x, y + 1, u, Direction.DOWN)) {
+                break;
+            }
         }
-        tiles.add(atable[destinationY][destinationX]);
+        tiles.push(atable[destinationY][destinationX]);
     }
 
     /**
@@ -258,26 +283,20 @@ public class Astar {
      * |map|. So continues anyway
      *
      * @param maxTry
-     * @return path in stack. Source point first (on top), destination last (on
+     * @return path in a stack. Source point first (on top), destination last (on
      * bottom)
      */
     public Stack<Anode> getPath(int maxTry) {
         Stack<Anode> pathStack = new Stack<>();
         atable[sourceY][sourceX].setStart(0);
         Anode lastNode = atable[destinationY][destinationX];
-        lastNode.setInPath(true);
-        pathStack.push(lastNode);
-        if (sourceX == destinationX && sourceY == destinationY) {
-            lastNode = atable[lastNode.getFromY()][lastNode.getFromX()];
-            lastNode.setInPath(true);
-            pathStack.push(lastNode);
-        }
-        while (lastNode.getStart() > 0 && maxTry > 0) {
-            lastNode = atable[lastNode.getFromY()][lastNode.getFromX()];
+        do {
             lastNode.setInPath(true);
             pathStack.push(lastNode);
             maxTry--;
-        }
+            lastNode = atable[lastNode.getFromY()][lastNode.getFromX()];
+        } while (lastNode.getStart() != 0 && maxTry > 0);
+        pathStack.push(lastNode);
         return pathStack;
     }
 
@@ -342,45 +361,48 @@ public class Astar {
     }
 
     /**
-     * Update distance and add from node, if no errors, add to Heap Build path with setFrom
+     * Update distance and add from node, if no errors, add to Heap Build path
+     * with setFrom
      *
      * @param pq
      * @param x
      * @param y
      * @param from
      * @param nd
+     * @return is destination found
      */
-    private void NodeUpdate(MinHeap<Anode> pq, int x, int y, Anode from, Direction nd) {
+    private boolean NodeUpdate(MinHeap<Anode> pq, int x, int y, Anode from, Direction nd) {
         if (reverseDirection(from.getFromDirection()) == nd) {
-            return;
+            return false;
         }
         if (isOutOfBounds(x, y)) {
-            return;
+            return false;
         }
         if (isWall(x, y)) {
-            return;
+            return false;
         }
         Anode node = this.atable[y][x];
         if (node.isUsed()) {
-            return;
+            return false;
         }
         node.setFrom(from.getX(), from.getY());
         node.setFromDirection(nd);
         node.use();
-        if (!isWall(node.getX(), node.getY())) {
-            node.setStart(from.getStart() + 1);
-        } else {
-            node.setStart(from.getStart() + this.width * this.height);
-        }
+        // If finding max path use negative values for min heap
+        node.setStart(from.getStart() + ((heurestic.findMax()) ? -1 : 1));
         pq.add(node);
-
+        return x == destinationX && y == destinationY;
     }
 
     /**
      * @return List of tiles that should be visualized
      */
-    public List<Anode> getTiles() {
+    public Stack<Anode> getTiles() {
         return this.tiles;
     }
-
+    
+    public void setHeurestic(Heurestic h) {
+        this.heurestic = h;
+    }
+    
 }
