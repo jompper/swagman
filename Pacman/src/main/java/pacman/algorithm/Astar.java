@@ -57,18 +57,21 @@ public class Astar {
      */
     private Heurestic heurestic;
 
+    private boolean go;
+    private int count = 0;
     /**
      * Initialise Astar
      *
      * @param map
      * @param h heurestic for path finding
      */
-    public Astar(int[][] map, Heurestic h) {
+    public Astar(int[][] map, Heurestic h, boolean go) {
         this.map = map;
         this.height = map.length;
         this.width = map[0].length;
         this.tiles = new Stack<>();
         this.heurestic = h;
+        this.go = go;
     }
 
     /**
@@ -297,6 +300,7 @@ public class Astar {
             lastNode = atable[lastNode.getFromY()][lastNode.getFromX()];
         } while (lastNode.getStart() != 0 && maxTry > 0);
         pathStack.push(lastNode);
+        if(go)System.out.println("Vertailuja: " + count + " Path: " + pathStack.size() + " Tiles: " + this.tiles.size());
         return pathStack;
     }
 
@@ -385,6 +389,7 @@ public class Astar {
         if (node.isUsed()) {
             return false;
         }
+        count++;
         node.setFrom(from.getX(), from.getY());
         node.setFromDirection(nd);
         node.use();
